@@ -59,3 +59,17 @@ width:64px;
 height:64px;
 background-image:url(https://mirtaksyak02.github.io/icon64.png)
 }
+
+.right { 
+     text-align: right;
+}
+
+.left { 
+     text-align: left;
+}
+
+font14 {
+	font-size: 14px;
+}
+
+
