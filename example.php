@@ -1,5 +1,5 @@
 <?php
 
-echo "0";
+echo "<body>0</body>";
 
 ?>
