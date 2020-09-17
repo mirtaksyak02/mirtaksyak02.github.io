@@ -4,8 +4,8 @@
   display: inline;
 }
 .click:focus {
-  height: 40%;
-  width: 15%;
+  height: 50%;
+  width: 20%;
   z-index: 100;
   position: fixed;
 }
