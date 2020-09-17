@@ -3,8 +3,7 @@
 cursor: pointer;
 display: inline;
 }
-.click: focus {
+.click:focus {
 height: 200%;
-width: 200%;
 z-index: 100;
 }
