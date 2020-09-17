@@ -1,0 +1,10 @@
+.click {
+/*width: 100%;*/
+cursor: pointer;
+display: inline;
+}
+.click: focus {
+height: 600px;
+width: 600px;
+z-index: 100;
+}
