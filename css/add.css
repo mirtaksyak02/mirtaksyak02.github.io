@@ -4,7 +4,7 @@ cursor: pointer;
 display: inline;
 }
 .click: focus {
-height: 600 px;
-width: 600 px;
+height: 200%;
+width: 200%;
 z-index: 100;
 }
