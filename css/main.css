@@ -72,4 +72,17 @@ background-image:url(https://mirtaksyak02.github.io/icon64.png)
 	font-size: 14.5px;
 }
 
+.click {
+  /*width: 100%;*/
+  cursor: pointer;
+  display: inline;
+}
 
+.click:focus {
+  /*height: 50%;
+  width: 30%;*/
+  height: 400px;
+  width: 400px;
+  z-index: 100;
+  position: fixed;
+}
