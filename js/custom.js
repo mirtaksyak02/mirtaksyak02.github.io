@@ -1,5 +1,6 @@
 <script>
-jQuery(document).ready( function($) {
- currentyear = new Date().getFullYear();
- $('.currentyear').text(currentyear);
+document.addEventListener('DOMContentLoaded', function() {
+ var currentYear = new Date().getFullYear();
+ document.getElementById('currentYear').textContent = currentYear;
 });
+</script>
