@@ -103,4 +103,12 @@ function playTrack(url, title) {
     nowPlayingText.textContent = `Сейчас играет: ${title}`;
 }
 
+const releaseTypesRu = {
+    'album': 'Альбом',
+    'ep': 'EP',
+    'single': 'Сингл',
+    'maxi-single': 'Макси-сингл',
+    'mixtape': 'Микстейп'
+};
+
 window.onload = init;
