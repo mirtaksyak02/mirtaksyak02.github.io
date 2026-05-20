@@ -17,17 +17,17 @@
   },
   {
     "id": "album-2",
-    "title": "null",
-    "artist": "null",
+    "title": "dead club (Unreleased)",
+    "artist": "zavet",
     "year": "1980",
-    "genre": "null",
+    "genre": "Rap",
     "cover": "null",
     "tracks": [
       {
         "id": "t2",
-        "title": "null",
-        "duration": "00:00",
-        "url": "null"
+        "title": "dead club (Unreleased)",
+        "duration": "03:20",
+        "url": "https://name.moy.su/music/zavet/dead_club/zavet-dead_club-unreleased-.mp3"
       }
     ]
   }
