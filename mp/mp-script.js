@@ -1,24 +1,24 @@
-// Функция для загрузки списка треков
+const audioPlayer = document.getElementById('main-audio');
+const nowPlayingText = document.getElementById('now-playing');
+
+// Функция для загрузки списка треков из JSON
 async function loadPlaylist() {
     try {
-        // Запрашиваем файл из корня вашего сайта github.io
         const response = await fetch('./tracks.json');
         const tracks = await response.json();
         
-        // Находим контейнер на странице, куда вставим треки
         const playlistContainer = document.getElementById('playlist');
         
-        // Перебираем треки и создаем HTML-элементы
         tracks.forEach(track => {
             const trackElement = document.createElement('div');
             trackElement.className = 'track-item';
             trackElement.innerHTML = `
-                <img src="${track.cover}" alt="${track.title}" width="50">
+                <img src="${track.cover}" alt="${track.title}" width="50" height="50">
                 <div class="track-info">
                     <h3>${track.title}</h3>
                     <p>${track.artist} — ${track.duration}</p>
                 </div>
-                <button onclick="playTrack('${track.url}')">▶ Воспроизвести</button>
+                <button class="play-btn" onclick="playTrack('${track.url}', '${track.artist} - ${track.title}')">▶</button>
             `;
             playlistContainer.appendChild(trackElement);
         });
@@ -27,12 +27,12 @@ async function loadPlaylist() {
     }
 }
 
-// Простейшая функция для запуска аудио
-const audioPlayer = new Audio();
-function playTrack(url) {
+// Функция запуска трека
+function playTrack(url, title) {
     audioPlayer.src = url;
     audioPlayer.play();
+    nowPlayingText.textContent = `Сейчас играет: ${title}`;
 }
 
-// Запускаем загрузку при старте страницы
+// Запуск при загрузке страницы
 window.onload = loadPlaylist;
