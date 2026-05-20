@@ -10,12 +10,18 @@
 
     <div class="player-container">
         <h1>RARETENOR</h1>
+        <!-- Кнопка назад (скрыта по умолчанию) -->
+        <button id="back-btn" class="back-btn" onclick="showAlbumsGrid()" style="display: none;">← Назад к альбомам</button>
         
-        <!-- Сюда JavaScript будет добавлять песни -->
-        <div id="playlist"></div>
+        <h1 id="page-title">Популярные релизы</h1>
+        
+        <!-- Шапка открытого альбома (скрыта по умолчанию) -->
+        <div id="album-header" class="album-header" style="display: none;"></div>
+        
+        <!-- Сюда JS будет выводить либо сетку альбомов, либо список треков -->
+        <div id="content-area"></div>
     </div>
 
-    <!-- Общий плеер внизу страницы -->
     <div class="bottom-controls">
         <audio id="main-audio" controls></audio>
         <div id="now-playing">Выберите трек для воспроизведения</div>
