@@ -4,7 +4,7 @@ const nowPlayingText = document.getElementById('now-playing');
 // Функция для загрузки списка треков из JSON
 async function loadPlaylist() {
     try {
-        const response = await fetch('./tracks.json');
+        const response = await fetch('./playlist.json');
         const tracks = await response.json();
         
         const playlistContainer = document.getElementById('playlist');
