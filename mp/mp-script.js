@@ -1,62 +1,104 @@
+let albumsData = []; // Здесь будем хранить данные из JSON
+
 const audioPlayer = document.getElementById('main-audio');
 const nowPlayingText = document.getElementById('now-playing');
+const contentArea = document.getElementById('content-area');
+const pageTitle = document.getElementById('page-title');
+const albumHeader = document.getElementById('album-header');
+const backBtn = document.getElementById('back-btn');
 
-// Функция для автоматического превращения ссылок в прямые
+// Авто-конвертер ссылок (оставляем старый)
 function getDirectLink(url) {
-    // 1. Обработка Google Диска
     if (url.includes('://google.com')) {
-        // Ищем ID файла между /d/ и /view (или концом строки)
         const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-        if (match && match[1]) {
-            return `https://://google.com/uc?export=download&id=${match[1]}`;
-        }
+        if (match) return `https://://google.com/uc?export=download&id=${match[1]}`;
     }
-    
-    // 2. Обработка Яндекс Диска (используем публичный API Яндекса)
     if (url.includes('disk.yandex.ru') || url.includes('yadi.sk')) {
         return `https://yandex.net{encodeURIComponent(url)}`;
     }
-
-    // Если ссылка обычная (например, прямая ссылка на .mp3 или локальный файл), возвращаем её как есть
     return url;
 }
 
-// Функция для загрузки списка треков из JSON
-async function loadPlaylist() {
+// 1. Загрузка данных при старте
+async function init() {
     try {
-        const response = await fetch('./playlist.json');
-        const tracks = await response.json();
-        
-        const playlistContainer = document.getElementById('playlist');
-        
-        tracks.forEach(track => {
-            // Превращаем ссылку из JSON в прямую ссылку для плеера
-            const directUrl = getDirectLink(track.url);
-
-            const trackElement = document.createElement('div');
-            trackElement.className = 'track-item';
-            trackElement.innerHTML = `
-                <img src="${track.cover}" alt="${track.title}" width="50" height="50">
-                <div class="track-info">
-                    <h3>${track.title}</h3>
-                    <p>${track.artist} — ${track.duration}</p>
-                </div>
-                <!-- Передаем уже готовую прямую ссылку в функцию playTrack -->
-                <button class="play-btn" onclick="playTrack('${directUrl}', '${track.artist} - ${track.title}')">▶</button>
-            `;
-            playlistContainer.appendChild(trackElement);
-        });
+        const response = await fetch('./tracks.json');
+        albumsData = await response.json();
+        showAlbumsGrid(); // Показываем сетку альбомов
     } catch (error) {
-        console.error('Ошибка загрузки плейлиста:', error);
+        console.error('Ошибка загрузки данных:', error);
     }
 }
 
-// Функция запуска трека
+// 2. ЭКРАН А: Показ сетки всех альбомов
+function showAlbumsGrid() {
+    // Сбрасываем видимость элементов интерфейса
+    backBtn.style.display = 'none';
+    albumHeader.style.display = 'none';
+    pageTitle.style.display = 'block';
+    pageTitle.textContent = 'Популярные релизы';
+    
+    contentArea.className = 'albums-grid'; // Применяем стиль сетки
+    contentArea.innerHTML = '';
+
+    albumsData.forEach(album => {
+        const albumCard = document.createElement('div');
+        albumCard.className = 'album-card';
+        albumCard.onclick = () => openAlbum(album.id); // Клик открывает альбом
+        albumCard.innerHTML = `
+            <img src="${album.cover}" alt="${album.title}">
+            <h3>${album.title}</h3>
+            <p>${album.artist}</p>
+        `;
+        contentArea.appendChild(albumCard);
+    });
+}
+
+// 3. ЭКРАН Б: Открытие конкретного альбома
+function openAlbum(albumId) {
+    const album = albumsData.find(a => a.id === albumId);
+    if (!album) return;
+
+    // Настраиваем видимость
+    pageTitle.style.display = 'none';
+    backBtn.style.display = 'block';
+    albumHeader.style.display = 'flex';
+    
+    // Заполняем инфо об альбоме
+    albumHeader.innerHTML = `
+        <img src="${album.cover}" alt="${album.title}" class="album-large-cover">
+        <div class="album-info-text">
+            <span class="badge">АЛЬБОМ</span>
+            <h2>${album.title}</h2>
+            <p class="meta">${album.artist} • ${album.year} • ${album.genre}</p>
+        </div>
+    `;
+
+    // Выводим список песен альбома
+    contentArea.className = 'tracks-list';
+    contentArea.innerHTML = '';
+
+    album.tracks.forEach((track, index) => {
+        const directUrl = getDirectLink(track.url);
+        const trackRow = document.createElement('div');
+        trackRow.className = 'track-item';
+        trackRow.innerHTML = `
+            <span class="track-number">${index + 1}</span>
+            <div class="track-info">
+                <h3>${track.title}</h3>
+                <p>${album.artist}</p>
+            </div>
+            <span class="track-duration">${track.duration}</span>
+            <button class="play-btn" onclick="playTrack('${directUrl}', '${album.artist} - ${track.title}')">▶</button>
+        `;
+        contentArea.appendChild(trackRow);
+    });
+}
+
 function playTrack(url, title) {
     audioPlayer.src = url;
     audioPlayer.play();
     nowPlayingText.textContent = `Сейчас играет: ${title}`;
 }
 
-// Запуск при загрузке страницы
-window.onload = loadPlaylist;
+window.onload = init;
