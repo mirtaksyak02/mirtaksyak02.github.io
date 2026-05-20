@@ -36,7 +36,7 @@ function showAlbumsGrid() {
     backBtn.style.display = 'none';
     albumHeader.style.display = 'none';
     pageTitle.style.display = 'block';
-    pageTitle.textContent = 'Популярные релизы';
+    pageTitle.textContent = 'RARETENOR'; //  Популярные релизы';
     
     contentArea.className = 'albums-grid'; // Применяем стиль сетки
     contentArea.innerHTML = '';
