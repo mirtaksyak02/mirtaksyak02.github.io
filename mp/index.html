@@ -3,7 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mp</title>
+    <title>Мой Музыкальный Плеер</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div class="player-container">
+        <h1>mp playlist</h1>
+        
+        <!-- Сюда JavaScript будет добавлять песни -->
+        <div id="playlist"></div>
+    </div>
+
+    <!-- Общий плеер внизу страницы -->
+    <div class="bottom-controls">
+        <audio id="main-audio" controls></audio>
+        <div id="now-playing">Выберите трек для воспроизведения</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
