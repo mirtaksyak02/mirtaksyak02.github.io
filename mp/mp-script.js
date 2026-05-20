@@ -22,7 +22,7 @@ function getDirectLink(url) {
 // 1. Загрузка данных при старте
 async function init() {
     try {
-        const response = await fetch('./tracks.json');
+        const response = await fetch('./playlist.json');
         albumsData = await response.json();
         showAlbumsGrid(); // Показываем сетку альбомов
     } catch (error) {
