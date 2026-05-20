@@ -1,6 +1,26 @@
 const audioPlayer = document.getElementById('main-audio');
 const nowPlayingText = document.getElementById('now-playing');
 
+// Функция для автоматического превращения ссылок в прямые
+function getDirectLink(url) {
+    // 1. Обработка Google Диска
+    if (url.includes('://google.com')) {
+        // Ищем ID файла между /d/ и /view (или концом строки)
+        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+            return `https://://google.com/uc?export=download&id=${match[1]}`;
+        }
+    }
+    
+    // 2. Обработка Яндекс Диска (используем публичный API Яндекса)
+    if (url.includes('disk.yandex.ru') || url.includes('yadi.sk')) {
+        return `https://yandex.net{encodeURIComponent(url)}`;
+    }
+
+    // Если ссылка обычная (например, прямая ссылка на .mp3 или локальный файл), возвращаем её как есть
+    return url;
+}
+
 // Функция для загрузки списка треков из JSON
 async function loadPlaylist() {
     try {
