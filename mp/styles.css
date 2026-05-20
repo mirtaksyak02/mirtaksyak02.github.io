@@ -1,0 +1,95 @@
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 90px; /* Место, чтобы нижний плеер не закрывал контент */
+}
+
+.player-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #1db954; /* Зеленый цвет в стиле Spotify */
+}
+
+/* Стили для каждой строчки трека */
+.track-item {
+    display: flex;
+    align-items: center;
+    background-color: #1e1e1e;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.track-item:hover {
+    background-color: #2a2a2a;
+}
+
+.track-item img {
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.track-info {
+    flex-grow: 1;
+    margin-left: 15px;
+}
+
+.track-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+}
+
+.track-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #b3b3b3;
+}
+
+/* Кнопка воспроизведения */
+.play-btn {
+    background-color: #1db954;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.play-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Фиксированная панель управления снизу */
+.bottom-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #181818;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid #282828;
+}
+
+#now-playing {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #1db954;
+}
+
+audio {
+    width: 100%;
+    max-width: 500px;
+}
