@@ -69,11 +69,10 @@ function openAlbum(albumId) {
     albumHeader.innerHTML = `
         <img src="${album.cover}" alt="${album.title}" class="album-large-cover">
         <div class="album-info-text">
-            <!-- Класс badge-${album.type} позволит раскрасить теги в разные цвета -->
-            <span class="badge badge-${album.type}">${album.type.toUpperCase()}</span>
+            <span class="badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h2>${album.title}</h2>
             <p class="meta">${album.artist} • ${album.year} • ${album.genre}</p>
-        </div>
+            </div>
     `;
 
     // Выводим список песен альбома
