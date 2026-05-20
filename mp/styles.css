@@ -159,12 +159,42 @@ audio {
     margin: 5px 0;
 }
 
-.badge {
-    font-size: 11px;
+.badge, .grid-badge {
+    font-size: 10px;
     font-weight: bold;
-    background: #2a2a2a;
-    padding: 4px 8px;
+    padding: 3px 8px;
     border-radius: 4px;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Тег на карточке в сетке */
+.grid-badge {
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* Цвета для каждого типа релиза */
+.badge-album {
+    background-color: #1db954; /* Зеленый для полноформатных альбомов */
+}
+
+.badge-ep {
+    background-color: #007acc; /* Синий для мини-альбомов (EP) */
+}
+
+.badge-single {
+    background-color: #ff5722; /* Оранжевый для синглов */
+}
+
+.badge-maxi-single {
+    background-color: #9c27b0; /* Фиолетовый для макси-синглов */
+}
+
+.badge-mixtape {
+    background-color: #e91e63; /* Розовый для микстейпов */
 }
 
 .meta {
