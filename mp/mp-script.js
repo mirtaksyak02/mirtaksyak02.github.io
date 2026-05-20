@@ -24,12 +24,15 @@ function getDirectLink(url) {
 // Функция для загрузки списка треков из JSON
 async function loadPlaylist() {
     try {
-        const response = await fetch('./playlist.json');
+        const response = await fetch('./tracks.json');
         const tracks = await response.json();
         
         const playlistContainer = document.getElementById('playlist');
         
         tracks.forEach(track => {
+            // Превращаем ссылку из JSON в прямую ссылку для плеера
+            const directUrl = getDirectLink(track.url);
+
             const trackElement = document.createElement('div');
             trackElement.className = 'track-item';
             trackElement.innerHTML = `
@@ -38,7 +41,8 @@ async function loadPlaylist() {
                     <h3>${track.title}</h3>
                     <p>${track.artist} — ${track.duration}</p>
                 </div>
-                <button class="play-btn" onclick="playTrack('${track.url}', '${track.artist} - ${track.title}')">▶</button>
+                <!-- Передаем уже готовую прямую ссылку в функцию playTrack -->
+                <button class="play-btn" onclick="playTrack('${directUrl}', '${track.artist} - ${track.title}')">▶</button>
             `;
             playlistContainer.appendChild(trackElement);
         });
