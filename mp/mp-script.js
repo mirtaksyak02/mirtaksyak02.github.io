@@ -47,7 +47,7 @@ function showAlbumsGrid() {
         albumCard.onclick = () => openAlbum(album.id); // Клик открывает альбом
         albumCard.innerHTML = `
             <img src="${album.cover}" alt="${album.title}">
-            <span class="grid-badge badge-${album.type}">${album.type.toUpperCase()}</span>
+            <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h3>${album.title}</h3>
             <p>${album.artist}</p>
         `;
