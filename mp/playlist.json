@@ -103,5 +103,22 @@
         "url": "https://name.moy.su/music/scp_sabbat/ex_nihilo/10-nikakoj_ljubvi.mp3"
       }
     ]
-  }
+  },
+  {
+    "id": "album-4",
+    "title": "Горе проигравшим: предисловие к превосходству",
+    "artist": "SUPERIOR.CAT.PROTEUS",
+    "type": "album",
+    "year": "2015",
+    "genre": "Hip-Hop/Rap",
+    "cover": "https://name.moy.su/music/scp_sabbat/gr_proigrav/Front_1000x1000.jpg",
+    "tracks": [
+      {
+        "id": "t13",
+        "title": "Кто-то приучил тебя не выходить из дома без своих предрассудков",
+        "duration": "01:25",
+        "url": "https://name.moy.su/music/zavet_buy_me-unreleased.mp3"
+      }
+    ]
+  },
 ]
