@@ -174,7 +174,7 @@ audio {
 }
 
 .album-card h3 {
-    display: flex;
+    display: flow; /* flex */
     align-items: center;
     flex-wrap: wrap;
     gap: 6px;
@@ -195,9 +195,11 @@ audio {
     color: #121212;
     font-size: 9px;
     font-weight: 900;
-    font-family: sans-serif;
     width: 14px;
     height: 14px;
+    margin-left: 2.5px; /* for flow */
+    top: -1.5px; /* for flow */
+    position: relative; /* for flow */
     border-radius: 2px;
     flex-shrink: 0;
 }
@@ -211,6 +213,9 @@ audio {
     font-size: 8px;
     font-weight: bold;
     padding: 1px 4px;
+    margin-left: 2.5px; /* for flow */
+    top: -1.5px; /* for flow */
+    position: relative; /* for flow */
     border-radius: 3px;
     letter-spacing: 0.5px;
     flex-shrink: 0;
