@@ -16,6 +16,7 @@ const nextBtn = document.getElementById('next-btn');
 const progressBar = document.getElementById('progress-bar');
 const currentTimeText = document.getElementById('current-time');
 const totalTimeText = document.getElementById('total-time');
+const volumeBar = document.getElementById('volume-bar');
 
 // Авто-конвертер ссылок (рабочий???)
 function getDirectLink(url) {
@@ -225,6 +226,14 @@ progressBar.addEventListener('input', () => {
         const timeToSet = (progressBar.value / 100) * audioPlayer.duration;
         audioPlayer.currentTime = timeToSet;
     }
+});
+
+// Установка начальной громкости плеера (например, 70%)
+audioPlayer.volume = volumeBar.value / 100;
+
+// Отслеживание движения ползунка громкости
+volumeBar.addEventListener('input', () => {
+    audioPlayer.volume = volumeBar.value / 100;
 });
 
 // Слушаем аудиоплеер: как только песня закончилась, автоматически вызываем playNextTrack
