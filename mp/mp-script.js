@@ -172,6 +172,61 @@ function playNextTrack() {
     }
 }
 
+// Функция форматирования секунд в формат 0:00
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "0:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+// Переключение кнопки Плей/Пауза на нижней панели
+masterPlayBtn.addEventListener('click', () => {
+    if (audioPlayer.src === "" || currentTrackIndex === -1) return; // Если трек не выбран
+    
+    if (audioPlayer.paused) {
+        audioPlayer.play();
+        masterPlayBtn.textContent = '⏸';
+    } else {
+        audioPlayer.pause();
+        masterPlayBtn.textContent = '▶';
+    }
+});
+
+// Кнопка Вперед
+nextBtn.addEventListener('click', playNextTrack);
+
+// Кнопка Назад
+prevBtn.addEventListener('click', () => {
+    if (currentTrackIndex > 0) {
+        const prevIndex = currentTrackIndex - 1;
+        const artistName = albumsData.find(a => a.tracks.includes(currentAlbumTracks[prevIndex]))?.artist || "Исполнитель";
+        playTrack(currentAlbumTracks[prevIndex], prevIndex, currentAlbumTracks, artistName);
+    }
+});
+
+// Обновление ползунка времени в процессе проигрывания трека
+audioPlayer.addEventListener('timeupdate', () => {
+    if (audioPlayer.duration) {
+        const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        progressBar.value = progress;
+        currentTimeText.textContent = formatTime(audioPlayer.currentTime);
+    }
+});
+
+// Срабатывает, когда трек загрузился и плеер узнал его точную длину
+audioPlayer.addEventListener('loadedmetadata', () => {
+    totalTimeText.textContent = formatTime(audioPlayer.duration);
+});
+
+// Перемотка трека вручную пользователем через ползунок
+progressBar.addEventListener('input', () => {
+    if (audioPlayer.duration) {
+        const timeToSet = (progressBar.value / 100) * audioPlayer.duration;
+        audioPlayer.currentTime = timeToSet;
+    }
+});
+
 // Слушаем аудиоплеер: как только песня закончилась, автоматически вызываем playNextTrack
 audioPlayer.addEventListener('ended', playNextTrack);
 window.onload = init;
