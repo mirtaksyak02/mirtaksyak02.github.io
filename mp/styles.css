@@ -267,7 +267,7 @@ audio {
 /* Список треков внутри альбома */
 .track-number {
     color: #b3b3b3;
-    margin-right: 15px;
+    margin-left: 10px;
     width: 20px;
     text-align: center;
 }
