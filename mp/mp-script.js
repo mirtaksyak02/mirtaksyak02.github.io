@@ -138,8 +138,8 @@ function playTrack(track, index, tracksList, artistName) {
     audioPlayer.src = directUrl;
     audioPlayer.play();
     
-    // Выводим информацию в нижний плеер
     nowPlayingText.textContent = `Сейчас играет: ${artistName} — ${track.title}`;
+    masterPlayBtn.textContent = '⏸'; // Меняем иконку на Паузу
 }
 
 const releaseTypesRu = {
