@@ -356,7 +356,7 @@ audioPlayer.addEventListener('pause', () => {
 // Функция для синхронизации иконок ▶ / ❙❙ во всем списке на экране
 function updateTrackListIcons() {
     // 1. Возвращаем всем кнопкам на экране дефолтный значок Плей
-    document.querySelectorAll('.track-item .play-btn').forEach(btn => {
+    document.querySelectorAll('.track-item .play-btn-gray').forEach(btn => {
         btn.textContent = '▶';
     });
     
