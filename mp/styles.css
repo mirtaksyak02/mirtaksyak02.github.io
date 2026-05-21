@@ -429,7 +429,10 @@ audio {
     color: #e0e0e0;
 }
 
-/* Зеленую кнопку-овал внутри активного трека сделаем еще ярче */
 .track-item.is-playing .play-btn-gray {
     background-color: #0d3a1b !important;
+}
+
+.track-item.is-playing .play-btn-gray:hover {
+    background-color: #125226 !important;
 }
