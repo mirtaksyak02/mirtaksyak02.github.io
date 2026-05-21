@@ -405,3 +405,15 @@ audio {
 #volume-bar {
     width: 100%;
 }
+
+.track-item.is-playing .track-info h3,
+.track-item.is-playing .track-number,
+.track-item.is-playing .track-duration {
+    color: #1db954 !important; /* Наш фирменный зелёный цвет */
+    transition: color 0.2s ease;
+}
+
+/* Кнопку внутри играющего трека можно слегка подсветить или оставить прежней */
+.track-item.is-playing .play-btn {
+    background-color: #1ed760;
+}
