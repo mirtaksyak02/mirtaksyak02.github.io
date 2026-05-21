@@ -250,6 +250,10 @@ audio {
     top: -10px;
 }
 
+.album-title-header .header-tag .tag-custom {
+    top: -16px;
+}
+
 .album-large-cover {
     width: 180px;
     height: 180px;
