@@ -368,7 +368,7 @@ function updateTrackListIcons() {
             if (playingTrack) {
                 const activeRow = document.querySelector(`[data-track-id="${playingTrack.id}"]`);
                 if (activeRow) {
-                    const activeBtn = activeRow.querySelector('.play-btn');
+                    const activeBtn = activeRow.querySelector('.play-btn-gray');
                     if (activeBtn) activeBtn.textContent = '❙❙';
                 }
             }
