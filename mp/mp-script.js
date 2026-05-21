@@ -1,4 +1,4 @@
-let albumsData = []; // Здесь будем хранить данные из JSON
+let albumsData = []; // Данные из JSON
 let currentAlbumTracks = []; // Список треков альбома, который сейчас играет
 let currentTrackIndex = -1;  // Индекс песни, которая играет в данный момент
 
@@ -9,7 +9,15 @@ const pageTitle = document.getElementById('page-title');
 const albumHeader = document.getElementById('album-header');
 const backBtn = document.getElementById('back-btn');
 
-// Авто-конвертер ссылок (оставляем старый)
+// Мини-плеер снизу (for)
+const masterPlayBtn = document.getElementById('master-play-btn');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const progressBar = document.getElementById('progress-bar');
+const currentTimeText = document.getElementById('current-time');
+const totalTimeText = document.getElementById('total-time');
+
+// Авто-конвертер ссылок (рабочий???)
 function getDirectLink(url) {
     if (url.includes('://google.com')) {
         const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
@@ -37,7 +45,7 @@ function showAlbumsGrid() {
     // Обнуление позиции прокрутки
     window.scrollTo({ top: 0, behavior: 'smooth' }); 
     
-    // Сбрасываем видимость элементов интерфейса
+    // Сбрас видимости элементов интерфейса
     backBtn.style.display = 'none';
     albumHeader.style.display = 'none';
     pageTitle.style.display = 'block';
