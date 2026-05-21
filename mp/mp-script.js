@@ -145,7 +145,7 @@ function playTrack(track, index, tracksList, artistName) {
     audioPlayer.src = directUrl;
     audioPlayer.play();
     
-    masterPlayBtn.textContent = '⏸';
+    masterPlayBtn.textContent = '❙❙'; 
     nowPlayingText.textContent = `${artistName} - ${track.title}`;
 
     const container = document.querySelector('.now-playing-container');
@@ -213,10 +213,10 @@ masterPlayBtn.addEventListener('click', () => {
     
     if (audioPlayer.paused) {
         audioPlayer.play();
-        masterPlayBtn.textContent = '⏸';
+        masterPlayBtn.textContent = '❙❙';
     } else {
         audioPlayer.pause();
-        masterPlayBtn.textContent = '▶';
+        masterPlayBtn.textContent = '▶';   // Значок плей
     }
 });
 
