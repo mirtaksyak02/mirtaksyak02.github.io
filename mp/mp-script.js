@@ -74,13 +74,26 @@ function showAlbumsGrid() {
     contentArea.innerHTML = '';
 
     albumsData.forEach(album => {
+        // Логика обработки тегов релиза
+        let tagHtml = '';
+        
+        if (album.tag) {
+            if (album.tag.toLowerCase() === 'explicit') {
+                // Если тег explicit — выводим строгую букву E в квадрате
+                tagHtml = '<span class="tag-explicit">E</span>';
+            } else {
+                // Для любых других тегов (deluxe, live и т.д.) выводим текстовую плашку
+                tagHtml = `<span class="tag-custom">${album.tag.toUpperCase()}</span>`;
+            }
+        }
+
         const albumCard = document.createElement('div');
         albumCard.className = 'album-card';
         albumCard.onclick = () => openAlbum(album.id); 
         albumCard.innerHTML = `
             <img src="${album.cover}" alt="${album.title}">
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
-            <h3>${album.title}</h3>
+            <h3>${album.title} ${tagHtml}</h3>
             <p>${album.artist}</p>
         `;
         contentArea.appendChild(albumCard);
