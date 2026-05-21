@@ -145,56 +145,50 @@ function playTrack(track, index, tracksList, artistName) {
     
     // Записываем текст и ставим паузу
     masterPlayBtn.textContent = '⏸';
-    nowPlayingText.textContent = `${artistName} — ${track.title}`;
+    nowPlayingText.textContent = `${artistName} - ${track.title}`;
 
     const container = document.querySelector('.now-playing-container');
     
-    // СБРОС: Очищаем старый таймер и возвращаем текст в центр
+    // СБРОС: Очищаем таймеры, убираем стили и возвращаем центральное выравнивание
     clearTimeout(marqueeTimeout);
     nowPlayingText.removeAttribute('style');
-    nowPlayingText.classList.remove('marquee-ready');
+    container.classList.remove('align-left');
 
-    // Проверяем, нужно ли вообще крутить текст
+    // Проверяем, нужно ли запускать прокрутку
     if (nowPlayingText.scrollWidth > container.offsetWidth) {
         
-        // Ждем 2 секунды (2000 мс), пока текст стоит по центру, и только потом запускаем
+        // Ждем 2 секунды, пока текст стоит по центру и видна его середина
         marqueeTimeout = setTimeout(() => {
             
-            // Переключаем позиционирование от левого края
-            nowPlayingText.classList.add('marquee-ready');
+            // Включаем выравнивание по левому краю, чтобы текст подготовился к поездке влево
+            container.classList.add('align-left');
             
-            // Вычисляем, насколько сильно текст не влезает в экран
             const scrollDistance = nowPlayingText.scrollWidth - container.offsetWidth;
-            
-            // Рассчитываем время прокрутки в зависимости от длины текста (чтобы скорость всегда была медленной и одинаковой)
-            const speed = 30; // Чем больше число, тем медленнее скорость
+            const speed = 30; 
             const duration = scrollDistance * speed; 
 
-            // Запускаем функцию цикличной плавной прокрутки
             function startMarqueeLoop() {
-                // 1. Возвращаем текст в исходную левую позицию без анимации
+                // 1. Возвращаем в начальную левую точку без анимации
                 nowPlayingText.style.transition = 'none';
                 nowPlayingText.style.transform = 'translateX(0)';
                 
-                // Микропауза, чтобы браузер зафиксировал сброс позиции
                 setTimeout(() => {
-                    // 2. Включаем плавное движение до упора влево
+                    // 2. Плавно катим текст влево до самого конца строки
                     nowPlayingText.style.transition = `transform ${duration}ms linear`;
                     nowPlayingText.style.transform = `translateX(-${scrollDistance}px)`;
                 }, 50);
 
-                // 3. Ждем, пока текст доедет до конца, делаем паузу на 2 секунды и запускаем круг заново
+                // 3. Ждем окончания поездки, замираем на 2 секунды и повторяем
                 marqueeTimeout = setTimeout(() => {
                     startMarqueeLoop();
                 }, duration + 2000);
             }
 
-            // Запуск первого цикла движения
+            // Запускаем цикл прокрутки
             startMarqueeLoop();
 
         }, 2000); 
     }
-}
 
 const releaseTypesRu = {
     'album': 'Альбом',
