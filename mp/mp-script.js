@@ -201,7 +201,20 @@ function playNextTrack() {
         const artistName = albumsData.find(a => a.tracks.includes(currentAlbumTracks[nextIndex]))?.artist || "Исполнитель";
         playTrack(currentAlbumTracks[nextIndex], nextIndex, currentAlbumTracks, artistName);
     } else {
+        // 1. Сбрасываем индекс на 0 (первый трек этого же альбома)
+        currentTrackIndex = 0; 
+        
+        // 2. Меняем иконку на панели на "Плей"
         masterPlayBtn.textContent = '▶'; 
+        
+        // 3. Обновляем текст в плеере на название самого первого трека, 
+        // чтобы пользователь видел, что альбом готов к повторному прослушиванию
+        const firstTrack = currentAlbumTracks[0];
+        const artistName = albumsData.find(a => a.tracks.includes(firstTrack))?.artist || "Исполнитель";
+        nowPlayingText.textContent = `${artistName} - ${firstTrack.title}`;
+        
+        // 4. Загружаем первый трек в память плеера (но не запускаем, пока на паузе)
+        audioPlayer.src = getDirectLink(firstTrack.url);
     }
 }
 
