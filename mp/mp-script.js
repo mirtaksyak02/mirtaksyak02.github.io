@@ -150,36 +150,47 @@ function playTrack(track, index, tracksList, artistName) {
 
     const container = document.querySelector('.now-playing-container');
     
+    // СБРОС: Очищаем таймеры, сбрасываем стили и классы
     clearTimeout(marqueeTimeout);
     nowPlayingText.removeAttribute('style');
-    container.classList.remove('align-left');
+    nowPlayingText.classList.remove('is-long');
 
+    // Проверяем, нужно ли запускать прокрутку
     if (nowPlayingText.scrollWidth > container.offsetWidth) {
+        
+        // Ждем 2 секунды, пока текст стоит по центру (благодаря margin: 0 auto)
         marqueeTimeout = setTimeout(() => {
-            container.classList.add('align-left');
+            
+            // Текст длинный: отключаем авто-центрирование, прижимая строку к левому краю
+            nowPlayingText.classList.add('is-long');
             
             const scrollDistance = nowPlayingText.scrollWidth - container.offsetWidth;
             const speed = 30; 
             const duration = scrollDistance * speed; 
 
             function startMarqueeLoop() {
+                // 1. Возвращаем в начальную левую точку без анимации
                 nowPlayingText.style.transition = 'none';
                 nowPlayingText.style.transform = 'translateX(0)';
                 
                 setTimeout(() => {
+                    // 2. Плавно катим текст влево до самого конца строки
                     nowPlayingText.style.transition = `transform ${duration}ms linear`;
                     nowPlayingText.style.transform = `translateX(-${scrollDistance}px)`;
                 }, 50);
 
+                // 3. Ждем окончания поездки, замираем на 2 секунды и повторяем
                 marqueeTimeout = setTimeout(() => {
                     startMarqueeLoop();
                 }, duration + 2000);
             }
 
+            // Запускаем цикл прокрутки
             startMarqueeLoop();
+
         }, 2000); 
     }
-} // Функция playTrack теперь закрыта корректно!
+} 
 
 function playNextTrack() {
     if (currentAlbumTracks.length === 0 || currentTrackIndex === -1) return;
