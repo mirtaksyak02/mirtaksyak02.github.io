@@ -322,7 +322,7 @@ audio {
     color: #b3b3b3;
     font-size: 20px;
     cursor: pointer;
-    transition: color 0.2s, transform 0.1s;
+    transition: color 0.2s;
 }
 
 .ctrl-btn:hover {
@@ -334,17 +334,15 @@ audio {
 }
 
 .play-main {
-    font-size: 16px; 
-    color: #ffffff;
+    color: #ffffff !important;
     background-color: #1db954;
-    border-radius: 0% !important; 
+    font-size: 16px;
+    border-radius: 0% !important;
     width: 42px;
     height: 42px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0; 
-    margin: 0;
 }
 
 .play-main:hover {
@@ -370,7 +368,9 @@ audio {
 }
 
 .volume-icon {
-    font-size: 14px;
+    font-size: 16px;
+    color: #ffffff;
+    line-height: 1;
 }
 
 /* Общие кастомные настройки для инпутов-ползунков */
