@@ -180,5 +180,75 @@
         "url": "https://name.moy.su/music/scp_sabbat/gr_proigrav/11-prosto_znaj-kto_stojal_u_istokov.mp3"
       }
     ]
+  },
+  {
+    "id": "album-5",
+    "title": "SHELUVSROCKET",
+    "artist": "ROCKET",
+    "type": "album",
+    "year": "2026",
+    "genre": "Hip-Hop/Rap",
+    "cover": "https://name.moy.su/music/rocket_ru/SHELUVSROCKET/Front_1000x1000.jpg",
+    "tracks": [
+      {
+        "id": "t24",
+        "title": "Мафия",
+        "duration": "02:08",
+        "url": "https://name.moy.su/music/rocket_ru/SHELUVSROCKET/01-mafija.mp3"
+      },
+      {
+        "id": "t25",
+        "title": "В Доме",
+        "duration": "01:57",
+        "url": "https://name.moy.su/music/rocket_ru/SHELUVSROCKET/02-v_dome.mp3"
+      },
+      {
+        "id": "t26",
+        "title": "Кино",
+        "duration": "02:20",
+        "url": "https://name.moy.su/music/rocket_ru/SHELUVSROCKET/03-kino.mp3"
+      },
+      {
+        "id": "t27",
+        "title": "LVLLVL",
+        "duration": "03:02",
+        "url": "https://name.moy.su/music/rocket_ru/SHELUVSROCKET/04-LVLLVL.mp3"
+      },
+      {
+        "id": "t28",
+        "title": "Большой Выбор",
+        "duration": "01:56",
+        "url": "https://name.moy.su/music/rocket_ru/SHELUVSROCKET/05-bolshoj_vybor.mp3"
+      },
+      {
+        "id": "t29",
+        "title": "В Любви",
+        "duration": "01:52",
+        "url": "https://name.moy.su/music/rocket_ru/SHELUVSROCKET/06-v_ljubvi.mp3"
+      },
+      {
+        "id": "t30",
+        "title": "Один",
+        "duration": "01:54",
+        "url": "https://name.moy.su/music/rocket_ru/SHELUVSROCKET/07-odin.mp3"
+      }
+    ]
+  },
+  {
+    "id": "album-6",
+    "title": "NULL",
+    "artist": "NULL",
+    "type": "single",
+    "year": "2021",
+    "genre": "Hip-Hop/Rap",
+    "cover": "NULL",
+    "tracks": [
+      {
+        "id": "t31",
+        "title": "NULL",
+        "duration": "02:58",
+        "url": "NULL"
+      }
+    ]
   }
 ]
