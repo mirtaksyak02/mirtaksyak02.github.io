@@ -1,4 +1,4 @@
-let albumsData = [];         // Данные из JSON
+let albumsData = []; // Данные из JSON
 let currentAlbumTracks = []; // Список треков альбома, который сейчас играет
 let currentTrackIndex = -1;  // Индекс песни, которая играет в данный момент
 let marqueeTimeout = null;   // Хранилище для таймера бегущей строки
