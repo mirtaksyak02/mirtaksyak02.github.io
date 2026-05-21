@@ -225,7 +225,18 @@ masterPlayBtn.addEventListener('click', () => {
     }
 });
 
-nextBtn.addEventListener('click', playNextTrack);
+nextBtn.addEventListener('click', () => {
+    // Проверяем, есть ли вообще следующий трек в списке
+    if (currentAlbumTracks.length > 0 && currentTrackIndex !== -1) {
+        const nextIndex = currentTrackIndex + 1;
+
+        // Переключаем, только если индекс не выходит за пределы массива
+        if (nextIndex < currentAlbumTracks.length) {
+            const artistName = albumsData.find(a => a.tracks.includes(currentAlbumTracks[nextIndex]))?.artist || "Исполнитель";
+            playTrack(currentAlbumTracks[nextIndex], nextIndex, currentAlbumTracks, artistName);
+        }
+    }
+});
 
 prevBtn.addEventListener('click', () => {
     if (currentTrackIndex > 0) {
