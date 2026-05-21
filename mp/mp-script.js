@@ -226,10 +226,6 @@ masterPlayBtn.addEventListener('click', () => {
     if (audioPlayer.paused) {
         // ПРОВЕРКА: Если песня уже полностью завершена (текущее время равно или почти равно длительности)
         // Мы принудительно сбрасываем время на начало, чтобы она заиграла заново
-        if (audioPlayer.currentTime >= audioPlayer.duration - 0.5) {
-            audioPlayer.currentTime = 0;
-        }
-        
         audioPlayer.play();
         masterPlayBtn.textContent = '❙❙'; // Меняем на паузу
     } else {
