@@ -94,7 +94,7 @@ h1 {
 
 .play-btn-gray:hover {
     transform: scale(1.05);
-    background-color: #b3b3b3;
+    background-color: #424242; /* #b3b3b3; */
 }
 
 /* Фиксированная панель управления снизу */
