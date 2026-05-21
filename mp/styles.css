@@ -91,36 +91,29 @@ h1 {
 /* Контейнер-окошко, ограничивающий видимость */
 .now-playing-container {
     width: 100%;
-    max-width: 400px; /* Ширина зоны для текста плеера */
-    overflow: hidden; /* Всё, что выходит за рамки, скрывается */
+    max-width: 400px;
+    overflow: hidden;
     position: relative;
     margin-bottom: 8px;
-    height: 20px; /* Фиксированная высота для строки */
+    height: 20px;
 }
 
-/* Сам текст названия песни */
 #now-playing {
     font-size: 14px;
     color: #1db954;
     white-space: nowrap;
-    display: inline-block;
     position: absolute;
+    /* Изначально ставим текст строго по центру контейнера */
     left: 50%;
-    transform: translateX(-50%); /* По умолчанию текст строго по центру */
+    transform: translateX(-50%);
+    /* Плавный переход для анимации сдвига */
+    transition: left 0.3s ease-out; 
 }
 
-/* Класс, который JS включит ТОЛЬКО если текст слишком длинный */
-#now-playing.marquee {
+/* Этот класс JS добавит перед началом прокрутки, чтобы сбросить центрирование */
+#now-playing.marquee-ready {
     left: 0;
-    transform: none;
-    padding-left: 100%; /* Начинаем движение из-за правой границы */
-    animation: marquee-anim 10s linear infinite; /* 10 секунд на круг, крутится бесконечно */
-}
-
-/* Анимация движения справа налево */
-@keyframes marquee-anim {
-    0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(-100%, 0, 0); }
+    transform: translateX(0);
 }
 
 audio {
