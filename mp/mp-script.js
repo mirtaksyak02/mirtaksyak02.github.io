@@ -114,10 +114,16 @@ function openAlbum(albumId) {
         const trackRow = document.createElement('div');
         trackRow.className = 'track-item';
         
+        // 1. Создаем кнопку отдельно
         const playButton = document.createElement('button');
         playButton.className = 'play-btn-gray';
         playButton.textContent = '▶';
         
+        playButton.addEventListener('click', () => {
+            playTrack(track, index, album.tracks, album.artist);
+        });
+
+        // 2. Наполняем внутренний HTML строки (БЕЗ кнопки внутри текста)
         trackRow.innerHTML = `
             <span class="track-number">${index + 1}</span>
             <div class="track-info">
@@ -127,11 +133,8 @@ function openAlbum(albumId) {
             <span class="track-duration">${track.duration}</span>
         `;
         
-        playButton.addEventListener('click', () => {
-            playTrack(track, index, album.tracks, album.artist);
-        });
-        
-        trackRow.appendChild(playButton);
+        // 3. Сначала вставляем кнопку в самое начало, а затем добавляем всю строку на экран
+        trackRow.insertBefore(playButton, trackRow.firstChild);
         contentArea.appendChild(trackRow);
     });
 }
