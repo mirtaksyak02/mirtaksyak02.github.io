@@ -143,8 +143,20 @@ function playTrack(track, index, tracksList, artistName) {
     audioPlayer.src = directUrl;
     audioPlayer.play();
     
-    nowPlayingText.textContent = `Сейчас играет: ${artistName} — ${track.title}`;
+    // 1. Убираем текст "Сейчас играет:", оставляем только данные трека
+    nowPlayingText.textContent = `${artistName} — ${track.title}`;
     masterPlayBtn.textContent = '⏸'; // Меняем иконку на Паузу
+
+    // 2. Логика автоматического включения бегущей строки
+    const container = document.querySelector('.now-playing-container');
+    
+    // Сбрасываем старую анимацию перед проверкой
+    nowPlayingText.classList.remove('marquee');
+
+    // Проверяем: если реальная ширина текста больше ширины контейнера
+    if (nowPlayingText.scrollWidth > container.offsetWidth) {
+        nowPlayingText.classList.add('marquee'); // Включаем бегущую строку
+    }
 }
 
 const releaseTypesRu = {
