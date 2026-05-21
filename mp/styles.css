@@ -258,6 +258,18 @@ audio {
     margin-top: 5px;
 }
 
+/* Если экран телефона узкий (меньше 600px), перестраиваем элементы в столбик */
+@media (max-width: 600px) {
+    .controls-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .volume-container {
+        width: 100%; /* На смартфонах громкость растянется во всю ширину */
+        max-width: 250px;
+    }
+}
+
 /* Кнопки управления */
 .control-buttons {
     display: flex;
