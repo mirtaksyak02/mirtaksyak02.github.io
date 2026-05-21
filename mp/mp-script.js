@@ -34,6 +34,9 @@ async function init() {
 
 // 2. ЭКРАН А: Показ сетки всех альбомов
 function showAlbumsGrid() {
+    // Обнуление позиции прокрутки
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    
     // Сбрасываем видимость элементов интерфейса
     backBtn.style.display = 'none';
     albumHeader.style.display = 'none';
