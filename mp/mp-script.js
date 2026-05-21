@@ -105,7 +105,8 @@ function openAlbum(albumId) {
         
         // 4. Безопасно вешаем событие клика (никаких проблем со строками и кавычками!)
         playButton.addEventListener('click', () => {
-            playTrack(directUrl, `${album.artist} - ${track.title}`);
+            // Передаем сам трек, его индекс в массиве и все треки этого альбома
+            playTrack(track, index, album.tracks, album.artist);
         });
         
         // 5. Добавляем кнопку внутрь строки трека, а строку — на экран
@@ -114,18 +115,49 @@ function openAlbum(albumId) {
     });
 }
 
-function playTrack(url, title) {
-    audioPlayer.src = url;
+function playTrack(track, index, tracksList, artistName) {
+    // Сохраняем текущее состояние в память
+    currentAlbumTracks = tracksList;
+    currentTrackIndex = index;
+
+    const directUrl = getDirectLink(track.url);
+    audioPlayer.src = directUrl;
     audioPlayer.play();
-    nowPlayingText.textContent = `Сейчас играет: ${title}`;
+    
+    // Выводим информацию в нижний плеер
+    nowPlayingText.textContent = `Сейчас играет: ${artistName} — ${track.title}`;
 }
 
 const releaseTypesRu = {
     'album': 'Альбом',
+    'compilation': 'Компиляция',
     'ep': 'EP',
     'single': 'Сингл',
     'maxi-single': 'Макси-сингл',
     'mixtape': 'Микстейп'
 };
 
+// Функция для перехода к следующему треку
+function playNextTrack() {
+    // Проверяем, загружен ли плейлист и есть ли следующий трек
+    if (currentAlbumTracks.length === 0 || currentTrackIndex === -1) return;
+
+    const nextIndex = currentTrackIndex + 1;
+
+    // Если это был последний трек в альбоме — останавливаемся (или можно пустить по кругу)
+    if (nextIndex < currentAlbumTracks.length) {
+        // Находим имя артиста. Так как оно лежит на уровне альбома, вытащим его из текущего экрана
+        // или используем заглушку, если трек играет в фоне
+        const artistName = albumsData.find(a => a.tracks.includes(currentAlbumTracks[nextIndex]))?.artist || "Исполнитель";
+        
+        // Запускаем следующий трек
+        playTrack(currentAlbumTracks[nextIndex], nextIndex, currentAlbumTracks, artistName);
+    } else {
+        nowPlayingText.textContent = "Альбом завершен";
+        currentTrackIndex = -1; // Сбрасываем индекс
+    }
+}
+
+// Слушаем аудиоплеер: как только песня закончилась, автоматически вызываем playNextTrack
+audioPlayer.addEventListener('ended', playNextTrack);
 window.onload = init;
