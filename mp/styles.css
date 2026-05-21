@@ -1,3 +1,8 @@
+html, body {
+    max-width: 100%;
+    overflow-x: hidden; /* Полностью блокирует горизонтальную прокрутку сайта */
+}
+
 body {
     background-color: #121212;
     color: #ffffff;
@@ -87,6 +92,12 @@ h1 {
     font-size: 14px;
     margin-bottom: 8px;
     color: #1db954;
+    text-align: center;
+    width: 100%;
+    max-width: 550px; /* Ограничиваем максимальную ширину строки текста */
+    white-space: nowrap; /* Запрещаем тексту переноситься и распирать блок */
+    overflow: hidden; /* Прячем всё, что не влезло в экран */
+    text-overflow: ellipsis; /* Автоматически добавляем три точки (...) в конце */
 }
 
 audio {
@@ -239,6 +250,8 @@ audio {
     border-top: 1px solid #282828;
     box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
     z-index: 1000;
+    box-sizing: border-box; /* Чтобы padding не раздувал ширину */
+    max-width: 100vw; /* Ширина строго равна ширине окна браузера */
 }
 
 .player-interface {
