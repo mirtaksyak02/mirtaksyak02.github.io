@@ -201,20 +201,27 @@ function playNextTrack() {
         const artistName = albumsData.find(a => a.tracks.includes(currentAlbumTracks[nextIndex]))?.artist || "Исполнитель";
         playTrack(currentAlbumTracks[nextIndex], nextIndex, currentAlbumTracks, artistName);
     } else {
-        currentTrackIndex = -1; 
+        masterPlayBtn.textContent = '▶'; 
     }
 }
 
 // 6. СОБЫТИЯ И ИНТЕРФЕЙС УПРАВЛЕНИЯ
 masterPlayBtn.addEventListener('click', () => {
+    // Если трек вообще ни разу не выбирался, ничего не делаем
     if (audioPlayer.src === "" || currentTrackIndex === -1) return; 
     
     if (audioPlayer.paused) {
+        // ПРОВЕРКА: Если песня уже полностью завершена (текущее время равно или почти равно длительности)
+        // Мы принудительно сбрасываем время на начало, чтобы она заиграла заново
+        if (audioPlayer.currentTime >= audioPlayer.duration - 0.5) {
+            audioPlayer.currentTime = 0;
+        }
+        
         audioPlayer.play();
-        masterPlayBtn.textContent = '❙❙';
+        masterPlayBtn.textContent = '❙❙'; // Меняем на паузу
     } else {
         audioPlayer.pause();
-        masterPlayBtn.textContent = '▶';   // Значок плей
+        masterPlayBtn.textContent = '▶'; // Меняем на плей
     }
 });
 
