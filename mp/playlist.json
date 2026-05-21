@@ -32,5 +32,28 @@
         "url": "https://name.moy.su/music/zavet/dead_club/zavet-dead_club-unreleased-.mp3"
       }
     ]
+  },
+  {
+    "id": "album-3",
+    "title": "Создано из ничего",
+    "artist": "SUPERIOR.CAT.PROTEUS",
+    "type": "album",
+    "year": "2014",
+    "genre": "Rap",
+    "cover": "https://name.moy.su/music/scp_sabbat/ex_nihilo/Front_1000x1000.jpg",
+    "tracks": [
+      {
+        "id": "t3",
+        "title": "Кто убил их",
+        "duration": "03:14",
+        "url": "https://name.moy.su/music/scp_sabbat/ex_nihilo/01-kto_ubil_ikh.mp3"
+      },
+      {
+        "id": "t4",
+        "title": "Боги хранят злодеев (feat. PHARAOH)",
+        "duration": "02:38",
+        "url": "https://name.moy.su/music/scp_sabbat/ex_nihilo/02-bogi_khranjat_zlodeev-feat-pharaoh.mp3"
+      }
+    ]
   }
 ]
