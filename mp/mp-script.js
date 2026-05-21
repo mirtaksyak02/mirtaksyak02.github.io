@@ -111,11 +111,24 @@ function openAlbum(albumId) {
     backBtn.style.display = 'block';
     albumHeader.style.display = 'flex';
     
+    albumHeader.innerHTML = '';
+    
+    // Логика обработки тегов релиза для шапки (explicit или кастомные)
+    let tagHtml = '';
+    if (album.tag) {
+        if (album.tag.toLowerCase() === 'explicit') {
+            tagHtml = '<span class="tag-explicit header-tag">E</span>';
+        } else {
+            tagHtml = `<span class="tag-custom header-tag">${album.tag.toUpperCase()}</span>`;
+        }
+    }
+    
     albumHeader.innerHTML = `
         <img src="${album.cover}" alt="${album.title}" class="album-large-cover">
         <div class="album-info-text">
             <span class="badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
-            <h2>${album.title}</h2>
+            <!-- Добавляем тег сразу после большого названия релиза -->
+            <h2 class="album-title-header">${album.title} ${tagHtml}</h2>
             <p class="meta">${album.artist} • ${album.year} • ${album.genre}</p>
         </div>
     `;
