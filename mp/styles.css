@@ -81,6 +81,22 @@ h1 {
     transform: scale(1.05);
 }
 
+.play-btn-gray {
+    background-color: #1e1e1e;
+    border: none;
+    color: white;
+    width: 42px;
+    height: 42px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.play-btn-gray:hover {
+    transform: scale(1.05);
+    background-color: #b3b3b3;
+}
+
 /* Фиксированная панель управления снизу */
 .bottom-controls {
     position: fixed;
