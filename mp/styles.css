@@ -406,14 +406,31 @@ audio {
     width: 100%;
 }
 
-.track-item.is-playing .track-info h3,
-.track-item.is-playing .track-number,
-.track-item.is-playing .track-duration {
-    color: #1db954 !important; /* Наш фирменный зелёный цвет */
-    transition: color 0.2s ease;
+/* Делаем плашку играющего трека слегка зеленой */
+.track-item.is-playing {
+    background-color: #0d3a1b !important; /* Глубокий темно-зеленый оттенок фона */
+    border: 1px solid #1db954; /* Тонкая яркая рамка, чтобы подчеркнуть строку */
+    transition: background-color 0.3s ease, border 0.3s ease;
 }
 
-/* Кнопку внутри играющего трека можно слегка подсветить или оставить прежней */
+/* При наведении на играющий трек делаем фон чуть светлее */
+.track-item.is-playing:hover {
+    background-color: #125226 !important;
+}
+
+/* Текст внутри играющей плашки оставляем белым и контрастным */
+.track-item.is-playing .track-info h3 {
+    color: #ffffff;
+}
+
+/* Номер и длительность можно сделать чуть ярче обычного */
+.track-item.is-playing .track-number,
+.track-item.is-playing .track-duration {
+    color: #e0e0e0;
+}
+
+/* Зеленую кнопку-овал внутри активного трека сделаем еще ярче */
 .track-item.is-playing .play-btn {
     background-color: #1ed760;
+    box-shadow: 0 0 10px rgba(29, 185, 84, 0.4); /* Мягкое неоновое свечение кнопки */
 }
