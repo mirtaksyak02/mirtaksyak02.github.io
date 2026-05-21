@@ -59,6 +59,9 @@ function showAlbumsGrid() {
 
 // 3. ЭКРАН Б: Открытие конкретного альбома
 function openAlbum(albumId) {
+    // Обнуление позиции прокрутки
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    
     const album = albumsData.find(a => a.id === albumId);
     if (!album) return;
 
