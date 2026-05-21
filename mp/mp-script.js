@@ -130,7 +130,7 @@ function openAlbum(albumId) {
         const playButton = document.createElement('button');
         playButton.className = 'play-btn-gray';
         
-        // Ставим правильную иконку при первой загрузке списка
+        // Корректный значок при отрисовке списка
         if (currentAlbumTracks === album.tracks && currentTrackIndex === index && !audioPlayer.paused) {
             playButton.textContent = '❙❙';
         } else {
@@ -138,22 +138,16 @@ function openAlbum(albumId) {
         }
         
         playButton.addEventListener('click', () => {
-            // Если кликнули по треку, который УЖЕ играет или на паузе
+            // Если кликнули по треку, который УЖЕ выбран
             if (currentAlbumTracks === album.tracks && currentTrackIndex === index) {
                 if (audioPlayer.paused) {
                     audioPlayer.play();
-                    playButton.textContent = '❙❙';
-                    masterPlayBtn.textContent = '❙❙';
                 } else {
                     audioPlayer.pause();
-                    playButton.textContent = '▶';
-                    masterPlayBtn.textContent = '▶';
                 }
             } else {
-                // Если кликнули по абсолютно новому треку
+                // Если кликнули по совершенно новому треку
                 playTrack(track, index, album.tracks, album.artist);
-                // Мгновенно меняем иконку именно этой нажатой кнопки на паузу
-                playButton.textContent = '❙❙'; 
             }
         });
 
@@ -341,22 +335,36 @@ volumeBar.addEventListener('input', () => {
     audioPlayer.volume = volumeBar.value / 100;
 });
 
+// Автоматически обновлять иконки в списке при любом старте музыки
+audioPlayer.addEventListener('play', () => {
+    masterPlayBtn.textContent = '❙❙'; // Меняем главную кнопку
+    updateTrackListIcons();           // Меняем кнопку в списке треков
+});
+
+// Автоматически обновлять иконки в списке при любой остановке музыки
+audioPlayer.addEventListener('pause', () => {
+    masterPlayBtn.textContent = '▶';  // Меняем главную кнопку
+    updateTrackListIcons();           // Меняем кнопку в списке треков
+});
+
 // Функция для синхронизации иконок ▶ / ❙❙ во всем списке на экране
 function updateTrackListIcons() {
-    // 1. Сначала абсолютно всем кнопкам на экране возвращаем значок Плей
+    // 1. Возвращаем всем кнопкам на экране дефолтный значок Плей
     document.querySelectorAll('.track-item .play-btn').forEach(btn => {
         btn.textContent = '▶';
     });
     
-    // 2. Если сейчас действительно что-то играет в текущем альбоме
+    // 2. Если сейчас трек выбран и плеер играет — находим именно его кнопку и ставим Паузу
     if (currentTrackIndex !== -1 && currentAlbumTracks.length > 0 && !audioPlayer.paused) {
-        const playingTrack = currentAlbumTracks[currentTrackIndex];
-        if (playingTrack) {
-            // Ищем строку играющего трека по его уникальному ID
-            const activeRow = document.querySelector(`[data-track-id="${playingTrack.id}"]`);
-            if (activeRow) {
-                const activeBtn = activeRow.querySelector('.play-btn');
-                if (activeBtn) activeBtn.textContent = '❙❙'; // Ставим ей паузу
+        // Защита от выхода за пределы массива при окончании альбома
+        if (currentTrackIndex < currentAlbumTracks.length) {
+            const playingTrack = currentAlbumTracks[currentTrackIndex];
+            if (playingTrack) {
+                const activeRow = document.querySelector(`[data-track-id="${playingTrack.id}"]`);
+                if (activeRow) {
+                    const activeBtn = activeRow.querySelector('.play-btn');
+                    if (activeBtn) activeBtn.textContent = '❙❙';
+                }
             }
         }
     }
