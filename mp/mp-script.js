@@ -44,7 +44,9 @@ async function init() {
 // 2. ЭКРАН А: Показ сетки всех альбомов
 function showAlbumsGrid() {
     // Обнуление позиции прокрутки
-    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 50);
     
     // Сбрас видимости элементов интерфейса
     backBtn.style.display = 'none';
@@ -72,7 +74,9 @@ function showAlbumsGrid() {
 // 3. ЭКРАН Б: Открытие конкретного альбома
 function openAlbum(albumId) {
     // Обнуление позиции прокрутки
-    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 50);
     
     const album = albumsData.find(a => a.id === albumId);
     if (!album) return;
