@@ -130,7 +130,7 @@ function openAlbum(albumId) {
         const playButton = document.createElement('button');
         playButton.className = 'play-btn-gray';
         
-        // ПРОВЕРКА ПРИ ОТРИСОВКЕ: если этот трек уже играет прямо сейчас, сразу ставим значок паузы
+        // Ставим правильную иконку при первой загрузке списка
         if (currentAlbumTracks === album.tracks && currentTrackIndex === index && !audioPlayer.paused) {
             playButton.textContent = '❙❙';
         } else {
@@ -138,7 +138,7 @@ function openAlbum(albumId) {
         }
         
         playButton.addEventListener('click', () => {
-            // Если кликнули по треку, который УЖЕ выбран
+            // Если кликнули по треку, который УЖЕ играет или на паузе
             if (currentAlbumTracks === album.tracks && currentTrackIndex === index) {
                 if (audioPlayer.paused) {
                     audioPlayer.play();
@@ -150,8 +150,10 @@ function openAlbum(albumId) {
                     masterPlayBtn.textContent = '▶';
                 }
             } else {
-                // Если кликнули по новому треку — запускаем его как обычно
+                // Если кликнули по абсолютно новому треку
                 playTrack(track, index, album.tracks, album.artist);
+                // Мгновенно меняем иконку именно этой нажатой кнопки на паузу
+                playButton.textContent = '❙❙'; 
             }
         });
 
@@ -341,17 +343,23 @@ volumeBar.addEventListener('input', () => {
 
 // Функция для синхронизации иконок ▶ / ❙❙ во всем списке на экране
 function updateTrackListIcons() {
-    document.querySelectorAll('.track-item').forEach((row, index) => {
-        const btn = row.querySelector('.play-btn');
-        if (!btn) return;
-        
-        // Если индекс строки совпадает с играющим треком и плеер активен — ставим паузу
-        if (currentTrackIndex === index && !audioPlayer.paused) {
-            btn.textContent = '❙❙';
-        } else {
-            btn.textContent = '▶'; // Всем остальным возвращаем плей
-        }
+    // 1. Сначала абсолютно всем кнопкам на экране возвращаем значок Плей
+    document.querySelectorAll('.track-item .play-btn').forEach(btn => {
+        btn.textContent = '▶';
     });
+    
+    // 2. Если сейчас действительно что-то играет в текущем альбоме
+    if (currentTrackIndex !== -1 && currentAlbumTracks.length > 0 && !audioPlayer.paused) {
+        const playingTrack = currentAlbumTracks[currentTrackIndex];
+        if (playingTrack) {
+            // Ищем строку играющего трека по его уникальному ID
+            const activeRow = document.querySelector(`[data-track-id="${playingTrack.id}"]`);
+            if (activeRow) {
+                const activeBtn = activeRow.querySelector('.play-btn');
+                if (activeBtn) activeBtn.textContent = '❙❙'; // Ставим ей паузу
+            }
+        }
+    }
 }
 
 // Запуск приложения
