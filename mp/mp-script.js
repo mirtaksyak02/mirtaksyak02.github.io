@@ -114,6 +114,10 @@ function openAlbum(albumId) {
         const trackRow = document.createElement('div');
         trackRow.className = 'track-item';
         
+        const playButton = document.createElement('button');
+        playButton.className = 'play-btn-gray';
+        playButton.textContent = '▶';
+        
         trackRow.innerHTML = `
             <span class="track-number">${index + 1}</span>
             <div class="track-info">
@@ -122,10 +126,6 @@ function openAlbum(albumId) {
             </div>
             <span class="track-duration">${track.duration}</span>
         `;
-        
-        const playButton = document.createElement('button');
-        playButton.className = 'play-btn-gray';
-        playButton.textContent = '▶';
         
         playButton.addEventListener('click', () => {
             playTrack(track, index, album.tracks, album.artist);
