@@ -93,21 +93,26 @@ h1 {
     width: 100%;
     max-width: 400px;
     overflow: hidden;
-    position: relative;
     margin-bottom: 8px;
     height: 20px;
+    display: flex;
+    justify-content: center; /* Центрирует короткий текст по горизонтали */
+    align-items: center;
 }
 
 #now-playing {
     font-size: 14px;
     color: #1db954;
     white-space: nowrap;
-    position: absolute;
-    /* Изначально ставим текст строго по центру контейнера */
-    left: 50%;
-    transform: translateX(-50%);
-    /* Плавный переход для анимации сдвига */
-    transition: left 0.3s ease-out; 
+    position: relative;
+    left: 0;
+    transform: none;
+    transition: transform 0.3s ease-out; 
+}
+
+/* Когда JS понимает, что текст длинный, мы прижимаем контейнер к левому краю */
+.now-playing-container.align-left {
+    justify-content: flex-start;
 }
 
 /* Этот класс JS добавит перед началом прокрутки, чтобы сбросить центрирование */
