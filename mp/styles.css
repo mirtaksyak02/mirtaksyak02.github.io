@@ -243,6 +243,10 @@ audio {
     line-height: 1.2;
 }
 
+.album-title-header .tag-custom.header-tag  {
+    top: -16px;
+}
+
 /* Корректировка размеров значков для крупного заголовка шапки */
 .album-title-header .header-tag {
     transform: scale(1.3);
@@ -250,11 +254,6 @@ audio {
     transform-origin: left center;
     top: -10px;
 }
-
-.album-title-header .tag-custom .header-tag  {
-    top: -16px;
-}
-
 .album-large-cover {
     width: 180px;
     height: 180px;
