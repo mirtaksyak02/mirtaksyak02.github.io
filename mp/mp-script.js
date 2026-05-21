@@ -124,7 +124,7 @@ function openAlbum(albumId) {
         `;
         
         const playButton = document.createElement('button');
-        playButton.className = 'play-btn';
+        playButton.className = 'play-btn-gray';
         playButton.textContent = '▶';
         
         playButton.addEventListener('click', () => {
