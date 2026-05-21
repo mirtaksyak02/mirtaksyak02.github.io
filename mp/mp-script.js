@@ -60,29 +60,33 @@ function openAlbum(albumId) {
     const album = albumsData.find(a => a.id === albumId);
     if (!album) return;
 
-    // Настраиваем видимость
+    // Настраиваем видимость элементов
     pageTitle.style.display = 'none';
     backBtn.style.display = 'block';
     albumHeader.style.display = 'flex';
     
-    // Заполняем инфо об альбоме
+    // Заполняем шапку альбома
     albumHeader.innerHTML = `
         <img src="${album.cover}" alt="${album.title}" class="album-large-cover">
         <div class="album-info-text">
             <span class="badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h2>${album.title}</h2>
             <p class="meta">${album.artist} • ${album.year} • ${album.genre}</p>
-            </div>
+        </div>
     `;
 
-    // Выводим список песен альбома
+    // Очищаем и подготавливаем область списка треков
     contentArea.className = 'tracks-list';
     contentArea.innerHTML = '';
 
     album.tracks.forEach((track, index) => {
         const directUrl = getDirectLink(track.url);
+        
+        // 1. Создаем контейнер для строки трека
         const trackRow = document.createElement('div');
         trackRow.className = 'track-item';
+        
+        // 2. Наполняем его текстовым контентом (здесь кавычки теперь безопасны!)
         trackRow.innerHTML = `
             <span class="track-number">${index + 1}</span>
             <div class="track-info">
@@ -90,8 +94,20 @@ function openAlbum(albumId) {
                 <p>${album.artist}</p>
             </div>
             <span class="track-duration">${track.duration}</span>
-            <button class="play-btn" onclick="playTrack('${directUrl}', '${album.artist} - ${track.title}')">▶</button>
         `;
+        
+        // 3. Создаем кнопку отдельно через createElement
+        const playButton = document.createElement('button');
+        playButton.className = 'play-btn';
+        playButton.textContent = '▶';
+        
+        // 4. Безопасно вешаем событие клика (никаких проблем со строками и кавычками!)
+        playButton.addEventListener('click', () => {
+            playTrack(directUrl, `${album.artist} - ${track.title}`);
+        });
+        
+        // 5. Добавляем кнопку внутрь строки трека, а строку — на экран
+        trackRow.appendChild(playButton);
         contentArea.appendChild(trackRow);
     });
 }
