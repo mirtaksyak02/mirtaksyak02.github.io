@@ -288,6 +288,9 @@ nextBtn.addEventListener('click', () => {
         if (nextIndex < currentAlbumTracks.length) {
             const artistName = albumsData.find(a => a.tracks.includes(currentAlbumTracks[nextIndex]))?.artist || "Исполнитель";
             playTrack(currentAlbumTracks[nextIndex], nextIndex, currentAlbumTracks, artistName);
+            
+            // Фикс: принудительно обновляем иконки в списке
+            updateTrackListIcons(); 
         }
     }
 });
@@ -297,6 +300,9 @@ prevBtn.addEventListener('click', () => {
         const prevIndex = currentTrackIndex - 1;
         const artistName = albumsData.find(a => a.tracks.includes(currentAlbumTracks[prevIndex]))?.artist || "Исполнитель";
         playTrack(currentAlbumTracks[prevIndex], prevIndex, currentAlbumTracks, artistName);
+        
+        // Фикс: принудительно обновляем иконки в списке
+        updateTrackListIcons(); 
     }
 });
 
