@@ -95,8 +95,9 @@ h1 {
     overflow: hidden;
     margin-bottom: 8px;
     height: 20px;
+    
     display: flex;
-    justify-content: center; /* Центрирует короткий текст по горизонтали */
+    justify-content: flex-start; /* Убираем center! Только от левого края */
     align-items: center;
 }
 
@@ -105,14 +106,15 @@ h1 {
     color: #1db954;
     white-space: nowrap;
     position: relative;
-    left: 0;
-    transform: none;
+    display: inline-block;
+    margin: 0 auto; 
+    transform: translateX(0);
     transition: transform 0.3s ease-out; 
 }
 
-/* Когда JS понимает, что текст длинный, мы прижимаем контейнер к левому краю */
-.now-playing-container.align-left {
-    justify-content: flex-start;
+/* Когда текст ДЛИННЫЙ, убираем авто-центрирование, чтобы строка не прыгала */
+#now-playing.is-long {
+    margin: 0;
 }
 
 audio {
