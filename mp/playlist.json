@@ -239,18 +239,126 @@
   },
   {
     "id": "album-6",
-    "title": "NULL",
-    "artist": "NULL",
-    "type": "single",
-    "year": "2021",
+    "title": "Герой Хаоса",
+    "artist": "SUPERIOR.CAT.PROTEUS",
+    "type": "album",
+    "year": "2016",
     "genre": "Hip-Hop/Rap",
-    "cover": "NULL",
+    "cover": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/Front_1000x1000.jpg",
     "tracks": [
       {
         "id": "t31",
-        "title": "NULL",
+        "title": "Дети кибертрона (Intro)",
+        "duration": "01:22",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/01-deti_kibertrona-intro.mp3"
+      },
+      {
+        "id": "t32",
+        "title": "23:47",
         "duration": "02:58",
-        "url": "NULL"
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/02-23_47.mp3"
+      },
+      {
+        "id": "t33",
+        "title": "Все глаза на меня",
+        "duration": "02:00",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/03-vse_glaza_na_menja.mp3"
+      },
+      {
+        "id": "t34",
+        "title": "Golden Boy",
+        "duration": "03:23",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/04-GOLDEN_BOY.mp3"
+      },
+      {
+        "id": "t35",
+        "title": "Хаос правит всем (feat. TVETH)",
+        "duration": "04:31",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/05-khaos_pravit_vsem-feat-killah_tveth.mp3"
+      },
+      {
+        "id": "t36",
+        "title": "Перестань искать причины",
+        "duration": "03:00",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/06-perestan_iskat_prichiny.mp3"
+      },
+      {
+        "id": "t37",
+        "title": "Оставь меня здесь",
+        "duration": "03:35",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/07-ostav_menja_zdes.mp3"
+      },
+      {
+        "id": "t38",
+        "title": "Будь собой",
+        "duration": "02:45",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/08-bud_soboj.mp3"
+      },
+      {
+        "id": "t39",
+        "title": "Варп",
+        "duration": "03:00",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/09-varp.mp3"
+      },
+      {
+        "id": "t40",
+        "title": "Акация цветёт (Атомная бомба тактического действия) (Interlude)",
+        "duration": "01:20",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/10-akacija_cvetjot-atomnaja_bomba_takticheskogo_de.mp3"
+      },
+      {
+        "id": "t41",
+        "title": "Освободи меня",
+        "duration": "02:32",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/11-osvobodi_menja.mp3"
+      },
+      {
+        "id": "t42",
+        "title": "Герой хаоса",
+        "duration": "02:56",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/12-geroj_khaosa.mp3"
+      },
+      {
+        "id": "t43",
+        "title": "Престиж (feat. GONE.Fludd)",
+        "duration": "02:46",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/13-prestizh-feat-gone.fludd.mp3"
+      },
+      {
+        "id": "t44",
+        "title": "Её (feat. Thomas Mraz)",
+        "duration": "03:20",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/14-ejo-feat-thomas_mraz.mp3"
+      },
+      {
+        "id": "t45",
+        "title": "Экстатика",
+        "duration": "03:03",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/15-ehkstatika.mp3"
+      },
+      {
+        "id": "t46",
+        "title": "LIGHT DRIFTER (feat. TUFF GUNGHO)",
+        "duration": "03:33",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/16-LIGHT_DRIFTER-feat-TUFF_GUNGHO-.mp3"
+      },
+      {
+        "id": "t47",
+        "title": "Чувствуй это",
+        "duration": "02:53",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/17-chuvstvuj_ehto.mp3"
+      },
+      {
+        "id": "t48",
+        "title": "Enzyme III (Freestyle)",
+        "duration": "01:36",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/18-ENZYME_III-Freestyle-.mp3"
+      },
+      {
+        "id": "t49",
+        "title": "С чем ты не согласен (Outro)",
+        "duration": "01:18",
+        "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/19-s_chem_ty_ne_soglasen-outro.mp3"
       }
     ]
   }
