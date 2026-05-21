@@ -95,6 +95,7 @@ function showAlbumsGrid() {
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h3>${album.title} ${tagHtml}</h3>
             <p>${album.artist}</p>
+            <p>${album.year}</p>
         `;
         contentArea.appendChild(albumCard);
     });
