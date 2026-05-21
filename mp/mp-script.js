@@ -129,10 +129,30 @@ function openAlbum(albumId) {
         // 2. Создаем кнопку отдельно
         const playButton = document.createElement('button');
         playButton.className = 'play-btn-gray';
-        playButton.textContent = '▶';
+        
+        // ПРОВЕРКА ПРИ ОТРИСОВКЕ: если этот трек уже играет прямо сейчас, сразу ставим значок паузы
+        if (currentAlbumTracks === album.tracks && currentTrackIndex === index && !audioPlayer.paused) {
+            playButton.textContent = '❙❙';
+        } else {
+            playButton.textContent = '▶';
+        }
         
         playButton.addEventListener('click', () => {
-            playTrack(track, index, album.tracks, album.artist);
+            // Если кликнули по треку, который УЖЕ выбран
+            if (currentAlbumTracks === album.tracks && currentTrackIndex === index) {
+                if (audioPlayer.paused) {
+                    audioPlayer.play();
+                    playButton.textContent = '❙❙';
+                    masterPlayBtn.textContent = '❙❙';
+                } else {
+                    audioPlayer.pause();
+                    playButton.textContent = '▶';
+                    masterPlayBtn.textContent = '▶';
+                }
+            } else {
+                // Если кликнули по новому треку — запускаем его как обычно
+                playTrack(track, index, album.tracks, album.artist);
+            }
         });
 
         // 2. Сначала вставляем кнопку в самое начало, а затем добавляем всю строку на экран
@@ -216,7 +236,8 @@ function playTrack(track, index, tracksList, artistName) {
     if (activeRow) {
         activeRow.classList.add('is-playing');
     }
-} 
+    updateTrackListIcons();
+}
 
 function playNextTrack() {
     if (currentAlbumTracks.length === 0 || currentTrackIndex === -1) return;
@@ -259,6 +280,7 @@ masterPlayBtn.addEventListener('click', () => {
         audioPlayer.pause();
         masterPlayBtn.textContent = '▶'; 
     }
+    updateTrackListIcons();
 });
 
 nextBtn.addEventListener('click', () => {
@@ -283,7 +305,10 @@ prevBtn.addEventListener('click', () => {
 });
 
 // Автопереключение при окончании песни
-audioPlayer.addEventListener('ended', playNextTrack);
+audioPlayer.addEventListener('ended', () => {
+    playNextTrack();
+    updateTrackListIcons();
+});
 
 // Обновление таймлайна в процессе воспроизведения
 audioPlayer.addEventListener('timeupdate', () => {
@@ -313,6 +338,21 @@ audioPlayer.volume = volumeBar.value / 100;
 volumeBar.addEventListener('input', () => {
     audioPlayer.volume = volumeBar.value / 100;
 });
+
+// Функция для синхронизации иконок ▶ / ❙❙ во всем списке на экране
+function updateTrackListIcons() {
+    document.querySelectorAll('.track-item').forEach((row, index) => {
+        const btn = row.querySelector('.play-btn');
+        if (!btn) return;
+        
+        // Если индекс строки совпадает с играющим треком и плеер активен — ставим паузу
+        if (currentTrackIndex === index && !audioPlayer.paused) {
+            btn.textContent = '❙❙';
+        } else {
+            btn.textContent = '▶'; // Всем остальным возвращаем плей
+        }
+    });
+}
 
 // Запуск приложения
 window.onload = init;
