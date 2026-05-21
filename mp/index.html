@@ -26,13 +26,30 @@
     <audio id="main-audio"></audio>
     <div id="now-playing">Выберите трек для воспроизведения</div>
 
-    <div class="player-interface">
-        <!-- Кнопки управления -->
-        <div class="control-buttons">
-            <button id="prev-btn" class="ctrl-btn">⏮</button>
-            <button id="master-play-btn" class="ctrl-btn play-main">▶</button>
-            <button id="next-btn" class="ctrl-btn">⏭</button>
+<div class="player-interface">
+    <!-- Кнопки управления -->
+    <div class="control-buttons">
+        <button id="prev-btn" class="ctrl-btn">⏮</button>
+        <button id="master-play-btn" class="ctrl-btn play-main">▶</button>
+        <button id="next-btn" class="ctrl-btn">⏭</button>
+    </div>
+
+    <!-- Ползунок времени и громкость в одну линию -->
+    <div class="controls-row">
+        <!-- Таймлайн времени -->
+        <div class="progress-container">
+            <span id="current-time">0:00</span>
+            <input type="range" id="progress-bar" value="0" max="100">
+            <span id="total-time">0:00</span>
         </div>
+
+        <!-- Контроль громкости -->
+        <div class="volume-container">
+            <span class="volume-icon">🔊</span>
+            <input type="range" id="volume-bar" min="0" max="100" value="70">
+        </div>
+    </div>
+</div>
 
         <!-- Ползунок времени -->
         <div class="progress-container">
