@@ -362,5 +362,21 @@
         "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/19-s_chem_ty_ne_soglasen-outro.mp3"
       }
     ]
-  }
+  },
+    {
+    "id": "album-7",
+    "title": "GONZO: превосходство",
+    "artist": "SUPERIOR.CAT.PROTEUS",
+    "type": "album",
+    "tag": "U", 
+    "year": "2018",
+    "genre": "Hip-Hop/Rap",
+    "cover": "https://name.moy.su/music/scp_sabbat/gonzo/Front_1000x1000.jpg",
+    "tracks": [
+      {
+        "id": "t50",
+        "title": "К силе (Intro)",
+        "duration": "02:40",
+        "url": "https://name.moy.su/music/scp_sabbat/gonzo/01-k_sile-intro.mp3"
+      }
 ]
