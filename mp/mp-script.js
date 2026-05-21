@@ -1,4 +1,6 @@
 let albumsData = []; // Здесь будем хранить данные из JSON
+let currentAlbumTracks = []; // Список треков альбома, который сейчас играет
+let currentTrackIndex = -1;  // Индекс песни, которая играет в данный момент
 
 const audioPlayer = document.getElementById('main-audio');
 const nowPlayingText = document.getElementById('now-playing');
