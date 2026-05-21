@@ -201,9 +201,7 @@ function playNextTrack() {
         const artistName = albumsData.find(a => a.tracks.includes(currentAlbumTracks[nextIndex]))?.artist || "Исполнитель";
         playTrack(currentAlbumTracks[nextIndex], nextIndex, currentAlbumTracks, artistName);
     } else {
-        nowPlayingText.textContent = "Релиз завершен";
         currentTrackIndex = -1; 
-        masterPlayBtn.textContent = '▶';
     }
 }
 
