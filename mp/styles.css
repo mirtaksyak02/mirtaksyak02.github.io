@@ -206,8 +206,8 @@ audio {
 .tag-custom {
     display: inline-block;
     background-color: transparent;
-    color: #1db954; /* Зеленый текст для акцента */
-    border: 1px solid #1db954; /* Тонкая зеленая рамка */
+    color: #f93c29; /* #1db954; Зеленый цвет */
+    border: 1px solid #f93c29;  /* #1db954; Зеленый цвет */
     font-size: 8px;
     font-weight: bold;
     padding: 1px 4px;
@@ -320,7 +320,7 @@ audio {
     border-top: 1px solid #282828;
     box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
     z-index: 1000;
-    box-sizing: border-box; /* Чтобы padding не раздувал ширину */
+    box-sizing: border-box;
     max-width: 100vw; /* Ширина строго равна ширине окна браузера */
 }
 
