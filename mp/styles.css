@@ -233,7 +233,7 @@ audio {
 }
 
 .album-title-header {
-    display: flex;
+    display: flow;
     align-items: center;
     flex-wrap: wrap;
     gap: 10px; /* Отступ между названием релиза и значком */
@@ -244,9 +244,10 @@ audio {
 
 /* Корректировка размеров значков для крупного заголовка шапки */
 .album-title-header .header-tag {
-    transform: scale(1.3); /* Немного увеличиваем значок, чтобы он не терялся на фоне огромных букв */
+    transform: scale(1.3);
     margin-left: 5px;
     transform-origin: left center;
+    top: -10px;
 }
 
 .album-large-cover {
