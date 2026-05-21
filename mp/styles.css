@@ -115,12 +115,6 @@ h1 {
     justify-content: flex-start;
 }
 
-/* Этот класс JS добавит перед началом прокрутки, чтобы сбросить центрирование */
-#now-playing.marquee-ready {
-    left: 0;
-    transform: translateX(0);
-}
-
 audio {
     width: 100%;
     max-width: 500px;
