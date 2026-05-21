@@ -362,7 +362,7 @@
         "url": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/19-s_chem_ty_ne_soglasen-outro.mp3"
       }
     ]
-  },
+    },
     {
     "id": "album-7",
     "title": "GONZO: превосходство",
@@ -378,5 +378,6 @@
         "title": "К силе (Intro)",
         "duration": "02:40",
         "url": "https://name.moy.su/music/scp_sabbat/gonzo/01-k_sile-intro.mp3"
-      }
+      },
+  }
 ]
