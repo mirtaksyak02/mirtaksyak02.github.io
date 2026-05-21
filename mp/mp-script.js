@@ -109,21 +109,14 @@ function openAlbum(albumId) {
 
     contentArea.className = 'tracks-list';
     contentArea.innerHTML = '';
-
-    album.tracks.forEach((track, index) => {
+    
+   //Наполняем внутренний HTML строки (БЕЗ кнопки внутри текста)
+   album.tracks.forEach((track, index) => {
         const trackRow = document.createElement('div');
         trackRow.className = 'track-item';
         
-        // 1. Создаем кнопку отдельно
-        const playButton = document.createElement('button');
-        playButton.className = 'play-btn-gray';
-        playButton.textContent = '▶';
-        
-        playButton.addEventListener('click', () => {
-            playTrack(track, index, album.tracks, album.artist);
-        });
-
-        // 2. Наполняем внутренний HTML строки (БЕЗ кнопки внутри текста)
+        // КРИТИЧЕСКИ ВАЖНО: привязываем ID трека к строчке HTML
+        trackRow.setAttribute('data-track-id', track.id);
         trackRow.innerHTML = `
             <span class="track-number">${index + 1}</span>
             <div class="track-info">
@@ -133,10 +126,27 @@ function openAlbum(albumId) {
             <span class="track-duration">${track.duration}</span>
         `;
         
-        // 3. Сначала вставляем кнопку в самое начало, а затем добавляем всю строку на экран
+        // 2. Создаем кнопку отдельно
+        const playButton = document.createElement('button');
+        playButton.className = 'play-btn-gray';
+        playButton.textContent = '▶';
+        
+        playButton.addEventListener('click', () => {
+            playTrack(track, index, album.tracks, album.artist);
+        });
+
+        // 2. Сначала вставляем кнопку в самое начало, а затем добавляем всю строку на экран
         trackRow.insertBefore(playButton, trackRow.firstChild);
         contentArea.appendChild(trackRow);
     });
+    
+    if (currentTrackIndex !== -1 && currentAlbumTracks === album.tracks) {
+        const playingTrack = currentAlbumTracks[currentTrackIndex];
+        if (playingTrack) {
+            const activeRow = document.querySelector(`[data-track-id="${playingTrack.id}"]`);
+            if (activeRow) activeRow.classList.add('is-playing');
+        }
+    }
 }
 
 // 5. ЛОГИКА ПЛЕЕРА И БЕГУЩЕЙ СТРОКИ
@@ -191,7 +201,20 @@ function playTrack(track, index, tracksList, artistName) {
             // Запускаем цикл прокрутки
             startMarqueeLoop();
 
-        }, 2000); 
+        }, 2000);
+    }
+    // ЛОГИКА ПОДСВЕТКИ ТРЕКА
+    // 1. Сначала убираем зелёный цвет у абсолютно всех треков на экране
+    document.querySelectorAll('.track-item').forEach(row => {
+        row.classList.remove('is-playing');
+    });
+
+    // 2. Ищем строчку именно того трека, который мы только что запустили
+    const activeRow = document.querySelector(`[data-track-id="${track.id}"]`);
+    
+    // 3. Если эта строчка сейчас отображается на экране — красим её в зелёный
+    if (activeRow) {
+        activeRow.classList.add('is-playing');
     }
 } 
 
