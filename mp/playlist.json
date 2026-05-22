@@ -488,5 +488,100 @@
         "url": "https://name.moy.su/music/scp_sabbat/gonzo/19-Ov_Fire_And_Void-XP-.mp3"
       }
     ]
-  }
+  },
+  {
+    "id": "album-8",
+    "title": "Дни #GONZO",
+    "artist": "SUPERIOR.CAT.PROTEUS",
+    "type": "compilation",
+    "year": "2018",
+    "genre": "Hip-Hop/Rap",
+    "cover": "https://name.moy.su/music/scp_sabbat/dni_gonzo/Front_1000x1000.jpg",
+    "tracks": [
+      {
+        "id": "t69",
+        "title": "BERSERKER",
+        "duration": "03:18",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/01-BERSERKER.mp3"
+      },
+      {
+        "id": "t70",
+        "title": "OMEGA (feat. PHARAOH) (Remix)",
+        "duration": "04:16",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/02-OMEGA-feat-Pharaoh-Remix-.mp3"
+      },
+      {
+        "id": "t71",
+        "title": "THRESHOLD",
+        "duration": "01:59",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/03-THRESHOLD.mp3"
+      },
+      {
+        "id": "t72",
+        "title": "Вечный",
+        "duration": "02:42",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/04-vechnyj.mp3"
+      },
+      {
+        "id": "t73",
+        "title": "Акаша",
+        "duration": "02:25",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/05-akasha.mp3"
+      },
+      {
+        "id": "t74",
+        "title": "SKRT SKRT",
+        "duration": "02:20",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/06-SKRT_SKRT.mp3"
+      },
+      {
+        "id": "t75",
+        "title": "СБНК",
+        "duration": "02:03",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/07-sbnk.mp3"
+      },
+      {
+        "id": "t76",
+        "title": "Слишком глубоко 2",
+        "duration": "02:26",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/08-slishkom_gluboko_2.mp3"
+      },
+      {
+        "id": "t77",
+        "title": "Оно",
+        "duration": "02:20",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/09-ono.mp3"
+      },
+      {
+        "id": "t78",
+        "title": "00:00",
+        "duration": "02:20",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/10-00_00.mp3"
+      },
+      {
+        "id": "t79",
+        "title": "Идеальный соус",
+        "duration": "01:34",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/11-idealnyj_sous.mp3"
+      },
+      {
+        "id": "t80",
+        "title": "Основа",
+        "duration": "01:30",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/12-osnova.mp3"
+      },
+      {
+        "id": "t81",
+        "title": "Билли-Боб",
+        "duration": "01:41",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/13-billi-bob.mp3"
+      },
+      {
+        "id": "t82",
+        "title": "DNA. (Remix)",
+        "duration": "03:20",
+        "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/14-DNA-Remix-.mp3"
+      }
+    ]
+  },
 ]
