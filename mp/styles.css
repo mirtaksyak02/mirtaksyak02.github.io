@@ -286,6 +286,10 @@ audio {
     background-color: #1db954; /* Зеленый для полноформатных альбомов */
 }
 
+.badge-compilation {
+    background-color: #6f6f6f; /* Серый для компиляций */
+}
+
 .badge-ep {
     background-color: #007acc; /* Синий для мини-альбомов (EP) */
 }
