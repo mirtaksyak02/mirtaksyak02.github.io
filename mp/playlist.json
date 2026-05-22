@@ -626,5 +626,47 @@
         "url": "https://name.moy.su/music/rocket_ru/mood-/05-Outside.mp3"
       }
     ]
+  },
+  {
+    "id": "album-10",
+    "title": "Interstellar",
+    "artist": "ROCKET",
+    "type": "ep",
+    "tag": "U",
+    "year": "2017",
+    "genre": "Hip-Hop/Rap",
+    "cover": "https://name.moy.su/music/rocket_ru/interstellar/Front_1000x1000.jpg",
+    "tracks": [
+      {
+        "id": "t88",
+        "title": "Dinero",
+        "duration": "03:01",
+        "url": "https://name.moy.su/music/rocket_ru/interstellar/01-Dinero.mp3"
+      },
+      {
+        "id": "t89",
+        "title": "Bound Thug",
+        "duration": "04:38",
+        "url": "https://name.moy.su/music/rocket_ru/interstellar/02-Bound_Thug.mp3"
+      },
+      {
+        "id": "t90",
+        "title": "Interstellar",
+        "duration": "02:49",
+        "url": "https://name.moy.su/music/rocket_ru/interstellar/03-Interstellar.mp3"
+      },
+      {
+        "id": "t91",
+        "title": "Immunity (feat. MARCO-9)",
+        "duration": "04:12",
+        "url": "https://name.moy.su/music/rocket_ru/interstellar/04-Immunity-feat-MARCO-9-.mp3"
+      },
+      {
+        "id": "t92",
+        "title": "Skywalker",
+        "duration": "02:17",
+        "url": "https://name.moy.su/music/rocket_ru/interstellar/05-Skywalker.mp3"
+      }
+    ]
   }
 ]
