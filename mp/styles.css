@@ -494,3 +494,34 @@ audio {
 .track-item.is-playing .play-btn-gray:hover {
     background-color: #186a31 !important;
 }
+
+/* Контейнер строки поиска */
+.search-container {
+    max-width: 600px;
+    margin: 0 auto 25px auto;
+    padding: 0 10px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #242424;
+    border: 1px solid #333333;
+    border-radius: 25px; /* Закругленные края в стиле современных плееров */
+    color: #ffffff;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+/* Подсветка при клике на поиск */
+#search-input:focus {
+    border-color: #1db954; /* Зеленая рамка при фокусе */
+    background-color: #2a2a2a;
+}
+
+/* Стиль для текста-заглушки (плейсхолдера) */
+#search-input::placeholder {
+    color: #727272;
+}
