@@ -20,7 +20,6 @@ const contentArea = document.getElementById('content-area');
 const pageTitle = document.getElementById('page-title');
 const albumHeader = document.getElementById('album-header');
 const backBtn = document.getElementById('back-btn');
-
 const masterPlayBtn = document.getElementById('master-play-btn');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
@@ -28,6 +27,8 @@ const progressBar = document.getElementById('progress-bar');
 const currentTimeText = document.getElementById('current-time');
 const totalTimeText = document.getElementById('total-time');
 const volumeBar = document.getElementById('volume-bar');
+const searchContainer = document.getElementById('search-container');
+const searchInput = document.getElementById('search-input');
 
 // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 // Исправленный авто-конвертер ссылок
