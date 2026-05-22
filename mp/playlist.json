@@ -584,5 +584,47 @@
         "url": "https://name.moy.su/music/scp_sabbat/dni_gonzo/14-DNA-Remix-.mp3"
       }
     ]
+  },
+  {
+    "id": "album-9",
+    "title": "mood+-",
+    "artist": "ROCKET",
+    "type": "ep",
+    "tag": "U",
+    "year": "2016",
+    "genre": "Hip-Hop/Rap",
+    "cover": "https://name.moy.su/music/rocket_ru/mood-/Front_1000x1000.jpg",
+    "tracks": [
+      {
+        "id": "t83",
+        "title": "3 AM",
+        "duration": "01:51",
+        "url": "https://name.moy.su/music/rocket_ru/mood-/01-3_AM.mp3"
+      },
+      {
+        "id": "t84",
+        "title": "Cartoon",
+        "duration": "02:47",
+        "url": "https://name.moy.su/music/rocket_ru/mood-/02-Cartoon.mp3"
+      },
+      {
+        "id": "t85",
+        "title": "Cherry Rocket",
+        "duration": "02:13",
+        "url": "https://name.moy.su/music/rocket_ru/mood-/03-Cherry_Rocket.mp3"
+      },
+      {
+        "id": "t86",
+        "title": "meowmeow",
+        "duration": "03:03",
+        "url": "https://name.moy.su/music/rocket_ru/mood-/04-meowmeow.mp3"
+      },
+      {
+        "id": "t87",
+        "title": "Outside",
+        "duration": "03:11",
+        "url": "https://name.moy.su/music/rocket_ru/mood-/05-Outside.mp3"
+      }
+    ]
   }
 ]
