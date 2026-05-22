@@ -71,19 +71,37 @@ function showAlbumsGrid() {
     pageTitle.style.display = 'block';
     pageTitle.textContent = 'RARETENOR'; 
     
+    // Включаем видимость поиска на главном экране
+    searchContainer.style.display = 'block'; 
+    
     contentArea.className = 'albums-grid'; 
     contentArea.innerHTML = '';
+    
+    // Получаем текущее значение из поля поиска (переводим в нижний регистр для точности)
+    const query = searchInput.value.toLowerCase().trim();
 
-    albumsData.forEach(album => {
+    // Фильтруем массив релизов
+    const filteredAlbums = albumsData.filter(album => {
+        const titleMatch = album.title.toLowerCase().includes(query);
+        const artistMatch = album.artist.toLowerCase().includes(query);
+        return titleMatch || artistMatch;
+    });
+
+    // Если ничего не найдено, выводим аккуратную плашку
+    if (filteredAlbums.length === 0) {
+        contentArea.className = ''; // Сбрасываем сетку для центрирования текста
+        contentArea.innerHTML = '<p style="color: #727272; text-align: center; margin-top: 40px;">Ничего не найдено</p>';
+        return;
+    }
+
+    // Отрисовываем только отфильтрованные релизы
+    filteredAlbums.forEach(album => {
         // Логика обработки тегов релиза
         let tagHtml = '';
-        
         if (album.tag) {
             if (album.tag.toLowerCase() === 'explicit') {
-                // Если тег explicit — выводим строгую букву E в квадрате
                 tagHtml = '<span class="tag-explicit">E</span>';
             } else {
-                // Для любых других тегов (deluxe, live и т.д.) выводим текстовую плашку
                 tagHtml = `<span class="tag-custom">${album.tag.toUpperCase()}</span>`;
             }
         }
@@ -96,7 +114,6 @@ function showAlbumsGrid() {
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h3>${album.title} ${tagHtml}</h3>
             <p>${album.artist}</p>
-            <p>${album.year}</p>
         `;
         contentArea.appendChild(albumCard);
     });
@@ -110,6 +127,7 @@ function openAlbum(albumId) {
     if (!album) return;
 
     pageTitle.style.display = 'none';
+    searchContainer.style.display = 'none'; 
     backBtn.style.display = 'block';
     albumHeader.style.display = 'flex';
     
@@ -403,6 +421,10 @@ function updateTrackListIcons() {
         }
     }
 }
+
+searchInput.addEventListener('input', () => {
+    showAlbumsGrid(); // Просто перерисовываем сетку с учетом нового фильтра
+});
 
 // Запуск приложения
 window.onload = init;
