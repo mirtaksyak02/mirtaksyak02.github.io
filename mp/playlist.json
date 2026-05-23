@@ -920,5 +920,34 @@
         "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/12-Track_19.mp3"
       }
     ]
-  }
+  },
+  {
+    "id": "album-15",
+    "title": "Tsukuyomi Dream",
+    "artist": "ROCKET",
+    "type": "ep",
+    "year": "2019",
+    "genre": "Hip-Hop/Rap",
+    "cover": "null",
+    "tracks": [
+      {
+        "id": "t127",
+        "title": "Infinite Tsukuyomi",
+        "duration": "02:58",
+        "url": "AAAAA"
+      },
+      {
+        "id": "t128",
+        "title": "LUV",
+        "duration": "02:58",
+        "url": "AAAAA"
+      },
+      {
+        "id": "t129",
+        "title": "Money",
+        "duration": "02:58",
+        "url": "AAAAA"
+      }
+    ]
+  },
 ]
