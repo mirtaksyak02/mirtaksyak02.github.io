@@ -668,5 +668,82 @@
         "url": "https://name.moy.su/music/rocket_ru/interstellar/05-Skywalker.mp3"
       }
     ]
+  },
+  {
+    "id": "album-11",
+    "title": "Кэшимир 2",
+    "artist": "ROCKET, OFFMi",
+    "type": "album",
+    "tag": "U",
+    "year": "2017",
+    "genre": "Hip-Hop/Rap",
+    "cover": "https://name.moy.su/music/rocket_ru/kashemir2/Front_1080x1080.jpg",
+    "tracks": [
+      {
+        "id": "t93",
+        "title": "Мерен",
+        "duration": "02:15",
+        "url": "https://name.moy.su/music/rocket_ru/kashemir2/01-meren.mp3"
+      },
+      {
+        "id": "t94",
+        "title": "Бип-боп",
+        "duration": "02:36",
+        "url": "https://name.moy.su/music/rocket_ru/kashemir2/02-bip-bop.mp3"
+      },
+      {
+        "id": "t95",
+        "title": "Лентяй",
+        "duration": "02:21",
+        "url": "https://name.moy.su/music/rocket_ru/kashemir2/03-lentjaj.mp3"
+      },
+      {
+        "id": "t96",
+        "title": "Скука",
+        "duration": "02:51",
+        "url": "https://name.moy.su/music/rocket_ru/kashemir2/04-skuka.mp3"
+      },
+      {
+        "id": "t97",
+        "title": "Заебало (feat. MARCO-9)",
+        "duration": "03:48",
+        "url": "https://name.moy.su/music/rocket_ru/kashemir2/05-zaebalo-feat-marco-9.mp3"
+      },
+      {
+        "id": "t98",
+        "title": "Банкрот",
+        "duration": "02:50",
+        "url": "https://name.moy.su/music/rocket_ru/kashemir2/06-bankrot.mp3"
+      },
+      {
+        "id": "t99",
+        "title": "Олдовый",
+        "duration": "02:07",
+        "url": "https://name.moy.su/music/rocket_ru/kashemir2/07-oldovyj.mp3"
+      },
+      {
+        "id": "t100",
+        "title": "Кэшимир",
+        "duration": "02:36",
+        "url": "https://name.moy.su/music/rocket_ru/kashemir2/08-kehshimir.mp3"
+      }
+    ]
+  },
+  {
+    "id": "album-12",
+    "title": "NULL",
+    "artist": "NULL",
+    "type": "single",
+    "year": "1980",
+    "genre": "Hip-Hop/Rap",
+    "cover": "NULL",
+    "tracks": [
+      {
+        "id": "t101",
+        "title": "AAAAAAAAAA",
+        "duration": "00:00",
+        "url": "AAAAAAAAAAAA"
+      }
+    ]
   }
 ]
