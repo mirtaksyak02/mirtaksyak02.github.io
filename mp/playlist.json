@@ -781,7 +781,7 @@
     "id": "album-13",
     "title": "SWAG SEASON",
     "artist": "ROCKET",
-    "type": "album",
+    "type": "mixtape",
     "tag": "U",
     "year": "2018",
     "genre": "Hip-Hop/Rap",
@@ -834,6 +834,90 @@
         "title": "FREESTYLE SHMOUK (feat. lil krystalll)",
         "duration": "03:40",
         "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON/08-FREESTYLE_SHMOUK-feat-lil_krystalll-.mp3"
+      }
+    ]
+  },
+  {
+    "id": "album-14",
+    "title": "SWAG SEASON 2",
+    "artist": "ROCKET",
+    "type": "mixtape",
+    "tag": "U",
+    "year": "2019",
+    "genre": "Hip-Hop/Rap",
+    "cover": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/Front_1000x1000.jpg",
+    "tracks": [
+      {
+        "id": "t115",
+        "title": "Trap Day",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/01-Trap_Day.mp3"
+      },
+      {
+        "id": "t115",
+        "title": "Солдат",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/02-soldat.mp3"
+      },
+      {
+        "id": "t115",
+        "title": "Хит (feat. LILDRUGHILL)",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/03-khit-feat-lildrughill.mp3"
+      },
+      {
+        "id": "t115",
+        "title": "Инкассатор",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/04-inkassator.mp3"
+      },
+      {
+        "id": "t115",
+        "title": "Shmoney Sound (feat. LILDRUGHILL, Showbiz School & Fresco)",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/05-Shmoney_Sound-feat-LILDRUGHILL-Showbiz_School_F.mp3"
+      },
+      {
+        "id": "t115",
+        "title": "Времена года (feat. LILDRUGHILL)",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/06-vremena_goda-feat-lildrughill.mp3"
+      },
+      {
+        "id": "t115",
+        "title": "ABC",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/07-ABC.mp3"
+      },
+      {
+        "id": "t115",
+        "title": "Напален (feat. Showbiz School & Fresco)",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/08-napalen-feat-showbiz_school_fresco.mp3"
+      },
+      {
+        "id": "t115",
+        "title": "Разъеб (feat. cholodemora)",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/09-razeb-feat-cholodemora.mp3"
+      },
+      {
+        "id": "t115",
+        "title": "Мысли (Читаю о драгах)",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/10-mysli-chitaju_o_dragakh.mp3"
+      },
+      {
+        "id": "t115",
+        "title": "Freestyle NHL (feat. Fresco & cholodemora)",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/11-Freestyle_NHL-feat-Fresco_cholodemora-.mp3"
+      },
+      {
+        "id": "t115",
+        "title": "Track 19",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/12-Track_19.mp3"
       }
     ]
   }
