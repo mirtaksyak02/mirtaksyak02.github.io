@@ -12,7 +12,7 @@
         "id": "t1",
         "title": "Buy Me (Unreleased)",
         "duration": "02:58",
-        "url": "https://name.moy.su/music/zavet_buy_me-unreleased.mp3"
+        "url": "https://name.moy.su/music/zavet/buy_me/zavet_buy_me-unreleased.mp3"
       }
     ]
   },
@@ -731,18 +731,49 @@
   },
   {
     "id": "album-12",
-    "title": "NULL",
-    "artist": "NULL",
-    "type": "single",
-    "year": "1980",
+    "title": "INTERGALACTIC",
+    "artist": "ROCKET",
+    "type": "album",
+    "tag": "U",
+    "year": "2018",
     "genre": "Hip-Hop/Rap",
-    "cover": "NULL",
+    "cover": "https://name.moy.su/music/rocket_ru/INTERGALACTIC/Front_1000x1000.jpg",
     "tracks": [
       {
         "id": "t101",
-        "title": "AAAAAAAAAA",
-        "duration": "00:00",
-        "url": "AAAAAAAAAAAA"
+        "title": "Таггер",
+        "duration": "02:35",
+        "url": "https://name.moy.su/music/rocket_ru/INTERGALACTIC/01-tagger.mp3"
+      },
+      {
+        "id": "t102",
+        "title": "Ищу повод",
+        "duration": "02:59",
+        "url": "https://name.moy.su/music/rocket_ru/INTERGALACTIC/02-ishhu_povod.mp3"
+      },
+      {
+        "id": "t103",
+        "title": "Фея",
+        "duration": "02:39",
+        "url": "https://name.moy.su/music/rocket_ru/INTERGALACTIC/03-feja.mp3"
+      },
+      {
+        "id": "t104",
+        "title": "Импала",
+        "duration": "02:55",
+        "url": "https://name.moy.su/music/rocket_ru/INTERGALACTIC/04-impala.mp3"
+      },
+      {
+        "id": "t105",
+        "title": "Танцую",
+        "duration": "02:38",
+        "url": "https://name.moy.su/music/rocket_ru/INTERGALACTIC/05-tancuju.mp3"
+      },
+      {
+        "id": "t106",
+        "title": "Track18",
+        "duration": "01:52",
+        "url": "https://name.moy.su/music/rocket_ru/INTERGALACTIC/06-Track18.mp3"
       }
     ]
   }
