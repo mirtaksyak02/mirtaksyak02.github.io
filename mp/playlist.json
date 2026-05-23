@@ -779,19 +779,61 @@
   },
   {
     "id": "album-13",
-    "title": "xxx",
+    "title": "SWAG SEASON",
     "artist": "ROCKET",
     "type": "album",
     "tag": "U",
     "year": "2018",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/rocket_ru/INTERGALACTIC/Front_1000x1000.jpg",
+    "cover": "https://name.moy.su/music/rocket_ru/SWAGSEASON/Front_1000x1000.jpg",
     "tracks": [
       {
         "id": "t107",
-        "title": "Таггер",
-        "duration": "02:35",
-        "url": "https://name.moy.su/music/rocket_ru/INTERGALACTIC/01-tagger.mp3"
+        "title": "УБИТЫЙ",
+        "duration": "02:09",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON/01-ubityj.mp3"
+      },
+      {
+        "id": "t108",
+        "title": "ЧИТАЮ О ДРАГАХ",
+        "duration": "02:20",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON/02-chitaju_o_dragakh.mp3"
+      },
+      {
+        "id": "t109",
+        "title": "НА МНЕ КЭШ (feat. LILDRUGHILL)",
+        "duration": "02:50",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON/03-na_mne_kehsh-feat-lildrughill.mp3"
+      },
+      {
+        "id": "t110",
+        "title": "ПЕРВЫЙ (feat. Yanix)",
+        "duration": "02:59",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON/04-pervyj-feat-yanix.mp3"
+      },
+      {
+        "id": "t111",
+        "title": "4276 3800 1921 1056 (feat. OFFMi)",
+        "duration": "02:43",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON/05-4276_3800_1921_1056-feat-OFFMi-.mp3"
+      },
+      {
+        "id": "t112",
+        "title": "BOUND TRAP (feat. MARCO-9)",
+        "duration": "01:36",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON/06-BOUND_TRAP-feat-MARCO-9-.mp3"
+      },
+      {
+        "id": "t113",
+        "title": "FREESTYLE DOPE (feat. Платина)",
+        "duration": "03:12",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON/07-freestyle_dope-feat-platina.mp3"
+      },
+      {
+        "id": "t114",
+        "title": "FREESTYLE SHMOUK (feat. lil krystalll)",
+        "duration": "03:40",
+        "url": "https://name.moy.su/music/rocket_ru/SWAGSEASON/08-FREESTYLE_SHMOUK-feat-lil_krystalll-.mp3"
       }
     ]
   }
