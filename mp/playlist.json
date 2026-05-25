@@ -926,27 +926,58 @@
     "title": "Tsukuyomi Dream",
     "artist": "ROCKET",
     "type": "ep",
+    "tag": "U",
     "year": "2019",
     "genre": "Hip-Hop/Rap",
-    "cover": "null",
+    "cover": "https://name.moy.su/music/rocket_ru/TsukuyomiDream/Front_1000x1000.jpg",
     "tracks": [
       {
         "id": "t127",
         "title": "Infinite Tsukuyomi",
-        "duration": "02:58",
-        "url": "AAAAA"
+        "duration": "03:24",
+        "url": "https://name.moy.su/music/rocket_ru/TsukuyomiDream/01-Infinite_Tsukuyomi.mp3"
       },
       {
         "id": "t128",
         "title": "LUV",
-        "duration": "02:58",
-        "url": "AAAAA"
+        "duration": "03:15",
+        "url": "https://name.moy.su/music/rocket_ru/TsukuyomiDream/02-LUV.mp3"
       },
       {
         "id": "t129",
         "title": "Money",
         "duration": "02:58",
-        "url": "AAAAA"
+        "url": "https://name.moy.su/music/rocket_ru/TsukuyomiDream/03-Money.mp3"
+      }
+    ]
+  },
+  {
+    "id": "album-16",
+    "title": "Supreme Swings",
+    "artist": "ROCKET",
+    "type": "mixtape",
+    "tag": "U",
+    "year": "2020",
+    "genre": "Hip-Hop/Rap",
+    "cover": "https://name.moy.su/music/rocket_ru/SupremeSwings/Front_1000x1000.jpg",
+    "tracks": [
+      {
+        "id": "t130",
+        "title": "AAAAAAA",
+        "duration": "0:",
+        "url": "AAAAAA"
+      },
+      {
+        "id": "t131",
+        "title": "AAAAAAA",
+        "duration": "0:",
+        "url": "AAAAAA"
+      },
+      {
+        "id": "t132",
+        "title": "AAAAAAA",
+        "duration": "0:",
+        "url": "AAAAAA"
       }
     ]
   }
