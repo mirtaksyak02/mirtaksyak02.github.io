@@ -963,21 +963,57 @@
     "tracks": [
       {
         "id": "t130",
-        "title": "AAAAAAA",
-        "duration": "0:",
-        "url": "AAAAAA"
+        "title": "Goloden (feat. FRESCO)",
+        "duration": "02:53",
+        "url": "https://name.moy.su/music/rocket_ru/SupremeSwings/01-Goloden-feat-FRESCO-.mp3"
       },
       {
         "id": "t131",
-        "title": "AAAAAAA",
-        "duration": "0:",
-        "url": "AAAAAA"
+        "title": "Money Flow",
+        "duration": "02:15",
+        "url": "https://name.moy.su/music/rocket_ru/SupremeSwings/02-Money_Flow.mp3"
       },
       {
         "id": "t132",
-        "title": "AAAAAAA",
-        "duration": "0:",
-        "url": "AAAAAA"
+        "title": "Ploho Vospitan",
+        "duration": "02:17",
+        "url": "https://name.moy.su/music/rocket_ru/SupremeSwings/03-Ploho_Vospitan.mp3"
+      },
+      {
+        "id": "t133",
+        "title": "STFU (feat. Showbiz School)",
+        "duration": "03:23",
+        "url": "https://name.moy.su/music/rocket_ru/SupremeSwings/04-STFU-feat-Showbiz_School-.mp3"
+      },
+      {
+        "id": "t134",
+        "title": "Raw Papers",
+        "duration": "02:51",
+        "url": "https://name.moy.su/music/rocket_ru/SupremeSwings/05-Raw_Papers.mp3"
+      },
+      {
+        "id": "t135",
+        "title": "Good Times",
+        "duration": "02:05",
+        "url": "https://name.moy.su/music/rocket_ru/SupremeSwings/06-Good_Times.mp3"
+      },
+      {
+        "id": "t136",
+        "title": "Vetements, Balmain (feat. LILDRUGHILL)",
+        "duration": "02:37",
+        "url": "https://name.moy.su/music/rocket_ru/SupremeSwings/07-Vetements-Balmain-feat-LILDRUGHILL-.mp3"
+      },
+      {
+        "id": "t137",
+        "title": "Fine Shine",
+        "duration": "02:24",
+        "url": "https://name.moy.su/music/rocket_ru/SupremeSwings/08-Fine_Shine.mp3"
+      },
+      {
+        "id": "t138",
+        "title": "Panic Attacks",
+        "duration": "02:42",
+        "url": "https://name.moy.su/music/rocket_ru/SupremeSwings/09-Panic_Attacks.mp3"
       }
     ]
   }
