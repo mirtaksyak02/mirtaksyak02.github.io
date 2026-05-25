@@ -1016,5 +1016,59 @@
         "url": "https://name.moy.su/music/rocket_ru/SupremeSwings/09-Panic_Attacks.mp3"
       }
     ]
+  },
+  {
+    "id": "album-17",
+    "title": "Aeon Values",
+    "artist": "ROCKET",
+    "type": "mixtape",
+    "tag": "U",
+    "year": "2020",
+    "genre": "Hip-Hop/Rap",
+    "cover": "https://name.moy.su/music/rocket_ru/AeonValues/Front_1000x1000.jpg",
+    "tracks": [
+      {
+        "id": "t139",
+        "title": "She Wants",
+        "duration": "0:",
+        "url": "AAAAAAAAAAA"
+      },
+      {
+        "id": "t140",
+        "title": "Baby",
+        "duration": "0:",
+        "url": "AAAAAAAAAAA"
+      },
+      {
+        "id": "t141",
+        "title": "Lifestyle (feat. FRESCO)",
+        "duration": "0:",
+        "url": "AAAAAAAAAAA"
+      },
+      {
+        "id": "t142",
+        "title": "A A A (feat. LILDRUGHILL)",
+        "duration": "0:",
+        "url": "AAAAAAAAAAA"
+      },
+      {
+        "id": "t143",
+        "title": "Left, Right (feat. Showbiz School)",
+        "duration": "0:",
+        "url": "AAAAAAAAAAA"
+      },
+      {
+        "id": "t144",
+        "title": "Perfect World",
+        "duration": "0:",
+        "url": "AAAAAAAAAAA"
+      },
+      {
+        "id": "t145",
+        "title": "Drive Home",
+        "duration": "0:",
+        "url": "AAAAAAAAAAA"
+      }
+    ]
   }
 ]
