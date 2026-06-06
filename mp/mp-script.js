@@ -402,13 +402,16 @@ audioPlayer.addEventListener('timeupdate', () => {
         const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
         progressBar.value = progress;
         currentTimeText.textContent = formatTime(audioPlayer.currentTime);
-        progressBar.style.background = `linear-gradient(to right, #71ffa3 0%, #1db954 ${progress}%, #404040 ${progress}%, #404040 100%)`;
+        progressBar.style.background = `linear-gradient(to bottom, transparent 5px, #71ffa3 5px, #1db954 ${progress}%, #404040 ${progress}%, #404040 8px, transparent 8px) no-repeat`;
+        progressBar.style.backgroundSize = '100% 100%';
+    
     }
 });
 
 // Получение длины трека после его загрузки
 audioPlayer.addEventListener('loadedmetadata', () => {
     totalTimeText.textContent = formatTime(audioPlayer.duration);
+    progressBar.style.background = `linear-gradient(to bottom, transparent 5px, #71ffa3 5px, #1db954 0%, #404040 0%, #404040 8px, transparent 8px) no-repeat`;
 });
 
 // ПОЛНОСТЬЮ ДОПИСАННЫЙ ХВОСТ КОДА:
