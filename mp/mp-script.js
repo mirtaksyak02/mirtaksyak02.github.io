@@ -402,7 +402,7 @@ audioPlayer.addEventListener('timeupdate', () => {
         const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
         progressBar.value = progress;
         currentTimeText.textContent = formatTime(audioPlayer.currentTime);
-        progressBar.style.background = `linear-gradient(to right, #1db954 ${progress}%, #404040 ${progress}%)`;
+        progressBar.style.background = `linear-gradient(to right, #1db954 0%, #ffcc00 ${progress}%, #404040 ${progress}%, #404040 100%)`;
     }
 });
 
