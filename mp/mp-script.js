@@ -285,16 +285,22 @@ function playTrack(track, index, tracksList, artistName) {
 
 function playNextTrack() {
     if (currentAlbumTracks.length === 0 || currentTrackIndex === -1) return;
-
     const nextIndex = currentTrackIndex + 1;
-
+    
     if (nextIndex < currentAlbumTracks.length) {
-        const artistName = albumsData.find(a => a.tracks.includes(currentAlbumTracks[nextIndex]))?.artist || "Исполнитель";
-        playTrack(currentAlbumTracks[nextIndex], nextIndex, currentAlbumTracks, artistName);
+        const nextTrack = currentAlbumTracks[nextIndex];
+        
+        // Если у трека есть сохраненный автор (из перемешанного списка), берем его. 
+        // Если нет — ищем стандартным способом через альбомы.
+        const artistName = nextTrack.albumArtist || 
+                           albumsData.find(a => a.tracks.includes(nextTrack))?.artist || 
+                           "Исполнитель";
+                           
+        playTrack(nextTrack, nextIndex, currentAlbumTracks, artistName);
     } else {
         // Альбом полностью завершился сам:
-        // 1. Меняем иконку на панели на "Плей" (▶)
-        masterPlayBtn.textContent = '▶'; 
+        // Меняем иконку на панели на "Плей" (▶)
+        masterPlayBtn.textContent = '▶';
         
         // Просто оставляем текущий индекс равным длине массива (сигнал, что мы в конце)
         currentTrackIndex = currentAlbumTracks.length; 
@@ -334,10 +340,16 @@ nextBtn.addEventListener('click', () => {
 
         // Переключаем, только если индекс не выходит за пределы массива
         if (nextIndex < currentAlbumTracks.length) {
-            const artistName = albumsData.find(a => a.tracks.includes(currentAlbumTracks[nextIndex]))?.artist || "Исполнитель";
-            playTrack(currentAlbumTracks[nextIndex], nextIndex, currentAlbumTracks, artistName);
+            const nextTrack = currentAlbumTracks[nextIndex];
             
-            // Фикс: принудительно обновляем иконки в списке
+            // Берем имя артиста из самого трека или из альбома
+            const artistName = nextTrack.albumArtist || 
+                               albumsData.find(a => a.tracks.includes(nextTrack))?.artist || 
+                               "Исполнитель";
+                               
+            playTrack(nextTrack, nextIndex, currentAlbumTracks, artistName);
+
+            // Принудительно обновляем иконки в списке
             updateTrackListIcons(); 
         }
     }
@@ -346,10 +358,16 @@ nextBtn.addEventListener('click', () => {
 prevBtn.addEventListener('click', () => {
     if (currentTrackIndex > 0) {
         const prevIndex = currentTrackIndex - 1;
-        const artistName = albumsData.find(a => a.tracks.includes(currentAlbumTracks[prevIndex]))?.artist || "Исполнитель";
-        playTrack(currentAlbumTracks[prevIndex], prevIndex, currentAlbumTracks, artistName);
+        const prevTrack = currentAlbumTracks[prevIndex];
         
-        // Фикс: принудительно обновляем иконки в списке
+        // Берем имя артиста из самого трека или из альбома
+        const artistName = prevTrack.albumArtist || 
+                           albumsData.find(a => a.tracks.includes(prevTrack))?.artist || 
+                           "Исполнитель";
+                           
+        playTrack(prevTrack, prevIndex, currentAlbumTracks, artistName);4
+
+        // Принудительно обновляем иконки в списке
         updateTrackListIcons(); 
     }
 });
