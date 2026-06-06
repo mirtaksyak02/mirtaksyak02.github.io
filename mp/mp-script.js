@@ -75,11 +75,11 @@ async function init() {
 }
 
 function showAlbumsGrid() {
+    // Обнуление позиции прокрутки
+    setTimeout(() => { window.scrollTo(0, 0); }, 50);
+    
     // Очищаем URL-параметры при возврате на главную
     window.history.pushState({}, '', window.location.pathname);
-
-    // Обнуление позиции прокрутки для Android
-    setTimeout(() => { window.scrollTo(0, 0); }, 50);
     
     backBtn.style.display = 'none';
     albumHeader.style.display = 'none';
