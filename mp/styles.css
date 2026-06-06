@@ -471,7 +471,6 @@ audio {
     height: 3px;
     cursor: pointer;
     outline: none;
-    background: transparent;
     /* accent-color: #1db954; */
     overflow: visible !important; 
     margin: 0 !important;
@@ -497,7 +496,6 @@ audio {
     height: 10px;
     border-radius: 50% !important;
     background-color: #1db954 !important;
-    cursor: pointer;
     position: relative;
     top: -3.5px; 
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
