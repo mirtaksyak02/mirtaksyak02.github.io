@@ -57,13 +57,27 @@ async function init() {
     try {
         const response = await fetch('./playlist.json');
         albumsData = await response.json();
-        showAlbumsGrid(); // Показываем сетку альбомов
+        
+        // Проверяем, есть ли в URL параметр альбома
+        const urlParams = new URLSearchParams(window.location.search);
+        const albumIdFromUrl = urlParams.get('album');
+
+        // Если параметр есть, и такой альбом существует в базе — открываем его
+        if (albumIdFromUrl && albumsData.some(a => a.id === albumIdFromUrl)) {
+            openAlbum(albumIdFromUrl);
+        } else {
+            // Иначе просто показываем главную страницу
+            showAlbumsGrid(); 
+        }
     } catch (error) {
         console.error('Ошибка загрузки данных:', error);
     }
 }
 
 function showAlbumsGrid() {
+    // Очищаем URL-параметры при возврате на главную
+    window.history.pushState({}, '', window.location.pathname);
+
     // Обнуление позиции прокрутки для Android
     setTimeout(() => { window.scrollTo(0, 0); }, 50);
     
@@ -127,7 +141,11 @@ function openAlbum(albumId) {
     
     const album = albumsData.find(a => a.id === albumId);
     if (!album) return;
-
+    
+    // Дописываем ?album=ID_АЛЬБОМА в адресную строку браузера
+    const newUrl = `${window.location.pathname}?album=${albumId}`;
+    window.history.pushState({ albumId: albumId }, '', newUrl);
+    
     pageTitle.style.display = 'none';
     searchContainer.style.setProperty('display', 'none', 'important');
     backBtn.style.display = 'block';
@@ -479,6 +497,18 @@ function shuffleAllTracks() {
 
 // Навешиваем клик на кнопку Shuffle
 shuffleAllBtn.addEventListener('click', shuffleAllTracks);
+
+// "Прослушивание" системных кнопок "назад" и "вперед" в браузере
+window.addEventListener('popstate', (event) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const albumId = urlParams.get('album');
+    
+    if (albumId) {
+        openAlbum(albumId);
+    } else {
+        showAlbumsGrid();
+    }
+});
 
 // Запуск приложения
 window.onload = init;
