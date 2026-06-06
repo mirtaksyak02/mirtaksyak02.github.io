@@ -427,5 +427,39 @@ searchInput.addEventListener('input', () => {
     showAlbumsGrid(); // Просто перерисовываем сетку с учетом нового фильтра
 });
 
+// Функция генерации случайного плейлиста из всех релизов
+function shuffleAllTracks() {
+    let allTracks = [];
+
+    // Собираем абсолютно все треки из каждого релиза базы данных
+    albumsData.forEach(album => {
+        album.tracks.forEach(track => {
+            // Чтобы плеер не запутался в именах авторов компиляций, 
+            // временно привяжем имя артиста релиза прямо к объекту трека
+            allTracks.push({
+                ...track,
+                albumArtist: album.artist
+            });
+        });
+    });
+
+    if (allTracks.length === 0) return;
+
+    // Алгоритм случайного перемешивания
+    for (let i = allTracks.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allTracks[i], allTracks[j]] = [allTracks[j], allTracks[i]];
+    }
+
+    // Формирование плейлиста для плеера; запуск самого первого (случайного) трека
+    const firstRandomTrack = allTracks[0];
+    
+    // Передаем сформированный случайный массив в наш стандартный плеер
+    playTrack(firstRandomTrack, 0, allTracks, firstRandomTrack.albumArtist);
+}
+
+// Навешиваем клик на кнопку Shuffle
+shuffleAllBtn.addEventListener('click', shuffleAllTracks);
+
 // Запуск приложения
 window.onload = init;
