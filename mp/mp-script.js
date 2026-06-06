@@ -73,7 +73,7 @@ function showAlbumsGrid() {
     pageTitle.textContent = 'RARETENOR'; 
     
     // Включаем видимость поиска на главном экране
-    searchContainer.style.display = 'block'; 
+    searchContainer.style.display = 'flex'; 
     
     contentArea.className = 'albums-grid'; 
     contentArea.innerHTML = '';
