@@ -572,13 +572,12 @@ audio {
 }*/
 
 .search-row-container {
+    display: flex;
     max-width: 600px;
     margin: 0 auto 25px auto;
     padding: 0 10px;
-    display: flex !important;
-    flex-direction: row !important;
     gap: 12px;
-    align-items: center !important;
+    align-items: center;
     box-sizing: border-box;
 }
 
@@ -591,7 +590,8 @@ audio {
 /* Фикс для мобильных: теперь на телефонах они НЕ будут падать друг под друга, а останутся в ряд */
 @media (max-width: 480px) {
     .search-row-container {
-        flex-direction: row !important;
-        align-items: center !important;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
     }
 }
