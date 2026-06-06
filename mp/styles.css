@@ -471,7 +471,7 @@ audio {
     height: 3px;
     cursor: pointer;
     outline: none;
-    background: #404040;
+    background: transparent;
     /* accent-color: #1db954; */
     overflow: visible !important; 
     margin: 0 !important;
@@ -479,6 +479,14 @@ audio {
     border: none !important;
     -webkit-appearance: none;
     appearance: none;
+}
+
+/* RUNNABLE-TRACK ДЛЯ CHROME, OPERA, EDGE */
+/* Настройка самой дорожки, по которой катится кружок */
+#progress-bar::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 3px;
+    background: #404040; 
 }
 
 /* СТИЛИЗАЦИЯ ПОЛЗУНКА-КРУГА (ДЛЯ CHROME, OPERA, EDGE, SAFARI) */
@@ -491,13 +499,26 @@ audio {
     background-color: #1db954 !important;
     cursor: pointer;
     position: relative;
-    top: 0px; 
+    top: -3.5px; 
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     transition: transform 0.1s ease;
 }
 
 #progress-bar:hover::-webkit-slider-thumb {
     transform: scale(1.5);
+}
+
+/* RANGE-TRACK ДЛЯ CHROME, OPERA, EDGE */
+/* Настройка самой дорожки, по которой катится кружок */
+#progress-bar::-moz-range-track {
+    width: 100%;
+    height: 3px;
+    background: #404040;
+}
+
+#progress-bar::-moz-range-progress {
+    height: 3px;
+    background-color: #1db954;
 }
 
 /* СТИЛИЗАЦИЯ ПОЛЗУНКА-КРУГА (ДЛЯ FIREFOX) */
@@ -508,8 +529,6 @@ audio {
     border-radius: 50% !important;
     background-color: #1db954 !important;
     cursor: pointer;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-    transition: transform 0.1s ease;
 }
 
 #progress-bar:hover::-moz-range-thumb {
