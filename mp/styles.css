@@ -432,11 +432,11 @@ audio {
 /* Таймлайн / Ползунок прогресса */
 .progress-container {
     position: absolute;
-    top: -5px;
+    top: 0;
     left: 0;
     right: 0;
     width: 100%;
-    height: 14px;
+    height: 3px;
     padding: 0;
     margin: 0;
     display: flex;
@@ -468,11 +468,12 @@ audio {
 
 #progress-bar {
     width: 100%;
-    height: 14px;
+    height: 3px;
     cursor: pointer;
     outline: none;
-    background: transparent;
-    accent-color: #1db954;
+    background: #404040;
+    /* accent-color: #1db954; */
+    overflow: visible !important; 
     margin: 0 !important;
     padding: 0 !important;
     border: none !important;
@@ -489,7 +490,8 @@ audio {
     border-radius: 50% !important;
     background-color: #1db954 !important;
     cursor: pointer;
-    margin-top: 0px;
+    position: relative;
+    top: 0px; 
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     transition: transform 0.1s ease;
 }
@@ -516,7 +518,7 @@ audio {
 
 #current-time, #total-time {
     position: absolute;
-    top: 14px; /* Смещаем вниз */
+    top: 14px;
     font-size: 11px;
     color: #727272;
     font-family: monospace;
