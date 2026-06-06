@@ -470,11 +470,11 @@ audio {
     height: 3px;
     cursor: pointer;
     background: #404040;
-    border: none;
-    margin: 0;
-    padding: 0;
     outline: none;
     accent-color: #1db954;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
     -webkit-appearance: none;
     appearance: none;
 }
@@ -486,13 +486,14 @@ audio {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: #1db954;
+    accent-color: #1db954;
     cursor: pointer;
+    margin-top: 0px; 
     transition: transform 0.1s ease;
 }
 
 #progress-bar:hover::-webkit-slider-thumb {
-    transform: scale(1.3);
+    transform: scale(1.5);
 }
 
 /* СТИЛИЗАЦИЯ ПОЛЗУНКА-КРУГА (ДЛЯ FIREFOX) */
@@ -501,20 +502,38 @@ audio {
     height: 10px;
     border: none;
     border-radius: 50%;
-    background-color: #1db954;
+    accent-color: #1db954;
     cursor: pointer;
     transition: transform 0.1s ease;
 }
 
 #progress-bar:hover::-moz-range-thumb {
-    transform: scale(1.3);
+    transform: scale(1.5);
+}
+
+#current-time, #total-time {
+    position: absolute;
+    top: 10px; /* Смещаем на 10 пикселей вниз */
+    font-size: 11px;
+    color: #727272;
+    font-family: monospace;
+    pointer-events: none;
+}
+
+#current-time {
+    left: 20px; /* Отступ от левого края экрана */
+}
+
+/* Общее время — строго в правый угол */
+#total-time {
+    right: 20px; /* Отступ от правого края экрана */
 }
 
 #volume-bar {
     width: 100%;
 }
 
-/* Делаем плашку играющего трека слегка зеленой */
+/* Плашка играющего трека */
 .track-item.is-playing {
     background-color: #0d3a1b !important; /* Глубокий темно-зеленый оттенок фона */
     border: 1px solid #1db954; /* Тонкая яркая рамка, чтобы подчеркнуть строку */
