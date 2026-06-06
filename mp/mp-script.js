@@ -29,6 +29,7 @@ const totalTimeText = document.getElementById('total-time');
 const volumeBar = document.getElementById('volume-bar');
 const searchContainer = document.getElementById('search-container');
 const searchInput = document.getElementById('search-input');
+const shuffleAllBtn = document.getElementById('shuffle-all-btn');
 
 // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 // Исправленный авто-конвертер ссылок
