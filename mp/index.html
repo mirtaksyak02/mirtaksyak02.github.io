@@ -63,20 +63,22 @@
         <!-- Контроль громкости (НАМЕРТВО ПРИЖАТ СПРАВА С ТАКИМ ЖЕ ДИЗАЙНОМ) -->
         <div class="volume-container">
             <!-- Твоя иконка динамика -->
-            <span class="volume-icon">〣</span>
+            <button id="volume-toggle-btn" class="volume-toggle-btn">
+                <span class="volume-icon">〣</span>
+            </button>
             
-            <!-- Кастомная дорожка громкости со шлейфом и кружком -->
-            <div class="custom-volume-track">
-                <div id="custom-volume-fill" class="custom-volume-fill">
-                    <div class="custom-volume-thumb"></div>
+            <!-- Интерактивная зона с дорожкой и ползунком -->
+            <div id="volume-slider-wrapper" class="volume-slider-wrapper">
+                <div class="custom-volume-track">
+                    <div id="custom-volume-fill" class="custom-volume-fill">
+                        <div class="custom-volume-thumb"></div>
+                    </div>
                 </div>
+                <!-- Невидимый ползунок поверх для считывания кликов -->
+                <input type="range" id="volume-bar" min="0" max="100" value="70">
             </div>
-            
-            <!-- Невидимый ползунок поверх для считывания кликов -->
-            <input type="range" id="volume-bar" min="0" max="100" value="70">
         </div>
     </div>
-</div>
 
     <script src="mp-script.js"></script>
 </body>
