@@ -499,7 +499,6 @@ audio {
     position: absolute;
     right: 20px; 
     bottom: 6px; 
-    transform: translateY(-5px);
 }
 
 .volume-icon {
