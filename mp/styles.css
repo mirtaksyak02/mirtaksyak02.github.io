@@ -908,16 +908,37 @@ audio {
         transform: translate(-50%, -50%);
     }
     
+    .album-header {
+        flex-direction: column !important; /* Обложка сверху, текст снизу */
+        align-items: flex-start !important; /* Прижимаем элементы к левому краю */
+        gap: 15px !important; /* Уменьшаем отступ между обложкой и текстом */
+        margin-bottom: 20px !important;
+    }
+
+    .album-info-text {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 0 !important;
+    }
+    
     .album-info-text h2,
     .album-info-text .album-title-header {
-        font-size: 24px !important; /* Уменьшаем шрифт на телефонах для аккуратности */
-        margin: 6px 0 10px 0 !important;
+        font-size: 22px !important; 
+        line-height: 1.3 !important;
+        display: inline-block !important; /* Возвращаем аккуратный размер плашке Альбом */
+        width: auto !important;
+        white-space: normal !important;
+        word-break: normal !important;
+        word-wrap: break-word !important;
     }
 }
 
 @media (max-width: 480px) {
     .album-info-text h2,
     .album-info-text .album-title-header {
-        font-size: 20px !important;
+        font-size: 18px !important;
+        line-height: 1.3 !important;
+        white-space: normal !important;   /* Защита: разрешаем падать вниз */
+        word-wrap: break-word !important; /* Защита: перенос целыми словами */
     }
 }
