@@ -238,22 +238,31 @@ audio {
 }
 
 .album-title-header {
-    display: flow;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px; /* Отступ между названием релиза и значком */
-    font-size: 36px;
-    margin: 5px 0;
+    display: block;
+    width: 100%;
+    margin: 5px 0 10px 0;
     line-height: 1.2;
+    font-size: 32px; 
+    font-weight: 700;
+    color: #ffffff;
+    white-space: normal !important; /* Текст будет переноситься на новые строки */
+    word-wrap: break-word;          /* Защита от слишком длинных слов */
+    overflow: visible !important;   /* Ничего не прячем и не обрезаем */
+    text-overflow: clip !important; /* Убираем троеточие */
 }
 
 /* Корректировка размеров значков для крупного заголовка шапки */
 .album-title-header .header-tag {
+    /* ТВОИ оригинальные настройки масштаба и отступа */
     transform: scale(1.3);
     margin-left: 5px;
-    transform-origin: left center;
-    top: -10px;
+    display: inline-flex !important; 
+    vertical-align: middle; 
+    position: relative;
+    top: -2px;
+    flex-shrink: 0 !important;
 }
+
 .album-large-cover {
     width: 180px;
     height: 180px;
