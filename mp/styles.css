@@ -497,11 +497,11 @@ audio {
 }
 
 .volume-container:hover .custom-volume-thumb {
-    transform: translate(50%, -50%) scale(1.3);
+    transform: translate(50%, -50%) scale(1.25);
 }
 
 .progress-container:hover .custom-thumb {
-    transform: translate(50%, -50%) scale(1.3);
+    transform: translate(50%, -50%) scale(1.25);
 }
 
 .volume-container {
