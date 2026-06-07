@@ -950,6 +950,44 @@ audio {
         word-break: normal !important;
         word-wrap: break-word !important;
     }
+
+        .albums-grid {
+        display: grid !important;
+        /* Ровно две колонки, которые делят экран пополам */
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 12px !important; /* Небольшой аккуратный зазор между карточками */
+        padding: 10px !important;
+        box-sizing: border-box;
+    }
+
+    /* Адаптируем сами карточки под новую компактную сетку */
+    .album-card {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 10px !important;
+        background-color: #181818;
+        border-radius: 6px;
+        box-sizing: border-box;
+    }
+
+    /* Корректируем обложки карточек, чтобы они оставались квадратными */
+    .album-card img {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1 !important; /* Идеальный квадрат */
+        border-radius: 4px;
+        object-fit: cover;
+    }
+
+    /* Делаем шрифты названий на главной чуть компактнее под два ряда */
+    .album-card h3 {
+        font-size: 13px !important;
+        margin: 6px 0 2px 0 !important;
+    }
+
+    .album-card p {
+        font-size: 11px !important;
+    }
 }
 
 @media (max-width: 480px) {
