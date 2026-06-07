@@ -184,12 +184,14 @@ function openAlbum(albumId) {
     }
     
     albumHeader.innerHTML = `
-        <img src="${album.cover}" alt="${album.title}" loading="lazy" decoding="async" class="album-large-cover">
+        <img src="${album.cover}" alt="${album.title}" class="album-large-cover" loading="lazy" decoding="async">
         <div class="album-info-text">
             <span class="badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
-            <!-- Добавляем тег сразу после большого названия релиза -->
             <h2 class="album-title-header">${album.title} ${tagHtml}</h2>
-            <p class="meta">${album.artist} • ${album.year} • ${album.genre}</p>
+            <p class="meta">
+                <span class="artist-link" onclick="openArtistProfile('${album.artist.replace(/'/g, "\\'")}')">${album.artist}</span> 
+                • ${album.year} • ${album.genre}
+            </p>
         </div>
     `;
 
@@ -620,5 +622,87 @@ if (mobileVolumePopup) {
     });
 }
 
-// Запуск приложения
+function openArtistProfile(artistName) {
+    // 1. Скроллим наверх без анимации
+    window.scrollTo({ top: 0, behavior: 'instant' });
+
+    // 2. Настраиваем видимость элементов (Заголовок RARETENOR прячем, кнопку Назад включаем)
+    pageTitle.style.display = 'none';
+    searchContainer.style.display = 'none'; 
+    backBtn.style.display = 'block';
+    
+    // Шапку альбома прячем, так как у артиста будет своя собственная шапка
+    albumHeader.style.display = 'none'; 
+
+    // 3. Отбираем все релизы конкретного артиста
+    const artistReleases = albumsData.filter(album => album.artist.toLowerCase() === artistName.toLowerCase());
+    
+    if (artistReleases.length === 0) return;
+
+    // 4. Сортируем релизы от самого свежего к самому старому (по убыванию года)
+    artistReleases.sort((a, b) => parseInt(b.year) - parseInt(a.year));
+
+    // В качестве баннера берем обложку самого свежего релиза (первого в отсортированном массиве)
+    const latestCover = artistReleases[0].cover;
+
+    // 5. Очищаем рабочую область и переключаем класс на кастомный профиль
+    contentArea.className = 'artist-profile-view';
+    contentArea.innerHTML = '';
+
+    // 6. Генерируем красивую шапку артиста с бэкграунд-баннером
+    const artistHeaderHtml = `
+        <div class="artist-banner-zone" style="background-image: linear-gradient(to bottom, rgba(18,18,18,0.4), #121212), url('${latestCover}');">
+            <h1 class="artist-profile-name">${artistName.toUpperCase()}</h1>
+        </div>
+    `;
+    
+    // Разделяем релизы на категории
+    const fullAlbums = artistReleases.filter(r => r.type === 'album' || r.type === 'mixtape');
+    const singlesAndEps = artistReleases.filter(r => r.type === 'single' || r.type === 'ep' || r.type === 'maxi-single');
+
+    let contentHtml = artistHeaderHtml;
+
+    // 7. Отрисовываем блок "Альбомы и микстейпы" (если они есть)
+    if (fullAlbums.length > 0) {
+        contentHtml += `<h2 class="artist-section-title">Альбомы и микстейпы</h2>`;
+        contentHtml += `<div class="albums-grid">`;
+        fullAlbums.forEach(album => {
+            contentHtml += generateMiniCardHtml(album);
+        });
+        contentHtml += `</div>`;
+    }
+
+    // 8. Отрисовываем блок "Синглы и EP" (если они есть)
+    if (singlesAndEps.length > 0) {
+        contentHtml += `<h2 class="artist-section-title">Синглы и EP</h2>`;
+        contentHtml += `<div class="albums-grid">`;
+        singlesAndEps.forEach(album => {
+            contentHtml += generateMiniCardHtml(album);
+        });
+        contentHtml += `</div>`;
+    }
+
+    contentArea.innerHTML = contentHtml;
+}
+
+// Помощник для генерации кода карточки (чтобы не дублировать код циклов)
+function generateMiniCardHtml(album) {
+    let tagHtml = '';
+    if (album.tag && album.tag.toLowerCase() === 'explicit') {
+        tagHtml = '<span class="tag-explicit">E</span>';
+    } else if (album.tag) {
+        tagHtml = `<span class="tag-custom">${album.tag.toUpperCase()}</span>`;
+    }
+
+    return `
+        <div class="album-card" onclick="openAlbum('${album.id}')">
+            <img src="${album.cover}" alt="${album.title}" loading="lazy" decoding="async">
+            <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
+            <h3>${album.title} ${tagHtml}</h3>
+            <p>${album.year}</p>
+        </div>
+    `;
+}
+
+// Старт
 window.onload = init;
