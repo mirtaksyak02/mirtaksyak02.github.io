@@ -506,6 +506,7 @@ audio {
     color: #ffffff;
     user-select: none;
     line-height: 1;
+    transform: translateY(4px);
 }
 
 /* Общие кастомные настройки для инпутов-ползунков */
