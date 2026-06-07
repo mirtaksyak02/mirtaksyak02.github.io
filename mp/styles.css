@@ -117,13 +117,13 @@ h1 {
 /* Контейнер-окошко, ограничивающий видимость */
 .now-playing-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 450px;
     overflow: hidden;
-    margin-bottom: 8px;
+    position: relative;
     height: 20px;
-    
+    margin-bottom: 12px;
     display: flex;
-    justify-content: flex-start; /* Убираем center! Только от левого края */
+    justify-content: center;
     align-items: center;
 }
 
@@ -373,7 +373,6 @@ audio {
     display: flex;
     align-items: center;
     gap: 20px;
-    margin-bottom: 8px;
 }
 
 .ctrl-btn {
@@ -462,6 +461,45 @@ audio {
     pointer-events: none;
 }
 
+/* Серая дорожка громкости */
+.custom-volume-track {
+    flex-grow: 1;
+    height: 4.5px;
+    background-color: #404040;
+    position: relative;
+    overflow: visible;
+    pointer-events: none;
+}
+
+/* Зеленый шлейф громкости */
+.custom-volume-fill {
+    width: 70%;
+    height: 100%;
+    background-color: #1db954;
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: visible;
+}
+
+/* Кружок громкости (один в один как у времени) */
+.custom-volume-thumb {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #1db954;
+    box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    transform: translate(50%, -50%);
+    transition: transform 0.1s ease;
+}
+
+.volume-container:hover .custom-volume-thumb {
+    transform: translate(50%, -50%) scale(1.35);
+}
+
 .progress-container:hover .custom-thumb {
     transform: translate(50%, -50%) scale(1.35);
 }
@@ -469,13 +507,17 @@ audio {
 .volume-container {
     display: flex;
     align-items: center;
-    gap: 8px;
-    width: 130px; /* Фиксированная ширина для зоны громкости */
+    gap: 12px;
+    width: 150px;
+    position: absolute;
+    right: 20px;
+    bottom: 6px;
 }
 
 .volume-icon {
-    font-size: 16px;
+    font-size: 14px;
     color: #ffffff;
+    user-select: none;
     line-height: 1;
 }
 
@@ -545,12 +587,35 @@ audio {
 }
 
 #volume-bar {
-    accent-color: #1db954;
-    height: 4px;
+    position: absolute;
+    right: 0;
+    bottom: 50%;
+    transform: translateY(50%);
+    width: 122px;
+    height: 14px;
+    background: transparent !important;
     cursor: pointer;
-    background: #404040;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-appearance: none;
+    appearance: none;
+    z-index: 5;
+}
+
+#volume-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: transparent !important;
+}
+
+#volume-bar::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: transparent !important;
     border: none;
-    width: 100%;
 }
 
 /* Плашка играющего трека */
@@ -678,4 +743,13 @@ audio {
         flex-direction: row;
         align-items: center;
     }
+}
+
+.player-controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 15px;
+    position: relative;
 }
