@@ -329,142 +329,119 @@ function playNextTrack() {
 }
 
 // 6. СОБЫТИЯ И ИНТЕРФЕЙС УПРАВЛЕНИЯ
-masterPlayBtn.addEventListener('click', () => {
-    if (currentAlbumTracks.length === 0 || currentTrackIndex === -1) return; 
-    
-    // ПРОВЕРКА: Если альбом доиграл до конца и мы нажимаем Плей
-    if (currentTrackIndex === currentAlbumTracks.length) {
-        // Сбрасываем индекс на самый первый трек
-        const firstTrack = currentAlbumTracks[0];
-        const artistName = albumsData.find(a => a.tracks.includes(firstTrack))?.artist || "Исполнитель";
+if (masterPlayBtn) {
+    masterPlayBtn.addEventListener('click', () => {
+        if (currentAlbumTracks.length === 0 || currentTrackIndex === -1) return; 
         
-        // Запускаем первую песню заново
-        playTrack(firstTrack, 0, currentAlbumTracks, artistName);
-        return; // Выходим из функции, так как playTrack сам всё включит
-    }
-
-    // Обычная логика Плей / Пауза в процессе прослушивания
-    if (audioPlayer.paused) {
-        audioPlayer.play();
-        masterPlayBtn.textContent = '❙❙'; 
-    } else {
-        audioPlayer.pause();
-        masterPlayBtn.textContent = '▶'; 
-    }
-    updateTrackListIcons();
-});
-
-nextBtn.addEventListener('click', () => {
-    // Проверяем, есть ли вообще следующий трек в списке
-    if (currentAlbumTracks.length > 0 && currentTrackIndex !== -1) {
-        const nextIndex = currentTrackIndex + 1;
-
-        // Переключаем, только если индекс не выходит за пределы массива
-        if (nextIndex < currentAlbumTracks.length) {
-            const nextTrack = currentAlbumTracks[nextIndex];
-            
-            // Берем имя артиста из самого трека или из альбома
-            const artistName = nextTrack.albumArtist || 
-                               albumsData.find(a => a.tracks.includes(nextTrack))?.artist || 
-                               "Исполнитель";
-                               
-            playTrack(nextTrack, nextIndex, currentAlbumTracks, artistName);
-
-            // Принудительно обновляем иконки в списке
-            updateTrackListIcons(); 
+        if (currentTrackIndex === currentAlbumTracks.length) {
+            const firstTrack = currentAlbumTracks[0];
+            const artistName = albumsData.find(a => a.tracks.includes(firstTrack))?.artist || "Исполнитель";
+            playTrack(firstTrack, 0, currentAlbumTracks, artistName);
+            return; 
         }
-    }
-});
-
-prevBtn.addEventListener('click', () => {
-    if (currentTrackIndex > 0) {
-        const prevIndex = currentTrackIndex - 1;
-        const prevTrack = currentAlbumTracks[prevIndex];
         
-        // Берем имя артиста из самого трека или из альбома
-        const artistName = prevTrack.albumArtist || 
-                           albumsData.find(a => a.tracks.includes(prevTrack))?.artist || 
-                           "Исполнитель";
-                           
-        playTrack(prevTrack, prevIndex, currentAlbumTracks, artistName);4
-
-        // Принудительно обновляем иконки в списке
-        updateTrackListIcons(); 
-    }
-});
-
-// Автопереключение при окончании песни
-audioPlayer.addEventListener('ended', () => {
-    playNextTrack();
-    updateTrackListIcons();
-});
-
-// Обновление таймлайна в процессе воспроизведения
-audioPlayer.addEventListener('timeupdate', () => {
-    if (audioPlayer.duration) {
-        const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-        progressBar.value = progress;
-        currentTimeText.textContent = formatTime(audioPlayer.currentTime);
-        customProgressFill.style.width = `${progress}%`;
-    }
-});
-
-// Получение длины трека после его загрузки
-audioPlayer.addEventListener('loadedmetadata', () => {
-    totalTimeText.textContent = formatTime(audioPlayer.duration);
-    customProgressFill.style.width = '0%';
-});
-
-// ПОЛНОСТЬЮ ДОПИСАННЫЙ ХВОСТ КОДА:
-// Перемотка трека вручную ползунком
-progressBar.addEventListener('input', () => {
-    if (audioPlayer.duration) {
-        const timeToSet = (progressBar.value / 100) * audioPlayer.duration;
-        audioPlayer.currentTime = timeToSet;
-    }
-});
-
-// Настройка начального звука плеера при старте страницы
-audioPlayer.volume = volumeBar.value / 100;
-
-// Умное управление кастомным шлейфом
-volumeBar.addEventListener('input', () => {
-    const volumeValue = volumeBar.value;
-    audioPlayer.volume = volumeValue / 100;
-    
-    // Плавно меняем ширину зеленой полоски
-    if (customVolumeFill) {
-        customVolumeFill.style.width = `${volumeValue}%`;
-    }
-});
-
-// Переключение видимости вертикальной капсулы громкости на смартфонах
-if (volumeToggleBtn && volumeSliderWrapper) {
-    volumeToggleBtn.addEventListener('click', (e) => {
-        // Переключаем класс видимости
-        volumeSliderWrapper.classList.toggle('is-open');
-        e.stopPropagation(); // Защита от мгновенного закрытия клика
+        if (audioPlayer.paused) {
+            audioPlayer.play();
+        } else {
+            audioPlayer.pause();
+        }
+        updateTrackListIcons();
     });
+}
 
-    // Если пользователь кликнет в любое другое место сайта — закрываем капсулу громкости
-    document.addEventListener('click', (e) => {
-        if (!volumeSliderWrapper.contains(e.target) && e.target !== volumeToggleBtn) {
-            volumeSliderWrapper.classList.remove('is-open');
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        if (currentAlbumTracks.length > 0 && currentTrackIndex !== -1) {
+            const nextIndex = currentTrackIndex + 1;
+            if (nextIndex < currentAlbumTracks.length) {
+                const nextTrack = currentAlbumTracks[nextIndex];
+                const artistName = nextTrack.albumArtist || albumsData.find(a => a.tracks.includes(nextTrack))?.artist || "Исполнитель";
+                playTrack(nextTrack, nextIndex, currentAlbumTracks, artistName);
+                updateTrackListIcons(); 
+            }
         }
     });
 }
 
-// Автоматически обновлять иконки в списке при любом старте музыки
-audioPlayer.addEventListener('play', () => {
-    masterPlayBtn.textContent = '❙❙'; // Меняем главную кнопку
-    updateTrackListIcons();           // Меняем кнопку в списке треков
-});
+if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+        if (currentTrackIndex > 0) {
+            const prevIndex = currentTrackIndex - 1;
+            const prevTrack = currentAlbumTracks[prevIndex];
+            const artistName = prevTrack.albumArtist || albumsData.find(a => a.tracks.includes(prevTrack))?.artist || "Исполнитель";
+            playTrack(prevTrack, prevIndex, currentAlbumTracks, artistName);
+            updateTrackListIcons(); 
+        }
+    });
+}
 
-// Автоматически обновлять иконки в списке при любой остановке музыки
-audioPlayer.addEventListener('pause', () => {
-    masterPlayBtn.textContent = '▶';  // Меняем главную кнопку
-    updateTrackListIcons();           // Меняем кнопку в списке треков
-});
+// Автопереключение при окончании песни
+if (audioPlayer) {
+    audioPlayer.addEventListener('ended', () => {
+        playNextTrack();
+        updateTrackListIcons();
+    });
+
+    audioPlayer.addEventListener('timeupdate', () => {
+        if (audioPlayer.duration && progressBar) {
+            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progressBar.value = progress;
+            if (currentTimeText) currentTimeText.textContent = formatTime(audioPlayer.currentTime);
+            
+            // Фикс закрашивания полосы прогресса в зеленый цвет
+            const customProgressFill = document.getElementById('custom-progress-fill');
+            if (customProgressFill) {
+                customProgressFill.style.width = `${progress}%`;
+            }
+        }
+    });
+
+    audioPlayer.addEventListener('loadedmetadata', () => {
+        if (totalTimeText) totalTimeText.textContent = formatTime(audioPlayer.duration);
+        const customProgressFill = document.getElementById('custom-progress-fill');
+        if (customProgressFill) customProgressFill.style.width = '0%';
+    });
+
+    // Установка начального звука плеера
+    if (volumeBar) {
+        audioPlayer.volume = volumeBar.value / 100;
+    }
+}
+
+if (progressBar) {
+    progressBar.addEventListener('input', () => {
+        if (audioPlayer && audioPlayer.duration) {
+            const timeToSet = (progressBar.value / 100) * audioPlayer.duration;
+            audioPlayer.currentTime = timeToSet;
+        }
+    });
+}
+
+if (volumeBar) {
+    volumeBar.addEventListener('input', () => {
+        const volumeValue = volumeBar.value;
+        audioPlayer.volume = volumeValue / 100;
+        
+        // Синхронизация кастомного шлейфа громкости
+        const customVolumeFill = document.getElementById('custom-volume-fill');
+        if (customVolumeFill) {
+            customVolumeFill.style.width = `${volumeValue}%`;
+        }
+    });
+}
+
+// Глобальные события старта и паузы для синхронизации иконок
+if (audioPlayer) {
+    audioPlayer.addEventListener('play', () => {
+        if (masterPlayBtn) masterPlayBtn.textContent = '❙❙'; 
+        updateTrackListIcons(); 
+    });
+
+    audioPlayer.addEventListener('pause', () => {
+        if (masterPlayBtn) masterPlayBtn.textContent = '▶'; 
+        updateTrackListIcons(); 
+    });
+}
 
 // Функция для синхронизации иконок ▶ / ❙❙ во всем списке на экране
 function updateTrackListIcons() {
