@@ -207,7 +207,7 @@ function openAlbum(albumId, isBackMode = false) {
         </div>
     `;
 
-    contentArea.className = 'tracks-list';
+    contentArea.className = 'albums-grid tracks-list';
     contentArea.innerHTML = '';
     
    //Наполняем внутренний HTML строки
@@ -673,7 +673,7 @@ function openArtistProfile(artistName, isBackMode = false) {
         // Чтобы точно узнать, какой альбом открыт, можно считать ID из кнопок или треков на экране
         const activeTrackRow = document.querySelector('.track-item');
         const detectedAlbumId = activeTrackRow ? albumsData.find(a => a.tracks.some(t => t.id == activeTrackRow.getAttribute('data-track-id')))?.id : null;
-
+        
         if (detectedAlbumId) {
             navigationHistory.push({ screen: 'album', id: detectedAlbumId, scroll: currentScroll });
         }
