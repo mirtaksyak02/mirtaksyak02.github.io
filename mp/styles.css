@@ -760,6 +760,7 @@ audio {
     align-items: center;
     width: 120px;
     position: relative;
+    transform: translateY(4px);
 }
 
 @media (max-width: 768px) {
