@@ -2,6 +2,7 @@ let albumsData = []; // Данные из JSON
 let currentAlbumTracks = []; // Список треков альбома, который сейчас играет
 let currentTrackIndex = -1;  // Индекс песни, которая играет в данный момент
 let marqueeTimeout = null;   // Хранилище для таймера бегущей строки
+let savedScrollPosition = 0; // Переменная для сохранения позиции прокрутки главной страницы
 
 // Словарь для перевода типов релизов на русский язык
 const releaseTypesRu = {
@@ -83,7 +84,7 @@ async function init() {
 
 function showAlbumsGrid() {
     // Обнуление позиции прокрутки
-    setTimeout(() => { window.scrollTo(0, 0); }, 50);
+    setTimeout(() => { window.scrollTo(0, savedScrollPosition); }, 50);
     
     // Очищаем URL-параметры при возврате на главную
     window.history.pushState({}, '', window.location.pathname);
@@ -144,6 +145,10 @@ function showAlbumsGrid() {
 
 // 4. ЭКРАН ТРЕКОВ АЛЬБОМА
 function openAlbum(albumId) {
+    // ЗАПОМИНАЕМ ПОЗИЦИЮ: Сохраняем текущий вертикальный скролл перед тем, как спрятать сетку
+    savedScrollPosition = window.scrollY || document.documentElement.scrollTop;
+    
+    // Перемещаем экран наверх, чтобы список треков открылся с первой песни
     setTimeout(() => { window.scrollTo(0, 0); }, 50);
     
     const album = albumsData.find(a => a.id === albumId);
