@@ -300,22 +300,35 @@ audio {
     margin: 0 0 8px 0 !important; /* Небольшой отступ вниз до названия */
 }
 
-.album-info-text h2,
+.album-info-text h2, 
 .album-info-text .album-title-header {
-    /* ТВОЙ РАЗМЕР ШРИФТА ДЛЯ ПК: */
-    font-size: 32px !important; 
+    display: block !important;
+    width: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    
+    font-size: 32px !important; /* Крупный белый шрифт заголовка */
     font-weight: 700 !important;
     color: #ffffff !important;
     line-height: 1.25 !important;
-    margin: 8px 0 12px 0 !important;
-    
-    /* ЧЕСТНЫЙ МНОГОСТРОЧНЫЙ ПЕРЕНОС ЦЕЛЫМИ СЛОВАМИ (ЯНДЕКС МУЗЫКА STYLE) */
-    display: inline-block !important; /* Разрешает тексту падать вниз, не растягивая блок */
-    white-space: normal !important;   /* Принудительно разрешаем перенос строк */
-    word-break: normal !important;    /* Запрещаем кромсать буквы посреди слогов */
-    word-wrap: break-word !important; /* Целые слова будут аккуратно переноситься */
-    overflow: visible !important;
-    text-overflow: clip !important;
+    margin: 4px 0 12px 0 !important;
+    white-space: normal !important; /* Стандартный дефолтный перенос строк */
+}
+
+.album-info-text .badge {
+    display: inline-block !important;
+    width: auto !important;
+    max-width: max-content !important;
+    font-size: 10px !important;
+    font-weight: bold !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    background-color: #1db954 !important; /* Зелёный фон только у бейджа */
+    color: #ffffff !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 8px !important;
 }
 
 .badge, .grid-badge {
@@ -914,7 +927,7 @@ audio {
     }
     
     .album-header {
-        font-size: 24px !important;
+        font-size: 22px !important;
         flex-direction: column !important; /* Обложка сверху, текст снизу */
         align-items: flex-start !important; /* Прижимаем элементы к левому краю */
         gap: 15px !important; /* Уменьшаем отступ между обложкой и текстом */
