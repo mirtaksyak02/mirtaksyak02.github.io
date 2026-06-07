@@ -83,8 +83,13 @@ async function init() {
 }
 
 function showAlbumsGrid() {
-    // Обнуление позиции прокрутки
-    setTimeout(() => { window.scrollTo(0, savedScrollPosition); }, 50);
+    // ЖЕСТКИЙ СБРОС АНИМАЦИИ: Мгновенно выставляем сохраненную позицию скролла
+    setTimeout(() => { 
+        window.scrollTo({
+            top: savedScrollPosition,
+            behavior: 'instant' // Отключает любые плавные переходы и системные анимации браузера
+        }); 
+    }, 30);
     
     // Очищаем URL-параметры при возврате на главную
     window.history.pushState({}, '', window.location.pathname);
@@ -148,8 +153,11 @@ function openAlbum(albumId) {
     // ЗАПОМИНАЕМ ПОЗИЦИЮ: Сохраняем текущий вертикальный скролл перед тем, как спрятать сетку
     savedScrollPosition = window.scrollY || document.documentElement.scrollTop;
     
-    // Перемещаем экран наверх, чтобы список треков открылся с первой песни
-    setTimeout(() => { window.scrollTo(0, 0); }, 50);
+    // МГНОВЕННЫЙ ПЕРЕХОД: жестко фиксируем экран вверху без анимаций
+    window.scrollTo({
+        top: 0,
+        behavior: 'instant' // Полностью блокирует системные прыжки и прокрутку
+    });
     
     const album = albumsData.find(a => a.id === albumId);
     if (!album) return;
