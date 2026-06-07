@@ -60,15 +60,29 @@
             <button id="next-btn" class="ctrl-btn">⏭</button>
         </div>
 
-        <!-- Контроль громкости -->
+        <!-- УМНЫЙ КОНТРОЛЬ ГРОМКОСТИ -->
         <div class="volume-container">
-            <span class="volume-icon">〣</span>
-            <div class="custom-volume-track">
-                <div id="custom-volume-fill" class="custom-volume-fill">
-                    <div class="custom-volume-thumb"></div>
+            <!-- Иконка динамика (теперь это интерактивная кнопка) -->
+            <button id="volume-toggle-btn" class="volume-toggle-btn">〣</button>
+            
+            <!-- Мобильная вертикальная капсула громкости -->
+            <div id="mobile-volume-popup" class="mobile-volume-popup">
+                <div id="mobile-volume-track" class="mobile-track">
+                    <div id="mobile-volume-fill" class="mobile-fill">
+                        <div class="mobile-thumb"></div>
+                    </div>
                 </div>
             </div>
-            <input type="range" id="volume-bar" min="0" max="100" value="70">
+
+            <!-- Десктопная горизонтальная громкость для ПК -->
+            <div class="pc-volume-wrapper">
+                <div class="custom-volume-track">
+                    <div id="custom-volume-fill" class="custom-volume-fill">
+                        <div class="custom-volume-thumb"></div>
+                    </div>
+                </div>
+                <input type="range" id="volume-bar" min="0" max="100" value="70">
+            </div>
         </div>
     </div>
 </div>
