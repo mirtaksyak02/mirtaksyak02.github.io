@@ -436,7 +436,7 @@ audio {
     left: 0;
     right: 0;
     width: 100%;
-    height: 12px;
+    height: 12px; /* Зона клика */
     padding: 0;
     margin: 0;
     display: flex;
@@ -452,13 +452,35 @@ audio {
     background-color: #404040;
     pointer-events: none;
     z-index: 1;
+    overflow: visible; 
 }
 
 .custom-progress-fill {
-    width: 0%;
+    width: 0%; 
     height: 100%;
     background-color: #1db954;
-    position: relative;
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: visible;
+}
+
+.custom-thumb {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #1db954;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    transform: translate(50%, -50%); 
+    transition: transform 0.1s ease;
+    pointer-events: none;
+}
+
+.progress-container:hover .custom-thumb {
+    transform: translate(50%, -50%) scale(1.4);
 }
 
 .volume-container {
@@ -505,38 +527,19 @@ audio {
 #progress-bar::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 10px;
-    height: 10px;
-    border-radius: 50% !important;
-    background-color: #1db954 !important;
-    cursor: pointer;
-    position: relative;
-    top: 0;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-    transition: transform 0.1s ease;
-}
-
-#progress-bar:hover::-webkit-slider-thumb {
-    transform: scale(1.5);
-}
-
-/* RANGE-TRACK ДЛЯ CHROME, OPERA, EDGE */
-/* Настройка самой дорожки, по которой катится кружок */
-#progress-bar::-moz-range-track {
-    background: transparent;
+    width: 12px;
+    height: 12px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* СТИЛИЗАЦИЯ ПОЛЗУНКА-КРУГА (ДЛЯ FIREFOX) */
 #progress-bar::-moz-range-thumb {
-    width: 10px;
-    height: 10px;
-    border: none;
-    border-radius: 50% !important;
-    background-color: #1db954 !important;
-    cursor: pointer;
-}
-#progress-bar:hover::-moz-range-thumb {
-    transform: scale(1.5);
+    width: 12px;
+    height: 12px;
+    background: transparent !important;
+    border: none !important;
 }
 
 #current-time, #total-time {
