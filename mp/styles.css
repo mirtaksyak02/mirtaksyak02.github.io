@@ -451,7 +451,7 @@ audio {
 
 /* Серая дорожка громкости */
 .custom-volume-track {
-    flex-grow: 1;
+    width: 100%;
     height: 4.5px;
     background-color: #404040;
     position: relative;
@@ -461,7 +461,7 @@ audio {
 
 /* Зеленый шлейф громкости */
 .custom-volume-fill {
-    width: 70%;
+    width: 70%; 
     height: 100%;
     background-color: #1db954;
     position: absolute;
@@ -496,10 +496,9 @@ audio {
     display: flex;
     align-items: center;
     gap: 12px;
-    width: 150px;
     position: absolute;
     right: 20px; 
-    bottom: 6px;
+    bottom: 6px; 
     transform: translateY(-5px);
 }
 
@@ -577,16 +576,14 @@ audio {
 
 #volume-bar {
     position: absolute;
-    right: 0;
+    left: 0;
     bottom: 50%;
     transform: translateY(50%);
-    width: 118px;
+    width: 100%;
     height: 14px;
     background: transparent !important;
     cursor: pointer;
     border: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
     -webkit-appearance: none;
     appearance: none;
     z-index: 5;
@@ -605,6 +602,11 @@ audio {
     height: 12px;
     background: transparent !important;
     border: none;
+}
+
+/* По умолчанию на ПК мобильное всплывающее окно скрыто */
+.mobile-volume-popup {
+    display: none;
 }
 
 /* Плашка играющего трека */
@@ -732,60 +734,113 @@ audio {
     width: 100%;
     margin-top: 15px; 
     position: relative; 
-}
+}а
 
 .volume-toggle-btn {
     background: none;
     border: none;
+    font-size: 14px;
+    color: #ffffff;
+    cursor: pointer;
     padding: 0;
     margin: 0;
-    cursor: pointer;
-    display: inline-flex;
+    outline: none;
+}
+
+.pc-volume-wrapper {
+    display: flex;
     align-items: center;
+    width: 120px;
+    position: relative;
 }
 
 @media (max-width: 768px) {
-    /* Поиск и овал Shuffle остаются в один горизонтальный ряд */
+    /* Поиск и овал Shuffle остаются в один ряд */
     .search-row-container {
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
     }
 
-    /* Создаем свободное буферное место в самом низу под кнопки */
-    .player-controls-wrapper {
-        padding-bottom: 45px; 
-        position: relative;
-        width: 100%;
+    /* На смартфонах прячем длинную горизонтальную линию громкости ПК */
+    .pc-volume-wrapper {
+        display: none !important;
     }
 
-    /* ПЕРЕНОСИМ ГРОМКОСТЬ В САМЫЙ НИЗ ПО ЦЕНТРУ */
-    /* Теперь она лежит горизонтально строго под кнопками, не перекрывая их */
+    /* Фиксируем иконку динамика в правом углу, освобождая центр для кнопок */
     .volume-container {
         position: absolute !important;
-        left: 50% !important;
-        right: auto !important;
-        transform: translateX(-50%) !important;
-        bottom: -35px !important; /* Опускаем ниже кнопок переключения */
-        width: 160px !important;  /* Удобная ширина для регулировки пальцем */
+        right: 25px !important;
+        bottom: 12px !important;
+        width: auto !important;
         display: flex !important;
-        justify-content: center !important;
+        flex-direction: column !important;
+        align-items: center !important;
     }
 
-    /* Корректируем ширину дорожки внутри мобильного контейнера */
-    .volume-container .custom-volume-track {
-        width: 100% !important;
-        height: 3px !important;
+    /* ВЕРТИКАЛЬНАЯ КАПСУЛА ГРОМКОСТИ (ИЗ МАКЕТА PAINT) */
+    .mobile-volume-popup {
+        display: flex;
+        position: absolute;
+        bottom: 35px; /* Садится прямо над динамиком */
+        width: 24px;   /* Узкая аккуратная капсула */
+        height: 110px; /* Высота вертикальной шкалы */
+        background-color: #1a1a1a;
+        border: 1px solid #333333;
+        border-radius: 12px;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        cursor: pointer;
+        
+        /* Логика анимации скрытия/появления */
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(0.9) translateY(10px);
+        transform-origin: bottom center;
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+        z-index: 1020;
     }
 
-    /* Настраиваем ширину прозрачного мобильного инпута, чтобы он сел ровно на линию */
-    .volume-container #volume-bar {
-        position: absolute !important;
-        left: auto !important;
-        right: 0 !important;
-        bottom: 50% !important;
-        transform: translateY(50%) !important;
-        width: 128px !important; /* Фиксированная зона клика под ширину линии смартфона */
-        height: 14px !important;
+    /* Класс открытия (активируется по тапу на динамик) */
+    .mobile-volume-popup.is-open {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1) translateY(0);
+    }
+
+    /* Вертикальная серая дорожка */
+    .mobile-track {
+        width: 4px;
+        height: 85px;
+        background-color: #404040;
+        border-radius: 2px;
+        position: relative;
+        overflow: visible;
+    }
+
+    /* Вертикальный зеленый шлейф (растет снизу вверх) */
+    .mobile-fill {
+        width: 100%;
+        height: 70%;
+        background-color: #1db954;
+        border-radius: 2px;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        overflow: visible;
+    }
+
+    /* Мобильный круглый бегунок на верхушке шлейфа */
+    .mobile-thumb {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #1db954;
+        box-shadow: 0 0 4px rgba(0,0,0,0.6);
+        transform: translate(-50%, -50%);
     }
 }
