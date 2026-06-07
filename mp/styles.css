@@ -306,10 +306,8 @@ audio {
 .album-info-text .album-title-header {
     display: block !important;
     width: 100% !important;
-    background: transparent !important;
     border: none !important;
     padding: 0 !important;
-    
     font-size: 32px !important; /* Крупный белый шрифт заголовка */
     font-weight: 700 !important;
     color: #ffffff !important;
