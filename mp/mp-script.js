@@ -3,6 +3,7 @@ let currentAlbumTracks = []; // Список треков альбома, кот
 let currentTrackIndex = -1;  // Индекс песни, которая играет в данный момент
 let marqueeTimeout = null;   // Хранилище для таймера бегущей строки
 let savedScrollPosition = 0; // Переменная для сохранения позиции прокрутки главной страницы
+let navigationHistory = [];
 
 // Словарь для перевода типов релизов на русский язык
 const releaseTypesRu = {
@@ -82,15 +83,18 @@ async function init() {
     }
 }
 
-function showAlbumsGrid() {
-    // ЖЕСТКИЙ СБРОС АНИМАЦИИ: Мгновенно выставляем сохраненную позицию скролла
-    setTimeout(() => { 
-        window.scrollTo({
-            top: savedScrollPosition,
-            behavior: 'instant' // Отключает любые плавные переходы и системные анимации браузера
-        }); 
-    }, 30);
+// Добавьте параметр isBackMode в объявление функции
+function showAlbumsGrid(isBackMode = false) {
+    // Если мы вернулись кнопкой Назад, используем сохраненный скролл, иначе обнуляем
+    const targetScroll = isBackMode ? savedScrollPosition : 0;
     
+    setTimeout(() => { 
+        window.scrollTo({ top: targetScroll, behavior: 'instant' }); 
+    }, 0);
+
+    if (!isBackMode) {
+        navigationHistory = []; // Очищаем историю при выходе на главную с нуля
+    }
     // Очищаем URL-параметры при возврате на главную
     window.history.pushState({}, '', window.location.pathname);
     
@@ -149,15 +153,23 @@ function showAlbumsGrid() {
 }
 
 // 4. ЭКРАН ТРЕКОВ АЛЬБОМА
-function openAlbum(albumId) {
-    // ЗАПОМИНАЕМ ПОЗИЦИЮ: Сохраняем текущий вертикальный скролл перед тем, как спрятать сетку
-    savedScrollPosition = window.scrollY || document.documentElement.scrollTop;
+function openAlbum(albumId, isBackMode = false) {
+    const currentScroll = window.scrollY || document.documentElement.scrollTop;
     
-    // МГНОВЕННЫЙ ПЕРЕХОД: жестко фиксируем экран вверху без анимаций
-    window.scrollTo({
-        top: 0,
-        behavior: 'instant' // Полностью блокирует системные прыжки и прокрутку
-    });
+    // Если мы открываем альбом НЕ по кнопке Назад, записываем, откуда мы пришли
+    if (!isBackMode) {
+        if (contentArea.classList.contains('albums-grid')) {
+            navigationHistory.push({ screen: 'main', id: null, scroll: currentScroll });
+        } else if (contentArea.classList.contains('artist-profile-view')) {
+            // Если пришли из профиля артиста, запоминаем артиста
+            const artistName = document.querySelector('.artist-profile-name')?.textContent;
+            if (artistName) {
+                navigationHistory.push({ screen: 'artist', id: artistName, scroll: currentScroll });
+            }
+        }
+    }
+
+    window.scrollTo({ top: 0, behavior: 'instant' });
     
     const album = albumsData.find(a => a.id === albumId);
     if (!album) return;
@@ -198,12 +210,12 @@ function openAlbum(albumId) {
     contentArea.className = 'tracks-list';
     contentArea.innerHTML = '';
     
-   //Наполняем внутренний HTML строки (БЕЗ кнопки внутри текста)
+   //Наполняем внутренний HTML строки
    album.tracks.forEach((track, index) => {
         const trackRow = document.createElement('div');
         trackRow.className = 'track-item';
         
-        // КРИТИЧЕСКИ ВАЖНО: привязываем ID трека к строчке HTML
+        // Привязываем ID трека к строчке HTML
         trackRow.setAttribute('data-track-id', track.id);
         trackRow.innerHTML = `
             <span class="track-number">${index + 1}</span>
@@ -622,34 +634,49 @@ if (mobileVolumePopup) {
     });
 }
 
-function openArtistProfile(artistName) {
-    // 1. Скроллим наверх без анимации
-    window.scrollTo({ top: 0, behavior: 'instant' });
+// ФУНКЦИЯ ОТКРЫТИЯ КАРТОЧКИ АРТИСТА (С УМНОЙ НАВИГАЦИЕЙ И ВСЕМИ КАТЕГОРИЯМИ)
+function openArtistProfile(artistName, isBackMode = false) {
+    const currentScroll = window.scrollY || document.documentElement.scrollTop;
 
-    // 2. Настраиваем видимость элементов (Заголовок RARETENOR прячем, кнопку Назад включаем)
+    // Запоминаем альбом, если мы перешли к артисту из открытого релиза
+    if (!isBackMode && contentArea.classList.contains('tracks-list')) {
+        // Вытаскиваем ID текущего открытого релиза из активной строки или контекста базы данных
+        const currentAlbumId = albumsData.find(a => a.artist.toLowerCase() === artistName.toLowerCase())?.id;
+        // Чтобы точно узнать, какой альбом открыт, можно считать ID из кнопок или треков на экране
+        const activeTrackRow = document.querySelector('.track-item');
+        const detectedAlbumId = activeTrackRow ? albumsData.find(a => a.tracks.some(t => t.id == activeTrackRow.getAttribute('data-track-id')))?.id : null;
+
+        if (detectedAlbumId) {
+            navigationHistory.push({ screen: 'album', id: detectedAlbumId, scroll: currentScroll });
+        }
+    }
+
+    // Скроллим наверх без анимации
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    
+    // Настраиваем видимость элементов (Заголовок RARETENOR прячем, кнопку Назад включаем)
     pageTitle.style.display = 'none';
     searchContainer.style.display = 'none'; 
     backBtn.style.display = 'block';
     
     // Шапку альбома прячем, так как у артиста будет своя собственная шапка
     albumHeader.style.display = 'none'; 
-
-    // 3. Отбираем все релизы конкретного артиста
-    const artistReleases = albumsData.filter(album => album.artist.toLowerCase() === artistName.toLowerCase());
     
+    // Отбираем все релизы конкретного артиста
+    const artistReleases = albumsData.filter(album => album.artist.toLowerCase() === artistName.toLowerCase());
     if (artistReleases.length === 0) return;
-
-    // 4. Сортируем релизы от самого свежего к самому старому (по убыванию года)
+    
+    // Сортируем релизы от самого свежего к самому старому (по убыванию года)
     artistReleases.sort((a, b) => parseInt(b.year) - parseInt(a.year));
-
+    
     // В качестве баннера берем обложку самого свежего релиза (первого в отсортированном массиве)
     const latestCover = artistReleases[0].cover;
 
-    // 5. Очищаем рабочую область и переключаем класс на кастомный профиль
+    // Очищаем рабочую область и переключаем класс на кастомный профиль
     contentArea.className = 'artist-profile-view';
     contentArea.innerHTML = '';
 
-    // 6. Генерируем красивую шапку артиста с бэкграунд-баннером
+    // Генерируем красивую шапку артиста с бэкграунд-баннером
     const artistHeaderHtml = `
         <div class="artist-banner-zone" style="background-image: linear-gradient(to bottom, rgba(18,18,18,0.4), #121212), url('${latestCover}');">
             <h1 class="artist-profile-name">${artistName.toUpperCase()}</h1>
@@ -657,33 +684,30 @@ function openArtistProfile(artistName) {
     `;
     
     // Разделяем релизы на категории
-    const fullAlbums = artistReleases.filter(r => r.type === 'album' || r.type === 'mixtape');
+    const fullAlbums = artistReleases.filter(r => r.type === 'album' || r.type === 'mixtape' || r.type === 'compilation');
     const singlesAndEps = artistReleases.filter(r => r.type === 'single' || r.type === 'ep' || r.type === 'maxi-single');
 
     let contentHtml = artistHeaderHtml;
 
-    // 7. Отрисовываем блок "Альбомы и микстейпы" (если они есть)
+    // Отрисовываем блок "Альбомы" (если они есть)
     if (fullAlbums.length > 0) {
-        contentHtml += `<h2 class="artist-section-title">Альбомы и микстейпы</h2>`;
+        contentHtml += `<h2 class="artist-section-title">Альбомы, микстейпы и компиляции</h2>`;
         contentHtml += `<div class="albums-grid">`;
-        fullAlbums.forEach(album => {
-            contentHtml += generateMiniCardHtml(album);
-        });
+        fullAlbums.forEach(album => { contentHtml += generateMiniCardHtml(album); });
         contentHtml += `</div>`;
     }
 
-    // 8. Отрисовываем блок "Синглы и EP" (если они есть)
+    // Отрисовываем блок "Синглы и EP" (если они есть)
     if (singlesAndEps.length > 0) {
-        contentHtml += `<h2 class="artist-section-title">Синглы и EP</h2>`;
+        contentHtml += `<h2 class="artist-section-title">Синглы, макси-синглы и EP</h2>`;
         contentHtml += `<div class="albums-grid">`;
-        singlesAndEps.forEach(album => {
-            contentHtml += generateMiniCardHtml(album);
-        });
+        singlesAndEps.forEach(album => { contentHtml += generateMiniCardHtml(album); });
         contentHtml += `</div>`;
     }
 
     contentArea.innerHTML = contentHtml;
 }
+
 
 // Помощник для генерации кода карточки (чтобы не дублировать код циклов)
 function generateMiniCardHtml(album) {
