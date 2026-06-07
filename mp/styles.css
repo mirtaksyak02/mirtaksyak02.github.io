@@ -171,10 +171,11 @@ audio {
 .album-card img {
     display: flex;
     width: 100%;
-    aspect-ratio: 1/1;
+    aspect-ratio: 1/1 !important;
     object-fit: cover;
     border-radius: 6px;
     margin-bottom: 10px;
+    background-color: #1e1e1e; 
 }
 
 .album-card h3 {
@@ -269,9 +270,12 @@ audio {
 .album-large-cover {
     width: 180px;
     height: 180px;
+    aspect-ratio: 1/1 !important;
     object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    flex-shrink: 0;
+    background-color: #1e1e1e;
 }
 
 .album-info-text {
