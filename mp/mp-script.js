@@ -422,14 +422,23 @@ if (progressBar) {
 }
 
 if (volumeBar) {
+    // Установка начального звука
+    audioPlayer.volume = volumeBar.value / 100;
+
     volumeBar.addEventListener('input', () => {
         const volumeValue = volumeBar.value;
         audioPlayer.volume = volumeValue / 100;
         
-        // Синхронизация кастомного шлейфа громкости
-        const customVolumeFill = document.getElementById('custom-volume-fill');
-        if (customVolumeFill) {
-            customVolumeFill.style.width = `${volumeValue}%`;
+        // 1. Ищем и красим горизонтальный шлейф на ПК
+        const pcVolumeFill = document.getElementById('custom-volume-fill');
+        if (pcVolumeFill) {
+            pcVolumeFill.style.width = `${volumeValue}%`;
+        }
+
+        // 2. Ищем и красим вертикальный шлейф на мобильном (на всякий случай для синхронизации)
+        const mobileVolumeFill = document.getElementById('mobile-volume-fill');
+        if (mobileVolumeFill) {
+            mobileVolumeFill.style.height = `${volumeValue}%`;
         }
     });
 }
