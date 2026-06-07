@@ -549,7 +549,8 @@ function setMobileVolume(e) {
     if (!mobileTrack || !audioPlayer) return;
     
     const rect = mobileTrack.getBoundingClientRect();
-    const touchY = e.touches ? e.touches[0].clientY : e.clientY;
+    const touchY = (e.touches && e.touches.length > 0) ? e.touches[0].clientY : e.clientY;
+
     
     // Вычисляем позицию клика/тача по вертикали относительно серой линии
     let offsetY = touchY - rect.top;
