@@ -30,10 +30,7 @@
     </div>
 
 <div class="bottom-controls">
-    <!-- Скрытый плеер, который просто воспроизводит звук в фоне -->
-    <audio id="main-audio"></audio>
-
-    <!-- Твой идеальный таймлайн времени (лежит на самой верхней кромке плеера) -->
+    <!-- Таймлайн времени -->
     <div class="progress-container">
         <span id="current-time">0:00</span>
         <div class="custom-slider-track">
@@ -45,40 +42,33 @@
         <span id="total-time">0:00</span>
     </div>
 
-    <!-- ТВОЯ НОВАЯ ОБЕРТКА ДЛЯ ЦЕНТРИРОВАНИЯ И ГРОМКОСТИ СПРАВА (ИЗ PAINT) -->
+    <!-- КОНТЕЙНЕР ДЛЯ ЭЛЕМЕНТОВ УПРАВЛЕНИЯ -->
     <div class="player-controls-wrapper">
         
-        <!-- Название трека (СТРОГО ПО ЦЕНТРУ над кнопками) -->
+        <!-- Название трека по центру -->
         <div class="now-playing-container">
             <div id="now-playing">Выберите трек для воспроизведения</div>
         </div>
 
-        <!-- Кнопки управления (СТРОГО ПО ЦЕНТРУ) -->
+        <!-- Кнопки управления -->
         <div class="control-buttons">
             <button id="prev-btn" class="ctrl-btn">⏮</button>
             <button id="master-play-btn" class="ctrl-btn play-main">▶</button>
             <button id="next-btn" class="ctrl-btn">⏭</button>
         </div>
 
-        <!-- Контроль громкости (НАМЕРТВО ПРИЖАТ СПРАВА С ТАКИМ ЖЕ ДИЗАЙНОМ) -->
+        <!-- Контроль громкости -->
         <div class="volume-container">
-            <!-- Твоя иконка динамика -->
-            <button id="volume-toggle-btn" class="volume-toggle-btn">
-                <span class="volume-icon">〣</span>
-            </button>
-            
-            <!-- Интерактивная зона с дорожкой и ползунком -->
-            <div id="volume-slider-wrapper" class="volume-slider-wrapper">
-                <div class="custom-volume-track">
-                    <div id="custom-volume-fill" class="custom-volume-fill">
-                        <div class="custom-volume-thumb"></div>
-                    </div>
+            <span class="volume-icon">〣</span>
+            <div class="custom-volume-track">
+                <div id="custom-volume-fill" class="custom-volume-fill">
+                    <div class="custom-volume-thumb"></div>
                 </div>
-                <!-- Невидимый ползунок поверх для считывания кликов -->
-                <input type="range" id="volume-bar" min="0" max="100" value="70">
             </div>
+            <input type="range" id="volume-bar" min="0" max="100" value="70">
         </div>
     </div>
+</div>
 
     <script src="mp-script.js"></script>
 </body>
