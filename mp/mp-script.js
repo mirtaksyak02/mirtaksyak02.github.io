@@ -156,20 +156,25 @@ function showAlbumsGrid(isBackMode = false) {
 function openAlbum(albumId, isBackMode = false) {
     const currentScroll = window.scrollY || document.documentElement.scrollTop;
     
-    // Если мы открываем альбом НЕ по кнопке Назад, записываем, откуда мы пришли
+    // КРИТИЧЕСКИ ВАЖНО: Если это новый переход, а не возврат кнопкой Назад
     if (!isBackMode) {
-        if (contentArea.classList.contains('albums-grid')) {
-            navigationHistory.push({ screen: 'main', id: null, scroll: currentScroll });
-        } else if (contentArea.className === 'artist-profile-view') {
-            // Если на экране был профиль артиста — запоминаем его имя для истории возврата
+        // 1. Проверяем, какой экран сейчас физически активен перед переключением
+        const isArtistView = contentArea.classList.contains('artist-profile-view');
+        
+        if (isArtistView) {
+            // Если мы пришли с карточки артиста, находим имя этого артиста на экране
             const artistNameElement = document.querySelector('.artist-profile-name');
             const artistName = artistNameElement ? artistNameElement.textContent.trim() : null;
             if (artistName) {
                 navigationHistory.push({ screen: 'artist', id: artistName, scroll: currentScroll });
             }
+        } else {
+            // Иначе считаем, что мы пришли с главного экрана (или поиска)
+            navigationHistory.push({ screen: 'main', id: null, scroll: currentScroll });
         }
     }
 
+    // Твой оригинальный скролл наверх без анимации
     window.scrollTo({ top: 0, behavior: 'instant' });
     
     const album = albumsData.find(a => a.id === albumId);
@@ -486,25 +491,27 @@ if (audioPlayer) {
 
 if (backBtn) {
     backBtn.addEventListener('click', () => {
+        // Если история пуста, жестко выходим на главную сетку
         if (navigationHistory.length === 0) {
             showAlbumsGrid(true); 
             return;
         }
 
+        // Вытаскиваем из стека самый последний шаг пользователя
         const previousPage = navigationHistory.pop();
 
         if (previousPage.screen === 'main') {
             savedScrollPosition = previousPage.scroll;
-            showAlbumsGrid(true); 
+            showAlbumsGrid(true); // Возврат на главную сетку
         } 
         else if (previousPage.screen === 'album') {
-            openAlbum(previousPage.id, true); 
+            openAlbum(previousPage.id, true); // Возврат внутрь релиза
             setTimeout(() => {
                 window.scrollTo({ top: previousPage.scroll, behavior: 'instant' });
             }, 40);
         } 
         else if (previousPage.screen === 'artist') {
-            openArtistProfile(previousPage.id, true); 
+            openArtistProfile(previousPage.id, true); // Возврат на карточку артиста
             setTimeout(() => {
                 window.scrollTo({ top: previousPage.scroll, behavior: 'instant' });
             }, 40);
@@ -667,15 +674,14 @@ if (mobileVolumePopup) {
 function openArtistProfile(artistName, isBackMode = false) {
     const currentScroll = window.scrollY || document.documentElement.scrollTop;
 
-    // ЖЕЛЕЗОБЕТОННАЯ ЗАПИСЬ ИСТОРИИ: Если мы переходим к артисту из открытого релиза
-    if (!isBackMode && contentArea.classList.contains('tracks-list')) {
-        // Просто ищем в базе данных ID альбома, который совпадает по названию с заголовком на экране
-        const currentTitleElement = document.querySelector('.album-title-header');
-        const currentTitle = currentTitleElement ? currentTitleElement.textContent.replace('E', '').trim() : '';
-        const detectedAlbum = albumsData.find(a => a.title.toLowerCase() === currentTitle.toLowerCase() && a.artist.toLowerCase() === artistName.toLowerCase());
+    // ЗАПИСЬ ИСТОРИИ: Если это новый клик по имени артиста из шапки релиза
+    if (!isBackMode) {
+        // Вытаскиваем ID текущего открытого релиза из адресной строки браузера (это самый надежный способ!)
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentAlbumId = urlParams.get('album');
         
-        if (detectedAlbum) {
-            navigationHistory.push({ screen: 'album', id: detectedAlbum.id, scroll: currentScroll });
+        if (currentAlbumId) {
+            navigationHistory.push({ screen: 'album', id: currentAlbumId, scroll: currentScroll });
         }
     }
 
@@ -683,7 +689,7 @@ function openArtistProfile(artistName, isBackMode = false) {
     window.scrollTo({ top: 0, behavior: 'instant' });
     
     pageTitle.style.display = 'none';
-    searchContainer.style.display = 'none'; 
+    searchContainer.style.setProperty('display', 'none', 'important');
     backBtn.style.display = 'block';
     albumHeader.style.display = 'none'; 
     
@@ -692,7 +698,7 @@ function openArtistProfile(artistName, isBackMode = false) {
     
     artistReleases.sort((a, b) => parseInt(b.year) - parseInt(a.year));
     
-    // ФИКС ОПЕЧАТКИ: Обязательно добавляем [0], чтобы картинка считывалась из массива!
+    // ФИКС ОПЕЧАТКИ: Считываем обложку из первого элемента отсортированного массива
     const latestCover = artistReleases[0].cover;
     
     contentArea.className = 'artist-profile-view';
