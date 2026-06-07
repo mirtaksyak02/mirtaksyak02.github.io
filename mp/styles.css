@@ -436,7 +436,7 @@ audio {
     left: 0;
     right: 0;
     width: 100%;
-    height: 3px;
+    height: 10px;
     padding: 0;
     margin: 0;
     display: flex;
@@ -468,11 +468,10 @@ audio {
 
 #progress-bar {
     width: 100%;
-    height: 3px; /* Тонкая линия */
+    height: 3px;
     cursor: pointer;
     outline: none;
     /* accent-color: #1db954; */
-    background: #404040; 
     margin: 0 !important;
     padding: 0 !important;
     border: none !important;
@@ -489,14 +488,16 @@ audio {
     height: 10px;
     border-radius: 50% !important;
     background-color: #1db954 !important;
+    cursor: pointer;
     position: relative;
-    top: -3.5px; 
+    top: 50%;
+    transform: translateY(-50%);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     transition: transform 0.1s ease;
 }
 
 #progress-bar:hover::-webkit-slider-thumb {
-    transform: scale(1.5);
+    transform: translateY(-50%) scale(1.5) !important;
 }
 
 /* RANGE-TRACK ДЛЯ CHROME, OPERA, EDGE */
@@ -520,7 +521,6 @@ audio {
     border-radius: 50% !important;
     background-color: #1db954 !important;
     cursor: pointer;
-    transition: transform 0.1s ease;
 }
 
 #progress-bar:hover::-moz-range-thumb {
