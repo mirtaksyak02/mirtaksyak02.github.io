@@ -427,21 +427,14 @@ progressBar.addEventListener('input', () => {
 // Настройка начального звука плеера при старте страницы
 audioPlayer.volume = volumeBar.value / 100;
 
-// Умное управление кастомным шлейфом (работает и горизонтально на ПК, и вертикально на смартфонах)
+// Умное управление кастомным шлейфом
 volumeBar.addEventListener('input', () => {
     const volumeValue = volumeBar.value;
     audioPlayer.volume = volumeValue / 100;
     
-    // Проверяем, мобильная ли сейчас верстка (высота трека изменилась на вертикальную)
-    const track = document.querySelector('.custom-volume-track');
-    if (track && window.getComputedStyle(track).width === '3px') {
-        // На смартфонах меняем высоту (height) шлейфа для вертикального роста
-        customVolumeFill.style.height = `${volumeValue}%`;
-        customVolumeFill.style.width = '100%';
-    } else {
-        // На ПК меняем привычную ширину (width)
+    // Плавно меняем ширину зеленой полоски
+    if (customVolumeFill) {
         customVolumeFill.style.width = `${volumeValue}%`;
-        customVolumeFill.style.height = '100%';
     }
 });
 
