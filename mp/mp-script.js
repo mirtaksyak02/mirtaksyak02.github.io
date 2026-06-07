@@ -30,6 +30,7 @@ const volumeBar = document.getElementById('volume-bar');
 const searchContainer = document.getElementById('search-container');
 const searchInput = document.getElementById('search-input');
 const shuffleAllBtn = document.getElementById('shuffle-all-btn');
+const customProgressFill = document.getElementById('custom-progress-fill');
 
 // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 // Исправленный авто-конвертер ссылок
@@ -402,14 +403,14 @@ audioPlayer.addEventListener('timeupdate', () => {
         const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
         progressBar.value = progress;
         currentTimeText.textContent = formatTime(audioPlayer.currentTime);
-        progressBar.style.background = `linear-gradient(to right, #1db954 ${progress}%, #404040 ${progress}%)`;
+        customProgressFill.style.width = `${progress}%`;
     }
 });
 
 // Получение длины трека после его загрузки
 audioPlayer.addEventListener('loadedmetadata', () => {
     totalTimeText.textContent = formatTime(audioPlayer.duration);
-    progressBar.style.background = '#404040';
+    customProgressFill.style.width = '0%';
 });
 
 // ПОЛНОСТЬЮ ДОПИСАННЫЙ ХВОСТ КОДА:
