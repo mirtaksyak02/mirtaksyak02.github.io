@@ -31,6 +31,8 @@ const searchContainer = document.getElementById('search-container');
 const searchInput = document.getElementById('search-input');
 const shuffleAllBtn = document.getElementById('shuffle-all-btn');
 const customProgressFill = document.getElementById('custom-progress-fill');
+const volumeToggleBtn = document.getElementById('volume-toggle-btn');
+const volumeSliderWrapper = document.getElementById('volume-slider-wrapper');
 
 // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 // Исправленный авто-конвертер ссылок
@@ -422,17 +424,42 @@ progressBar.addEventListener('input', () => {
     }
 });
 
-// Управление громкостью плеера
+// Настройка начального звука плеера при старте страницы
 audioPlayer.volume = volumeBar.value / 100;
+
+// Умное управление кастомным шлейфом (работает и горизонтально на ПК, и вертикально на смартфонах)
 volumeBar.addEventListener('input', () => {
     const volumeValue = volumeBar.value;
     audioPlayer.volume = volumeValue / 100;
     
-    const customVolumeFill = document.getElementById('custom-volume-fill');
-    if (customVolumeFill) {
+    // Проверяем, мобильная ли сейчас верстка (высота трека изменилась на вертикальную)
+    const track = document.querySelector('.custom-volume-track');
+    if (track && window.getComputedStyle(track).width === '3px') {
+        // На смартфонах меняем высоту (height) шлейфа для вертикального роста
+        customVolumeFill.style.height = `${volumeValue}%`;
+        customVolumeFill.style.width = '100%';
+    } else {
+        // На ПК меняем привычную ширину (width)
         customVolumeFill.style.width = `${volumeValue}%`;
+        customVolumeFill.style.height = '100%';
     }
 });
+
+// Переключение видимости вертикальной капсулы громкости на смартфонах
+if (volumeToggleBtn && volumeSliderWrapper) {
+    volumeToggleBtn.addEventListener('click', (e) => {
+        // Переключаем класс видимости
+        volumeSliderWrapper.classList.toggle('is-open');
+        e.stopPropagation(); // Защита от мгновенного закрытия клика
+    });
+
+    // Если пользователь кликнет в любое другое место сайта — закрываем капсулу громкости
+    document.addEventListener('click', (e) => {
+        if (!volumeSliderWrapper.contains(e.target) && e.target !== volumeToggleBtn) {
+            volumeSliderWrapper.classList.remove('is-open');
+        }
+    });
+}
 
 // Автоматически обновлять иконки в списке при любом старте музыки
 audioPlayer.addEventListener('play', () => {
