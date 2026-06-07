@@ -160,9 +160,10 @@ function openAlbum(albumId, isBackMode = false) {
     if (!isBackMode) {
         if (contentArea.classList.contains('albums-grid')) {
             navigationHistory.push({ screen: 'main', id: null, scroll: currentScroll });
-        } else if (contentArea.classList.contains('artist-profile-view')) {
-            // Если пришли из профиля артиста, запоминаем артиста
-            const artistName = document.querySelector('.artist-profile-name')?.textContent;
+        } else if (contentArea.className === 'artist-profile-view') {
+            // Если на экране был профиль артиста — запоминаем его имя для истории возврата
+            const artistNameElement = document.querySelector('.artist-profile-name');
+            const artistName = artistNameElement ? artistNameElement.textContent.trim() : null;
             if (artistName) {
                 navigationHistory.push({ screen: 'artist', id: artistName, scroll: currentScroll });
             }
@@ -207,7 +208,7 @@ function openAlbum(albumId, isBackMode = false) {
         </div>
     `;
 
-    contentArea.className = 'albums-grid tracks-list';
+    contentArea.className = 'tracks-list';
     contentArea.innerHTML = '';
     
    //Наполняем внутренний HTML строки
@@ -666,41 +667,34 @@ if (mobileVolumePopup) {
 function openArtistProfile(artistName, isBackMode = false) {
     const currentScroll = window.scrollY || document.documentElement.scrollTop;
 
-    // Запоминаем альбом, если мы перешли к артисту из открытого релиза
+    // ЖЕЛЕЗОБЕТОННАЯ ЗАПИСЬ ИСТОРИИ: Если мы переходим к артисту из открытого релиза
     if (!isBackMode && contentArea.classList.contains('tracks-list')) {
-        // Вытаскиваем ID текущего открытого релиза из активной строки или контекста базы данных
-        const currentAlbumId = albumsData.find(a => a.artist.toLowerCase() === artistName.toLowerCase())?.id;
-        // Чтобы точно узнать, какой альбом открыт, можно считать ID из кнопок или треков на экране
-        const activeTrackRow = document.querySelector('.track-item');
-        const detectedAlbumId = activeTrackRow ? albumsData.find(a => a.tracks.some(t => t.id == activeTrackRow.getAttribute('data-track-id')))?.id : null;
+        // Просто ищем в базе данных ID альбома, который совпадает по названию с заголовком на экране
+        const currentTitleElement = document.querySelector('.album-title-header');
+        const currentTitle = currentTitleElement ? currentTitleElement.textContent.replace('E', '').trim() : '';
+        const detectedAlbum = albumsData.find(a => a.title.toLowerCase() === currentTitle.toLowerCase() && a.artist.toLowerCase() === artistName.toLowerCase());
         
-        if (detectedAlbumId) {
-            navigationHistory.push({ screen: 'album', id: detectedAlbumId, scroll: currentScroll });
+        if (detectedAlbum) {
+            navigationHistory.push({ screen: 'album', id: detectedAlbum.id, scroll: currentScroll });
         }
     }
 
     // Скроллим наверх без анимации
     window.scrollTo({ top: 0, behavior: 'instant' });
     
-    // Настраиваем видимость элементов (Заголовок RARETENOR прячем, кнопку Назад включаем)
     pageTitle.style.display = 'none';
     searchContainer.style.display = 'none'; 
     backBtn.style.display = 'block';
-    
-    // Шапку альбома прячем, так как у артиста будет своя собственная шапка
     albumHeader.style.display = 'none'; 
     
-    // Отбираем все релизы конкретного артиста
     const artistReleases = albumsData.filter(album => album.artist.toLowerCase() === artistName.toLowerCase());
     if (artistReleases.length === 0) return;
     
-    // Сортируем релизы от самого свежего к самому старому (по убыванию года)
     artistReleases.sort((a, b) => parseInt(b.year) - parseInt(a.year));
     
-    // В качестве баннера берем обложку самого свежего релиза (первого в отсортированном массиве)
+    // ФИКС ОПЕЧАТКИ: Обязательно добавляем [0], чтобы картинка считывалась из массива!
     const latestCover = artistReleases[0].cover;
-
-    // Очищаем рабочую область и переключаем класс на кастомный профиль
+    
     contentArea.className = 'artist-profile-view';
     contentArea.innerHTML = '';
 
