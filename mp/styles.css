@@ -430,7 +430,7 @@ audio {
     top: 0;
     left: 0;
     right: 0;
-    height: 5px;
+    height: 4.5px;
     background-color: #404040;
     pointer-events: none;
     z-index: 1;
@@ -439,7 +439,7 @@ audio {
 
 .custom-progress-fill {
     width: 0%; 
-    height: 5px;
+    height: 4.5px;
     background-color: #1db954;
     position: absolute;
     left: 0;
