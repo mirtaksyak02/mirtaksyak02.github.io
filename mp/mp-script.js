@@ -132,7 +132,7 @@ function showAlbumsGrid() {
         albumCard.className = 'album-card';
         albumCard.onclick = () => openAlbum(album.id); 
         albumCard.innerHTML = `
-            <img src="${album.cover}" alt="${album.title}">
+            <img src="${album.cover}" alt="${album.title}" loading="lazy" decoding="async">
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h3>${album.title} ${tagHtml}</h3>
             <p>${album.artist}</p>
@@ -171,7 +171,7 @@ function openAlbum(albumId) {
     }
     
     albumHeader.innerHTML = `
-        <img src="${album.cover}" alt="${album.title}" class="album-large-cover">
+        <img src="${album.cover}" alt="${album.title}" loading="lazy" decoding="async" class="album-large-cover">
         <div class="album-info-text">
             <span class="badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <!-- Добавляем тег сразу после большого названия релиза -->
