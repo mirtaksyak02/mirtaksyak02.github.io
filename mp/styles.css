@@ -506,7 +506,6 @@ audio {
     color: #ffffff;
     user-select: none;
     line-height: 1;
-    transform: translateY(4px);
 }
 
 /* Общие кастомные настройки для инпутов-ползунков */
@@ -753,6 +752,7 @@ audio {
     -webkit-tap-highlight-color: transparent; 
     -webkit-appearance: none;
     appearance: none;
+    transform: translateY(4px);
 }
 
 .pc-volume-wrapper {
