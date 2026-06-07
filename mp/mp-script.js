@@ -425,7 +425,13 @@ progressBar.addEventListener('input', () => {
 // Управление громкостью плеера
 audioPlayer.volume = volumeBar.value / 100;
 volumeBar.addEventListener('input', () => {
-    audioPlayer.volume = volumeBar.value / 100;
+    const volumeValue = volumeBar.value;
+    audioPlayer.volume = volumeValue / 100;
+    
+    const customVolumeFill = document.getElementById('custom-volume-fill');
+    if (customVolumeFill) {
+        customVolumeFill.style.width = `${volumeValue}%`;
+    }
 });
 
 // Автоматически обновлять иконки в списке при любом старте музыки
