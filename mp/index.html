@@ -32,39 +32,49 @@
 <div class="bottom-controls">
     <!-- Скрытый плеер, который просто воспроизводит звук в фоне -->
     <audio id="main-audio"></audio>
-    <div class="now-playing-container">
-        <div id="now-playing">Выберите трек для воспроизведения</div>
+
+    <!-- Твой идеальный таймлайн времени (лежит на самой верхней кромке плеера) -->
+    <div class="progress-container">
+        <span id="current-time">0:00</span>
+        <div class="custom-slider-track">
+            <div id="custom-progress-fill" class="custom-progress-fill">
+                <div class="custom-thumb"></div>
+            </div>
+        </div>
+        <input type="range" id="progress-bar" value="0" max="100">
+        <span id="total-time">0:00</span>
     </div>
 
-<div class="player-interface">
-    <!-- Кнопки управления -->
-    <div class="control-buttons">
-        <button id="prev-btn" class="ctrl-btn">⏮</button>
-        <button id="master-play-btn" class="ctrl-btn play-main">▶</button>
-        <button id="next-btn" class="ctrl-btn">⏭</button>
-    </div>
+    <!-- ТВОЯ НОВАЯ ОБЕРТКА ДЛЯ ЦЕНТРИРОВАНИЯ И ГРОМКОСТИ СПРАВА (ИЗ PAINT) -->
+    <div class="player-controls-wrapper">
+        
+        <!-- Название трека (СТРОГО ПО ЦЕНТРУ над кнопками) -->
+        <div class="now-playing-container">
+            <div id="now-playing">Выберите трек для воспроизведения</div>
+        </div>
 
-    <!-- Ползунок времени и громкость в одну линию -->
-    <div class="controls-row">
-        <!-- Таймлайн времени -->
-        <div class="progress-container">
-            <span id="current-time">0:00</span>
-            <div class="custom-slider-track">
-                <div id="custom-progress-fill" class="custom-progress-fill">
-                    <div class="custom-thumb">
-                    </div>
+        <!-- Кнопки управления (СТРОГО ПО ЦЕНТРУ) -->
+        <div class="control-buttons">
+            <button id="prev-btn" class="ctrl-btn">⏮</button>
+            <button id="master-play-btn" class="ctrl-btn play-main">▶</button>
+            <button id="next-btn" class="ctrl-btn">⏭</button>
+        </div>
+
+        <!-- Контроль громкости (НАМЕРТВО ПРИЖАТ СПРАВА С ТАКИМ ЖЕ ДИЗАЙНОМ) -->
+        <div class="volume-container">
+            <!-- Твоя иконка динамика -->
+            <span class="volume-icon">〣</span>
+            
+            <!-- Кастомная дорожка громкости со шлейфом и кружком -->
+            <div class="custom-volume-track">
+                <div id="custom-volume-fill" class="custom-volume-fill">
+                    <div class="custom-volume-thumb"></div>
                 </div>
             </div>
             
-            <input type="range" id="progress-bar" value="0" max="100">
-            <span id="total-time">0:00</span>
+            <!-- Невидимый ползунок поверх для считывания кликов -->
+            <input type="range" id="volume-bar" min="0" max="100" value="70">
         </div>
-
-    <!-- Контроль громкости &#128266; -->
-    <div class="volume-container">
-        <span class="volume-icon">〣</span>
-        <input type="range" id="volume-bar" min="0" max="100" value="70">
-    </div>
     </div>
 </div>
 
