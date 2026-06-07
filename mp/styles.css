@@ -827,6 +827,61 @@ audio {
     transform: translateY(4px);
 }
 
+/* Кликабельное имя артиста в шапке альбома */
+.artist-link {
+    color: #1db954; /* Подсвечиваем зеленым, сигнализируя о кликабельности */
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.artist-link:hover {
+    color: #1ed760;
+    text-decoration: underline; /* Подчеркивание при наведении как на стримингах */
+}
+
+/* ОБЕРТКА ПРОФИЛЯ АРТИСТА */
+.artist-profile-view {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* БАННЕР АРТИСТА ИЗ ПОСЛЕДНЕЙ ОБЛОЖКИ */
+.artist-banner-zone {
+    width: 100%;
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end; /* Текст названия прижат к низу баннера */
+    padding: 20px 10px;
+    box-sizing: border-box;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    position: relative;
+}
+
+/* Огромное имя артиста поверх баннера */
+.artist-profile-name {
+    font-size: 42px;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 0;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.8); /* Тень, чтобы имя читалось на любых обложках */
+    letter-spacing: -1px;
+}
+
+/* Заголовки разделов (Альбомы / Синглы) */
+.artist-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 20px 0 12px 10px;
+    text-transform: none;
+}
+
 @media (max-width: 768px) {
     /* Поиск и овал Shuffle остаются в один ряд */
     .search-row-container {
@@ -987,6 +1042,19 @@ audio {
 
     .album-card p {
         font-size: 11px !important;
+    }
+    
+    .artist-banner-zone {
+        height: 160px; /* На смартфонах баннер чуть поуже */
+        padding: 15px 5px;
+    }
+    
+    .artist-profile-name {
+        font-size: 28px; /* Уменьшаем шрифт имени на телефонах */
+    }
+    
+    .artist-section-title {
+        font-size: 16px;
     }
 }
 
