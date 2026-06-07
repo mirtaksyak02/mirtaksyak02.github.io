@@ -356,18 +356,6 @@ audio {
     margin-top: 5px;
 }
 
-/* Если экран телефона узкий (меньше 600px), перестраиваем элементы в столбик */
-@media (max-width: 600px) {
-    .controls-row {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .volume-container {
-        width: 100%; /* На смартфонах громкость растянется во всю ширину */
-        max-width: 250px;
-    }
-}
-
 /* Кнопки управления */
 .control-buttons {
     display: flex;
@@ -737,15 +725,6 @@ audio {
     align-items: center;
 }
 
-/* Фикс для мобильных: теперь на телефонах они НЕ будут падать друг под друга, а останутся в ряд */
-@media (max-width: 480px) {
-    .search-row-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-}
-
 .player-controls-wrapper {
     display: flex;
     flex-direction: column;
@@ -753,4 +732,37 @@ audio {
     width: 100%;
     margin-top: 15px;
     position: relative;
+}
+
+@media (max-width: 768px) {
+    /* Сохраняем поиск и овал Shuffle в одну строчку на телефонах */
+    .search-row-container {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+    }
+
+    /* Создаем свободное место внизу панели под кнопки */
+    .player-controls-wrapper {
+        padding-bottom: 50px; 
+        position: relative;
+        width: 100%;
+    }
+
+    /* Переносим кастомную громкость строго под кнопки по центру */
+    .volume-container {
+        position: absolute !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        bottom: -40px !important; /* Безопасное расстояние снизу */
+        width: 140px !important; /* Строгая фиксированная ширина овала */
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    /* Подгоняем ширину невидимого инпута кликов под овал */
+    #volume-bar {
+        width: 108px !important; 
+    }
 }
