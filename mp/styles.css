@@ -297,9 +297,7 @@ audio {
     font-weight: bold !important;
     padding: 3px 8px !important;
     border-radius: 4px !important;
-    background-color: #1db954 !important; /* Твой зеленый цвет */
     color: #ffffff !important;
-    text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
     margin: 0 0 8px 0 !important; /* Небольшой отступ вниз до названия */
 }
