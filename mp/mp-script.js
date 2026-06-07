@@ -33,6 +33,10 @@ const shuffleAllBtn = document.getElementById('shuffle-all-btn');
 const customProgressFill = document.getElementById('custom-progress-fill');
 const volumeToggleBtn = document.getElementById('volume-toggle-btn');
 const volumeSliderWrapper = document.getElementById('volume-slider-wrapper');
+const mobileVolumePopup = document.getElementById('mobile-volume-popup');
+const mobileTrack = document.getElementById('mobile-volume-track');
+const mobileFill = document.getElementById('mobile-volume-fill');
+const pcVolumeFill = document.getElementById('custom-volume-fill');
 
 // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 // Исправленный авто-конвертер ссылок
@@ -515,6 +519,60 @@ window.addEventListener('popstate', (event) => {
         showAlbumsGrid();
     }
 });
+
+// 1. Показ/скрытие вертикальной капсулы по тапу на динамик
+if (volumeToggleBtn && mobileVolumePopup) {
+    volumeToggleBtn.addEventListener('click', (e) => {
+        mobileVolumePopup.classList.toggle('is-open');
+        e.stopPropagation();
+    });
+
+    // Клик в любое другое место экрана закрывает панель громкости
+    document.addEventListener('click', (e) => {
+        if (!mobileVolumePopup.contains(e.target) && e.target !== volumeToggleBtn) {
+            mobileVolumePopup.classList.remove('is-open');
+        }
+    });
+}
+
+// 2. Функция расчета и установки громкости при таче на телефоне
+function setMobileVolume(e) {
+    if (!mobileTrack || !audioPlayer) return;
+    
+    const rect = mobileTrack.getBoundingClientRect();
+    const touchY = e.touches ? e.touches[0].clientY : e.clientY;
+    
+    // Вычисляем позицию клика/тача по вертикали относительно серой линии
+    let offsetY = touchY - rect.top;
+    let percentage = ((rect.height - offsetY) / rect.height) * 100;
+    
+    // Ограничиваем рамками от 0 до 100%
+    if (percentage < 0) percentage = 0;
+    if (percentage > 100) percentage = 100;
+    
+    // Применяем громкость к плееру
+    audioPlayer.volume = percentage / 100;
+    
+    // Обновляем шлейф на мобилке
+    if (mobileFill) mobileFill.style.height = `${percentage}%`;
+    
+    // Синхронизируем значение с ползунком ПК (на случай если окно растянут обратно)
+    if (volumeBar) volumeBar.value = percentage;
+    if (pcVolumeFill) pcVolumeFill.style.width = `${percentage}%`;
+}
+
+// 3. Вешаем мобильные touch-события на вертикальную капсулу
+if (mobileVolumePopup) {
+    mobileVolumePopup.addEventListener('touchstart', (e) => {
+        setMobileVolume(e);
+        e.preventDefault();
+    });
+    
+    mobileVolumePopup.addEventListener('touchmove', (e) => {
+        setMobileVolume(e);
+        e.preventDefault();
+    });
+}
 
 // Запуск приложения
 window.onload = init;
