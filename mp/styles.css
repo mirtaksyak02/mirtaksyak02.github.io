@@ -737,14 +737,22 @@ audio {
 }а
 
 .volume-toggle-btn {
-    background: none;
-    border: none;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
     font-size: 14px;
-    color: #ffffff;
+    color: #ffffff !important;
     cursor: pointer;
-    padding: 0;
-    margin: 0;
-    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* Отключаем стандартное мобильное подсвечивание кнопок в Chrome/Opera */
+    -webkit-tap-highlight-color: transparent; 
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .pc-volume-wrapper {
@@ -767,6 +775,15 @@ audio {
         display: none !important;
     }
 
+    .pc-volume-wrapper, 
+    .pc-volume-wrapper .custom-volume-track, 
+    .pc-volume-wrapper #volume-bar {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+    
     /* Фиксируем иконку динамика в правом углу, освобождая центр для кнопок */
     .volume-container {
         position: absolute !important;
