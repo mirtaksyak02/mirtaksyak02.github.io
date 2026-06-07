@@ -572,14 +572,37 @@ function setMobileVolume(e) {
 
 // 3. Вешаем мобильные touch-события на вертикальную капсулу
 if (mobileVolumePopup) {
+    // Переменная-флаг, которая проверяет, зажата ли левая кнопка мыши прямо сейчас
+    let isMouseDownOnVolume = false;
+
+    // ОБРАБОТКА ДЛЯ ТЕЛЕФОНОВ (ТАЧИ)
     mobileVolumePopup.addEventListener('touchstart', (e) => {
         setMobileVolume(e);
-        e.preventDefault();
+        e.preventDefault(); // Защита от системного скролла страницы при регулировке звука
     });
     
     mobileVolumePopup.addEventListener('touchmove', (e) => {
         setMobileVolume(e);
         e.preventDefault();
+    });
+
+    // ОБРАБОТКА ДЛЯ КОМПЬЮТЕРОВ (КЛИКИ И ПЕРЕТАСКИВАНИЕ МЫШКОЙ ПРИ УЗКОМ ОКНЕ)
+    mobileVolumePopup.addEventListener('mousedown', (e) => {
+        isMouseDownOnVolume = true;
+        setMobileVolume(e); // Громкость меняется сразу при клике в любую точку капсулы
+        e.preventDefault();
+    });
+
+    // Если мышка двигается с зажатой кнопкой — плавно меняем звук вслед за курсором
+    document.addEventListener('mousemove', (e) => {
+        if (isMouseDownOnVolume) {
+            setMobileVolume(e);
+        }
+    });
+
+    // Как только кнопку мыши отпустили в любой точке экрана — прекращаем регулировку
+    document.addEventListener('mouseup', () => {
+        isMouseDownOnVolume = false;
     });
 }
 
