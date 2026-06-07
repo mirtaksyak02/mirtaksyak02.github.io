@@ -238,29 +238,29 @@ audio {
 }
 
 .album-title-header {
-    display: block;
-    width: 100%;
-    margin: 5px 0 10px 0;
-    line-height: 1.2;
+    display: block !important;       /* Отключаем flex-строку */
+    width: 100% !important;          /* Заставляем занять всю ширину текстовой зоны */
+    max-width: 100% !important;
+    margin: 8px 0 12px 0 !important;
+    line-height: 1.25 !important;    /* Немного увеличиваем межстрочный интервал */
     font-size: 32px; 
     font-weight: 700;
     color: #ffffff;
-    white-space: normal !important; /* Текст будет переноситься на новые строки */
-    word-wrap: break-word;          /* Защита от слишком длинных слов */
-    overflow: visible !important;   /* Ничего не прячем и не обрезаем */
-    text-overflow: clip !important; /* Убираем троеточие */
+    /* ЖЕЛЕЗОБЕТОННЫЙ ВКЛЮЧАТЕЛЬ МНОГОСТРОЧНОГО ПЕРЕНОСА: */
+    white-space: normal !important;  /* Принудительно разрешаем падать вниз */
+    word-break: keep-all !important; /* Запрещаем резать буквы! Перенос только ЦЕЛЫМИ словами */
+    overflow: visible !important;    /* Полностью убираем обрезание */
+    text-overflow: clip !important;  /* Полностью убираем троеточие */
 }
 
 /* Корректировка размеров значков для крупного заголовка шапки */
 .album-title-header .header-tag {
-    /* ТВОИ оригинальные настройки масштаба и отступа */
-    transform: scale(1.3);
-    margin-left: 5px;
-    display: inline-flex !important; 
-    vertical-align: middle; 
+    transform: scale(1.3) !important;
+    margin-left: 8px !important;
+    display: inline-block !important;
+    vertical-align: middle !important; 
     position: relative;
-    top: -2px;
-    flex-shrink: 0 !important;
+    top: -2px !important;
 }
 
 .album-large-cover {
@@ -269,6 +269,16 @@ audio {
     object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.album-info-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    min-width: 0;
+    height: auto !important; 
+    padding-left: 20px;
 }
 
 .album-info-text h2 {
