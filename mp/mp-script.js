@@ -67,15 +67,20 @@ async function init() {
         const response = await fetch('./playlist.json');
         albumsData = await response.json();
         
-        // Проверяем, есть ли в URL параметр альбома
         const urlParams = new URLSearchParams(window.location.search);
         const albumIdFromUrl = urlParams.get('album');
+        const artistFromUrl = urlParams.get('artist');
 
-        // Если параметр есть, и такой альбом существует в базе — открываем его
-        if (albumIdFromUrl && albumsData.some(a => a.id === albumIdFromUrl)) {
+        // 1. Если в ссылке есть артист — сразу открываем его карточку
+        if (artistFromUrl) {
+            openArtistProfile(decodeURIComponent(artistFromUrl));
+        } 
+        // 2. Если в ссылке есть альбом — открываем альбом
+        else if (albumIdFromUrl && albumsData.some(a => a.id === albumIdFromUrl)) {
             openAlbum(albumIdFromUrl);
-        } else {
-            // Иначе просто показываем главную страницу
+        } 
+        // 3. Иначе показываем обычную главную
+        else {
             showAlbumsGrid(); 
         }
     } catch (error) {
@@ -674,19 +679,19 @@ if (mobileVolumePopup) {
 function openArtistProfile(artistName, isBackMode = false) {
     const currentScroll = window.scrollY || document.documentElement.scrollTop;
 
-    // ЗАПИСЬ ИСТОРИИ: Если это новый клик по имени артиста из шапки релиза
     if (!isBackMode) {
-        // Вытаскиваем ID текущего открытого релиза из адресной строки браузера (это самый надежный способ!)
         const urlParams = new URLSearchParams(window.location.search);
         const currentAlbumId = urlParams.get('album');
-        
         if (currentAlbumId) {
             navigationHistory.push({ screen: 'album', id: currentAlbumId, scroll: currentScroll });
         }
     }
 
-    // Скроллим наверх без анимации
     window.scrollTo({ top: 0, behavior: 'instant' });
+    
+    // ОБНОВЛЕНИЕ URL: Меняем ?album= на ?artist= в строке браузера
+    const newUrl = `${window.location.pathname}?artist=${encodeURIComponent(artistName)}`;
+    window.history.pushState({ artistName: artistName }, '', newUrl);
     
     pageTitle.style.display = 'none';
     searchContainer.style.setProperty('display', 'none', 'important');
