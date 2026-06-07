@@ -88,6 +88,29 @@ async function init() {
     }
 }
 
+function updateBackButtonText() {
+    if (!backBtn) return;
+    
+    // Если история пуста, кнопка при возврате выведет на главную
+    if (navigationHistory.length === 0) {
+        backBtn.textContent = '← Назад к альбомам';
+        return;
+    }
+    
+    // Смотрим на самый последний элемент в массиве истории (но не удаляем его из стека!)
+    const nextBackPage = navigationHistory[navigationHistory.length - 1];
+    
+    if (nextBackPage.screen === 'main') {
+        backBtn.textContent = '← Назад к альбомам';
+    } 
+    else if (nextBackPage.screen === 'album') {
+        backBtn.textContent = '← Назад к релизу';
+    } 
+    else if (nextBackPage.screen === 'artist') {
+        backBtn.textContent = '← Назад к артисту';
+    }
+}
+
 // Добавьте параметр isBackMode в объявление функции
 function showAlbumsGrid(isBackMode = false) {
     // Если мы вернулись кнопкой Назад, используем сохраненный скролл, иначе обнуляем
@@ -193,6 +216,8 @@ function openAlbum(albumId, isBackMode = false) {
     searchContainer.style.setProperty('display', 'none', 'important');
     backBtn.style.display = 'block';
     albumHeader.style.display = 'flex';
+    
+    updateBackButtonText();
     
     albumHeader.innerHTML = '';
     
@@ -521,6 +546,7 @@ if (backBtn) {
                 window.scrollTo({ top: previousPage.scroll, behavior: 'instant' });
             }, 40);
         }
+        updateBackButtonText();
     });
 }
 
@@ -697,6 +723,8 @@ function openArtistProfile(artistName, isBackMode = false) {
     searchContainer.style.setProperty('display', 'none', 'important');
     backBtn.style.display = 'block';
     albumHeader.style.display = 'none'; 
+
+    updateBackButtonText();
     
     const artistReleases = albumsData.filter(album => album.artist.toLowerCase() === artistName.toLowerCase());
     if (artistReleases.length === 0) return;
