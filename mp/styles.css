@@ -257,10 +257,18 @@ audio {
 .album-title-header .header-tag {
     transform: scale(1.3) !important;
     margin-left: 8px !important;
-    display: inline-block !important;
+    display: inline-flex !important;
     vertical-align: middle !important; 
     position: relative;
     top: -2px !important;
+}
+
+.album-info-text .meta {
+    margin: 0 !important;
+    font-size: 14px !important;
+    color: #b3b3b3 !important;
+    white-space: normal !important; 
+    line-height: 1.4 !important;
 }
 
 .album-large-cover {
@@ -272,18 +280,37 @@ audio {
 }
 
 .album-info-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex-grow: 1;
-    min-width: 0;
-    height: auto !important; 
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    flex-grow: 1 !important;
+    min-width: 0 !important; 
+    height: auto !important;
     padding-left: 20px;
+    box-sizing: border-box;
 }
 
 .album-info-text h2 {
     font-size: 36px;
     margin: 5px 0;
+}
+
+.album-info-text h2,
+.album-info-text .album-title-header {
+    /* ТВОЙ РАЗМЕР ШРИФТА ДЛЯ ПК: */
+    font-size: 32px !important; 
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    line-height: 1.25 !important;
+    margin: 8px 0 12px 0 !important;
+    
+    /* ЧЕСТНЫЙ МНОГОСТРОЧНЫЙ ПЕРЕНОС ЦЕЛЫМИ СЛОВАМИ (ЯНДЕКС МУЗЫКА STYLE) */
+    display: inline-block !important; /* Разрешает тексту падать вниз, не растягивая блок */
+    white-space: normal !important;   /* Принудительно разрешаем перенос строк */
+    word-break: normal !important;    /* Запрещаем кромсать буквы посреди слогов */
+    word-wrap: break-word !important; /* Целые слова будут аккуратно переноситься */
+    overflow: visible !important;
+    text-overflow: clip !important;
 }
 
 .badge, .grid-badge {
@@ -879,5 +906,18 @@ audio {
         background-color: #1db954;
         box-shadow: 0 0 4px rgba(0,0,0,0.6);
         transform: translate(-50%, -50%);
+    }
+    
+    .album-info-text h2,
+    .album-info-text .album-title-header {
+        font-size: 24px !important; /* Уменьшаем шрифт на телефонах для аккуратности */
+        margin: 6px 0 10px 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .album-info-text h2,
+    .album-info-text .album-title-header {
+        font-size: 20px !important;
     }
 }
