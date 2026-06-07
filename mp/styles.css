@@ -238,19 +238,14 @@ audio {
 }
 
 .album-title-header {
-    display: block !important;       /* Отключаем flex-строку */
-    width: 100% !important;          /* Заставляем занять всю ширину текстовой зоны */
-    max-width: 100% !important;
-    margin: 8px 0 12px 0 !important;
-    line-height: 1.25 !important;    /* Немного увеличиваем межстрочный интервал */
-    font-size: 32px; 
-    font-weight: 700;
-    color: #ffffff;
-    /* ЖЕЛЕЗОБЕТОННЫЙ ВКЛЮЧАТЕЛЬ МНОГОСТРОЧНОГО ПЕРЕНОСА: */
-    white-space: normal !important;  /* Принудительно разрешаем падать вниз */
-    word-break: keep-all !important; /* Запрещаем резать буквы! Перенос только ЦЕЛЫМИ словами */
-    overflow: visible !important;    /* Полностью убираем обрезание */
-    text-overflow: clip !important;  /* Полностью убираем троеточие */
+    display: block !important;
+    width: 100% !important;
+    font-size: 32px !important; 
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    margin: 0 0 12px 0 !important;
+    line-height: 1.25 !important;
+    white-space: normal !important; /* Разрешаем обычный дефолтный перенос */
 }
 
 /* Корректировка размеров значков для крупного заголовка шапки */
@@ -291,8 +286,18 @@ audio {
 }
 
 .album-info-text h2 {
-    font-size: 36px;
-    margin: 5px 0;
+    display: inline-block !important; /* Не дает ей растягиваться на всю строку */
+    width: auto !important;
+    max-width: max-content !important;
+    font-size: 10px !important; /* Возвращаем аккуратный мелкий шрифт бейджа */
+    font-weight: bold !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    background-color: #1db954 !important; /* Твой зеленый цвет */
+    color: #ffffff !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin: 0 0 8px 0 !important; /* Небольшой отступ вниз до названия */
 }
 
 .album-info-text h2,
@@ -909,6 +914,7 @@ audio {
     }
     
     .album-header {
+        font-size: 24px !important;
         flex-direction: column !important; /* Обложка сверху, текст снизу */
         align-items: flex-start !important; /* Прижимаем элементы к левому краю */
         gap: 15px !important; /* Уменьшаем отступ между обложкой и текстом */
