@@ -483,6 +483,34 @@ if (audioPlayer) {
     });
 }
 
+if (backBtn) {
+    backBtn.addEventListener('click', () => {
+        if (navigationHistory.length === 0) {
+            showAlbumsGrid(true); 
+            return;
+        }
+
+        const previousPage = navigationHistory.pop();
+
+        if (previousPage.screen === 'main') {
+            savedScrollPosition = previousPage.scroll;
+            showAlbumsGrid(true); 
+        } 
+        else if (previousPage.screen === 'album') {
+            openAlbum(previousPage.id, true); 
+            setTimeout(() => {
+                window.scrollTo({ top: previousPage.scroll, behavior: 'instant' });
+            }, 40);
+        } 
+        else if (previousPage.screen === 'artist') {
+            openArtistProfile(previousPage.id, true); 
+            setTimeout(() => {
+                window.scrollTo({ top: previousPage.scroll, behavior: 'instant' });
+            }, 40);
+        }
+    });
+}
+
 // Функция для синхронизации иконок ▶ / ❙❙ во всем списке на экране
 function updateTrackListIcons() {
     // 1. Возвращаем всем кнопкам на экране дефолтный значок Плей
