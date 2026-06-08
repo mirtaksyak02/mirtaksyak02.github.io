@@ -6,7 +6,7 @@
     "type": "single",
     "year": "2021",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/zavet/buy_me/Front_500x500.jpg",
+    "cover": "./covers/zavet/buy_me/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t1",
@@ -23,7 +23,7 @@
     "type": "single",
     "year": "2021",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/zavet/dead_club/Front_500x500.jpg",
+    "cover": "./covers/zavet/dead_club/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t2",
