@@ -170,7 +170,10 @@ function showAlbumsGrid(isBackMode = false) {
         albumCard.className = 'album-card';
         albumCard.onclick = () => openAlbum(album.id); 
         albumCard.innerHTML = `
-            <img src="${album.cover}" alt="${album.title}" loading="lazy" decoding="async">
+            <div class="album-card-img-wrapper">
+                <!-- Событие onload мгновенно вешает класс is-loaded, как только картинка скачалась -->
+                <img src="${album.cover}" alt="${album.title}" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')">
+            </div>
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h3>${album.title} ${tagHtml}</h3>
             <p>${album.artist}</p>
@@ -232,7 +235,10 @@ function openAlbum(albumId, isBackMode = false) {
     }
     
     albumHeader.innerHTML = `
-        <img src="${album.cover}" alt="${album.title}" class="album-large-cover" loading="lazy" decoding="async">
+        <!-- Обертка для контроля размытия большой обложки альбома -->
+        <div class="album-large-cover-wrapper">
+            <img src="${album.cover}" alt="${album.title}" class="album-large-cover" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')">
+        </div>
         <div class="album-info-text">
             <span class="badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h2 class="album-title-header">${album.title} ${tagHtml}</h2>
@@ -781,7 +787,10 @@ function generateMiniCardHtml(album) {
 
     return `
         <div class="album-card" onclick="openAlbum('${album.id}')">
-            <img src="${album.cover}" alt="${album.title}" loading="lazy" decoding="async">
+            <!-- Обертка для контроля размытия мини-обложки -->
+            <div class="album-card-img-wrapper">
+                <img src="${album.cover}" alt="${album.title}" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')">
+            </div>
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h3>${album.title} ${tagHtml}</h3>
             <p>${album.year}</p>
