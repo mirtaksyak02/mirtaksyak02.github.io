@@ -763,14 +763,14 @@ function openArtistProfile(artistName, isBackMode = false) {
 
     // СЛОВАРЬ СОПОСТАВЛЕНИЯ ИМЕН АРТИСТОВ С РЕАЛЬНЫМИ ПАПКАМИ
     const artistFolderMap = {
-        "AQUAKEY": "AQUAKEY (Russia)",
-        "ROCKET": "ROCKET (Russia)",
-        "SUPERIOR.CAT.PROTEUS": "SCP (Russia)",
+        "aquakey": "AQUAKEY (Russia)",
+        "rocket": "ROCKET (Russia)",
+        "superior.cat.proteus": "SCP (Russia)",
         "zavet": "Zavet (Russia)"
     };
 
     // СПИСОК АРТИСТОВ, У КОТОРЫХ СУЩЕСТВУЕТ КАСТОМНЫЙ БАННЕР НА ГИТХАБЕ
-    const artistsWithCustomBanners = ["AQUAKEY", "zavet"]; 
+    const artistsWithCustomBanners = ["aquakey", "zavet"]; 
 
     const cleanArtistName = artistName.toLowerCase().trim();
     const exactFolderName = artistFolderMap[cleanArtistName] || artistName;
