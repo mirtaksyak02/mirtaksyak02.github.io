@@ -169,9 +169,9 @@ function showAlbumsGrid(isBackMode = false) {
 
         const albumCard = document.createElement('div');
         albumCard.className = 'album-card';
-        albumCard.onclick = () => openAlbum(album.id); 
+        albumCard.onclick = () => openAlbum(album.id);
         
-       const imageName = album.cover.split('/').pop();
+        const imageName = album.cover.split('/').pop();
         const isMainCached = loadedImagesCache.has(imageName);
         const mainLoadedClass = isMainCached ? 'is-loaded' : '';
 
@@ -759,23 +759,26 @@ async function openArtistProfile(artistName, isBackMode = false) {
     artistReleases.sort((a, b) => parseInt(b.year) - parseInt(a.year));
     
     // Дефолтный вариант: обложка самого свежего релиза
-    let bannerImageUrl = artistReleases[0].cover;
+    let bannerImageUrl = artistReleases.cover;
 
-    // СВЕРХТОЧНОЕ ВЫЧИСЛЕНИЕ ИМЕНИ ПАПКИ ЧЕРЕЗ РЕГУЛЯРНОЕ ВЫРАЖЕНИЕ
-    let potentialBannerPath = '';
-    const sampleCoverPath = artistReleases[0].cover;
+    // СЛОВАРЬ СОПОСТАВЛЕНИЯ ИМЕН АРТИСТОВ С РЕАЛЬНЫМИ ПАПКАМИ НА GITHUB
+    const artistFolderMap = {
+        "AQUAKEY": "AQUAKEY (Russia)",
+        "ROCKET": "ROCKET (Russia)",
+        "SUPERIOR.CAT.PROTEUS": "SCP (Russia)",
+        "zavet": "Zavet (Russia)"
+    };
 
-    if (sampleCoverPath.includes('covers/')) {
-        // Регулярное выражение ищет текст, который идет строго после "covers/" до следующего слэша
-        const match = sampleCoverPath.match(/covers\/([^\/]+)/);
-        
-        if (match && match[1]) {
-            const exactFolderName = match[1].trim(); // Извлекает "Zavet (Russia)" пиксель в пиксель
-            potentialBannerPath = `./covers/${exactFolderName}/Banner.jpg`;
-        }
-    }
+    // Приводим имя артиста к нижнему регистру для точного поиска в словаре
+    const cleanArtistName = artistName.toLowerCase().trim();
+    
+    // Если артист есть в нашем словаре — берем его точную папку, иначе используем его оригинальное имя
+    const exactFolderName = artistFolderMap[cleanArtistName] || artistName;
+    
+    // Формируем финальный путь к кастомному баннеру на GitHub Pages
+    const potentialBannerPath = `./covers/${exactFolderName}/Banner.jpg`;
 
-    // Если путь успешно собран — проверяем физическое наличие файла на GitHub
+    // Проверяем физическое наличие файла Banner.jpg на сервере
     if (potentialBannerPath) {
         try {
             const checkBanner = await fetch(potentialBannerPath, { method: 'HEAD' });
