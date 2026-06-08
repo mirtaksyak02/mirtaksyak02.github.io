@@ -748,7 +748,7 @@ async function openArtistProfile(artistName, isBackMode = false) {
     const newUrl = `${window.location.pathname}?artist=${encodeURIComponent(artistName)}`;
     window.history.pushState({ artistName: artistName }, '', newUrl);
     
-    // pageTitle.style.display = 'none'; // УДАЛЕНО: Логотип теперь всегда виден и кликабелен!
+    // pageTitle.style.display = 'none';
     searchContainer.style.setProperty('display', 'none', 'important');
     backBtn.style.display = 'block';
     albumHeader.style.display = 'none'; 
@@ -769,27 +769,21 @@ async function openArtistProfile(artistName, isBackMode = false) {
         "zavet": "Zavet (Russia)"
     };
 
+    // СПИСОК АРТИСТОВ, У КОТОРЫХ СУЩЕСТВУЕТ КАСТОМНЫЙ БАННЕР НА ГИТХАБЕ
+    const artistsWithCustomBanners = ["zavet"]; 
+
     const cleanArtistName = artistName.toLowerCase().trim();
     const exactFolderName = artistFolderMap[cleanArtistName] || artistName;
     
-    const potentialBannerPath = `./Covers/${exactFolderName}/Banner.jpg`;
-
-    // Проверяем физическое наличие файла Banner.jpg на сервере
-    if (potentialBannerPath) {
-        try {
-            const checkBanner = await fetch(potentialBannerPath, { method: 'HEAD' });
-            if (checkBanner.ok) {
-                bannerImageUrl = potentialBannerPath;
-            }
-        } catch (e) {
-            console.log('Кастомный баннер не найден, используем обложку релиза.');
-        }
+    // Проверяем по списку: если артист в нём есть — МГНОВЕННО подставляем путь к его баннеру
+    if (artistsWithCustomBanners.includes(cleanArtistName)) {
+        bannerImageUrl = `./Covers/${exactFolderName}/Banner.jpg`;
     }
 
     contentArea.className = 'artist-profile-view';
     contentArea.innerHTML = '';
 
-    // Добавляем безопасную проверку наличия строки (bannerImageUrl), чтобы split никогда не падал в Error
+    // Безопасная проверка наличия строки для кэша размытия
     const bannerFileName = bannerImageUrl ? bannerImageUrl.split('/').pop() : '';
     const isBannerCached = bannerFileName ? loadedImagesCache.has(bannerFileName) : false;
     const bannerLoadedClass = isBannerCached ? 'is-loaded' : '';
