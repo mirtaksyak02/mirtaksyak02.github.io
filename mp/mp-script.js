@@ -4,6 +4,7 @@ let currentTrackIndex = -1;  // Индекс песни, которая игра
 let marqueeTimeout = null;   // Хранилище для таймера бегущей строки
 let savedScrollPosition = 0; // Переменная для сохранения позиции прокрутки главной страницы
 let navigationHistory = [];
+let loadedImagesCache = new Set(); // Глобальный набор для хранения URL-адресов загруженных картинок
 
 // Словарь для перевода типов релизов на русский язык
 const releaseTypesRu = {
@@ -169,10 +170,13 @@ function showAlbumsGrid(isBackMode = false) {
         const albumCard = document.createElement('div');
         albumCard.className = 'album-card';
         albumCard.onclick = () => openAlbum(album.id); 
+        
+        const isMainCached = loadedImagesCache.has(album.cover);
+        const mainLoadedClass = isMainCached ? 'is-loaded' : '';
+
         albumCard.innerHTML = `
             <div class="album-card-img-wrapper">
-                <!-- Событие onload мгновенно вешает класс is-loaded, как только картинка скачалась -->
-                <img src="${album.cover}" alt="${album.title}" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')">
+                <img src="${album.cover}" alt="${album.title}" class="${mainLoadedClass}" loading="lazy" decoding="async" onload="onImageLoad(this)">
             </div>
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h3>${album.title} ${tagHtml}</h3>
@@ -234,10 +238,12 @@ function openAlbum(albumId, isBackMode = false) {
         }
     }
     
+    const isLargeCoverCached = loadedImagesCache.has(album.cover);
+    const largeLoadedClass = isLargeCoverCached ? 'is-loaded' : '';
+
     albumHeader.innerHTML = `
-        <!-- Обертка для контроля размытия большой обложки альбома -->
         <div class="album-large-cover-wrapper">
-            <img src="${album.cover}" alt="${album.title}" class="album-large-cover" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')">
+            <img src="${album.cover}" alt="${album.title}" class="album-large-cover ${largeLoadedClass}" loading="lazy" decoding="async" onload="onImageLoad(this)">
         </div>
         <div class="album-info-text">
             <span class="badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
@@ -776,7 +782,7 @@ function openArtistProfile(artistName, isBackMode = false) {
 }
 
 
-// Помощник для генерации кода карточки (чтобы не дублировать код циклов)
+// Помощник для генерации кода карточки
 function generateMiniCardHtml(album) {
     let tagHtml = '';
     if (album.tag && album.tag.toLowerCase() === 'explicit') {
@@ -785,17 +791,35 @@ function generateMiniCardHtml(album) {
         tagHtml = `<span class="tag-custom">${album.tag.toUpperCase()}</span>`;
     }
 
+    // Проверяем, есть ли уже эта обложка в нашем кэше памяти
+    const isCached = loadedImagesCache.has(album.cover);
+    // Если картинка в кэше — сразу даем ей класс четкости, иначе оставляем пустую строку
+    const loadedClass = isCached ? 'is-loaded' : '';
+
     return `
         <div class="album-card" onclick="openAlbum('${album.id}')">
-            <!-- Обертка для контроля размытия мини-обложки -->
             <div class="album-card-img-wrapper">
-                <img src="${album.cover}" alt="${album.title}" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')">
+                <!-- Функция onImageLoad запишет URL в память при первом успешном скачивании -->
+                <img src="${album.cover}" alt="${album.title}" class="${loadedClass}" loading="lazy" decoding="async" onload="onImageLoad(this)">
             </div>
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h3>${album.title} ${tagHtml}</h3>
             <p>${album.year}</p>
         </div>
     `;
+}
+
+// Функция, которая вызывается в момент onload абсолютно любой обложки на сайте
+function onImageLoad(imgElement) {
+    if (!imgElement) return;
+    
+    // Добавляем класс плавного появления/фокусировки
+    imgElement.classList.add('is-loaded');
+    
+    // Намертво запоминаем URL этой картинки в кэш-список оперативной памяти плеера
+    if (imgElement.src) {
+        loadedImagesCache.add(imgElement.src);
+    }
 }
 
 // Старт
