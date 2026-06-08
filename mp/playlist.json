@@ -6,7 +6,7 @@
     "type": "single",
     "year": "2021",
     "genre": "Hip-Hop/Rap",
-    "cover": "./covers/zavet/buy_me/Front_500x500.jpg",
+    "cover": "./Covers/Zavet (Russia)/Buy Me/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t1",
@@ -23,7 +23,7 @@
     "type": "single",
     "year": "2021",
     "genre": "Hip-Hop/Rap",
-    "cover": "./covers/zavet/dead_club/Front_500x500.jpg",
+    "cover": "./Covers/Zavet (Russia)/Dead Club/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t2",
@@ -41,7 +41,7 @@
     "tag": "U", 
     "year": "2014",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/scp_sabbat/ex_nihilo/Front_500x500.jpg",
+    "cover": "./Covers/SCP (Russia)/EX Nihilo/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t3",
@@ -113,7 +113,7 @@
     "tag": "U", 
     "year": "2015",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/scp_sabbat/gr_proigrav/Front_500x500.jpg",
+    "cover": "./Covers/SCP (Russia)/Горе проигравшим/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t13",
@@ -191,7 +191,7 @@
     "tag": "U", 
     "year": "2026",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/rocket_ru/SHELUVSROCKET/Front_500x500.jpg",
+    "cover": "./Covers/ROCKET (Russia)/SHELUVSROCKET/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t24",
@@ -245,7 +245,7 @@
     "tag": "U", 
     "year": "2016",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/scp_sabbat/geroi_chaosa/Front_500x500.jpg",
+    "cover": "./Covers/SCP (Russia)/Герой Хаоса/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t31",
@@ -371,7 +371,7 @@
     "tag": "U", 
     "year": "2018",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/scp_sabbat/gonzo/Front_500x500.jpg",
+    "cover": "./Covers/SCP (Russia)/GONZO/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t50",
@@ -497,7 +497,7 @@
     "tag": "U", 
     "year": "2018",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/scp_sabbat/dni_gonzo/Front_500x500.jpg",
+    "cover": "./Covers/SCP (Russia)/Дни GONZO/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t69",
@@ -593,7 +593,7 @@
     "tag": "U",
     "year": "2016",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/rocket_ru/mood-/Front_500x500.jpg",
+    "cover": "./Covers/ROCKET (Russia)/mood/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t83",
@@ -635,7 +635,7 @@
     "tag": "U",
     "year": "2017",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/rocket_ru/interstellar/Front_500x500.jpg",
+    "cover": "./Covers/ROCKET (Russia)/Interstellar/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t88",
@@ -677,7 +677,7 @@
     "tag": "U",
     "year": "2017",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/rocket_ru/kashemir2/Front_500x500.jpg",
+    "cover": "./Covers/ROCKET (Russia)/Кэшимир 2/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t93",
@@ -737,7 +737,7 @@
     "tag": "U",
     "year": "2018",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/rocket_ru/INTERGALACTIC/Front_500x500.jpg",
+    "cover": "./Covers/ROCKET (Russia)/INTERGALACTIC/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t101",
@@ -785,7 +785,7 @@
     "tag": "U",
     "year": "2018",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/rocket_ru/SWAGSEASON/Front_500x500.jpg",
+    "cover": "./Covers/ROCKET (Russia)/SWAGSEASON/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t107",
@@ -845,7 +845,7 @@
     "tag": "U",
     "year": "2019",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/rocket_ru/SWAGSEASON2/Front_500x500.jpg",
+    "cover": "./Covers/ROCKET (Russia)/SWAGSEASON2/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t115",
@@ -929,7 +929,7 @@
     "tag": "U",
     "year": "2019",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/rocket_ru/TsukuyomiDream/Front_500x500.jpg",
+    "cover": "./Covers/Rocket (Russia)/Tsukuyomi Dream/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t127",
@@ -959,7 +959,7 @@
     "tag": "U",
     "year": "2020",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/rocket_ru/SupremeSwings/Front_500x500.jpg",
+    "cover": "./Covers/ROCKET (Russia)/Supreme Swings/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t130",
@@ -1025,7 +1025,7 @@
     "tag": "U",
     "year": "2020",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/rocket_ru/AeonValues/Front_500x500.jpg",
+    "cover": "./Covers/ROCKET (Russia)/Aeon Values/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t139",
@@ -1079,7 +1079,7 @@
     "tag": "U",
     "year": "2021",
     "genre": "Hip-Hop/Rap",
-    "cover": "https://name.moy.su/music/AQUAKEY/svet_mechey/Front_500x500.jpg",
+    "cover": "./Covers/AQUAKEY/Свет мечей/Front_500x500.jpg",
     "tracks": [
       {
         "id": "t146",
