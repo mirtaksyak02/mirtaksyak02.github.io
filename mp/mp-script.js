@@ -759,9 +759,9 @@ async function openArtistProfile(artistName, isBackMode = false) {
     artistReleases.sort((a, b) => parseInt(b.year) - parseInt(a.year));
     
     // Дефолтный вариант: обложка самого свежего релиза
-    let bannerImageUrl = artistReleases.cover;
+    let bannerImageUrl = artistReleases[0]?.cover || '';
 
-    // СЛОВАРЬ СОПОСТАВЛЕНИЯ ИМЕН АРТИСТОВ С РЕАЛЬНЫМИ ПАПКАМИ НА GITHUB
+    // СЛОВАРЬ СОПОСТАВЛЕНИЯ ИМЕН АРТИСТОВ С РЕАЛЬНЫМИ ПАПКАМИ
     const artistFolderMap = {
         "AQUAKEY": "AQUAKEY (Russia)",
         "ROCKET": "ROCKET (Russia)",
@@ -769,14 +769,10 @@ async function openArtistProfile(artistName, isBackMode = false) {
         "zavet": "Zavet (Russia)"
     };
 
-    // Приводим имя артиста к нижнему регистру для точного поиска в словаре
     const cleanArtistName = artistName.toLowerCase().trim();
-    
-    // Если артист есть в нашем словаре — берем его точную папку, иначе используем его оригинальное имя
     const exactFolderName = artistFolderMap[cleanArtistName] || artistName;
     
-    // Формируем финальный путь к кастомному баннеру на GitHub Pages
-    const potentialBannerPath = `./covers/${exactFolderName}/Banner.jpg`;
+    const potentialBannerPath = `./Covers/${exactFolderName}/Banner.jpg`;
 
     // Проверяем физическое наличие файла Banner.jpg на сервере
     if (potentialBannerPath) {
@@ -793,13 +789,13 @@ async function openArtistProfile(artistName, isBackMode = false) {
     contentArea.className = 'artist-profile-view';
     contentArea.innerHTML = '';
 
-    // Сборка баннера с эффектом размытия при первой загрузке
-    const isBannerCached = loadedImagesCache.has(bannerImageUrl.split('/').pop());
+    // Добавляем безопасную проверку наличия строки (bannerImageUrl), чтобы split никогда не падал в Error
+    const bannerFileName = bannerImageUrl ? bannerImageUrl.split('/').pop() : '';
+    const isBannerCached = bannerFileName ? loadedImagesCache.has(bannerFileName) : false;
     const bannerLoadedClass = isBannerCached ? 'is-loaded' : '';
 
     const artistHeaderHtml = `
         <div class="artist-banner-zone">
-            <!-- Невидимая картинка для отслеживания onload и плавного проявления фона -->
             <img src="${bannerImageUrl}" style="display:none;" onload="this.parentElement.classList.add('is-loaded'); onImageLoad(this);">
             <div class="artist-banner-bg ${bannerLoadedClass}" style="background-image: linear-gradient(to bottom, rgba(18,18,18,0.3), #121212), url('${bannerImageUrl}');"></div>
             <h1 class="artist-profile-name">${artistName.toUpperCase()}</h1>
