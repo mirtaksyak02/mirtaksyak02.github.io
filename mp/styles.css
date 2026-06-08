@@ -872,26 +872,49 @@ audio {
 /* БАННЕР АРТИСТА ИЗ ПОСЛЕДНЕЙ ОБЛОЖКИ */
 .artist-banner-zone {
     width: 100%;
-    height: 220px;
-    background-size: cover;
-    background-position: center;
+    height: 250px;
     display: flex;
-    align-items: flex-end; /* Текст названия прижат к низу баннера */
-    padding: 20px 10px;
+    align-items: flex-end; 
+    padding: 25px 15px;
     box-sizing: border-box;
     margin-bottom: 25px;
     border-radius: 8px;
     position: relative;
+    overflow: hidden; /* Прячем вылезающий блюр фонового слоя */
+    background-color: #1a1a1a;
+}
+
+/* ЗАДНИЙ ФОН БАННЕРА (С ЭФФЕКТОМ ФОКУСИРОВКИ) */
+.artist-banner-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    opacity: 0;
+    filter: blur(10px);
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+.artist-banner-zone.is-loaded .artist-banner-bg,
+.artist-banner-bg.is-loaded {
+    opacity: 1 !important;
+    filter: blur(0px) !important;
 }
 
 /* Огромное имя артиста поверх баннера */
 .artist-profile-name {
-    font-size: 42px;
+    font-size: 46px;
     font-weight: 900;
     color: #ffffff;
     margin: 0;
-    text-shadow: 0 4px 12px rgba(0,0,0,0.8); /* Тень, чтобы имя читалось на любых обложках */
+    text-shadow: 0 4px 15px rgba(0,0,0,0.8); 
     letter-spacing: -1px;
+    position: relative;
+    z-index: 2; /* Сидит строго над фоном */
 }
 
 /* Заголовки разделов (Альбомы / Синглы) */
