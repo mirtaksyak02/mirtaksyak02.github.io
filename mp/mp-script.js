@@ -171,7 +171,8 @@ function showAlbumsGrid(isBackMode = false) {
         albumCard.className = 'album-card';
         albumCard.onclick = () => openAlbum(album.id); 
         
-        const isMainCached = loadedImagesCache.has(album.cover);
+       const imageName = album.cover.split('/').pop();
+        const isMainCached = loadedImagesCache.has(imageName);
         const mainLoadedClass = isMainCached ? 'is-loaded' : '';
 
         albumCard.innerHTML = `
@@ -791,15 +792,13 @@ function generateMiniCardHtml(album) {
         tagHtml = `<span class="tag-custom">${album.tag.toUpperCase()}</span>`;
     }
 
-    // Проверяем, есть ли уже эта обложка в нашем кэше памяти
-    const isCached = loadedImagesCache.has(album.cover);
-    // Если картинка в кэше — сразу даем ей класс четкости, иначе оставляем пустую строку
+    const imageName = album.cover.split('/').pop();
+    const isCached = loadedImagesCache.has(imageName);
     const loadedClass = isCached ? 'is-loaded' : '';
 
     return `
         <div class="album-card" onclick="openAlbum('${album.id}')">
             <div class="album-card-img-wrapper">
-                <!-- Функция onImageLoad запишет URL в память при первом успешном скачивании -->
                 <img src="${album.cover}" alt="${album.title}" class="${loadedClass}" loading="lazy" decoding="async" onload="onImageLoad(this)">
             </div>
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
@@ -813,12 +812,12 @@ function generateMiniCardHtml(album) {
 function onImageLoad(imgElement) {
     if (!imgElement) return;
     
-    // Добавляем класс плавного появления/фокусировки
     imgElement.classList.add('is-loaded');
     
-    // Намертво запоминаем URL этой картинки в кэш-список оперативной памяти плеера
     if (imgElement.src) {
-        loadedImagesCache.add(imgElement.src);
+        // Вытаскиваем чистое имя файла перед сохранением в кэш
+        const imageName = imgElement.src.split('/').pop();
+        loadedImagesCache.add(imageName);
     }
 }
 
