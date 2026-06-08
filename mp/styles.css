@@ -273,14 +273,18 @@ audio {
 }
 
 .album-large-cover {
-    width: 180px;
-    height: 180px;
-    aspect-ratio: 1/1 !important;
+    width: 100% !important;
+    height: 100% !important;
     object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-    flex-shrink: 0;
-    background-color: #1e1e1e;
+    display: block;
+    opacity: 0;
+    filter: blur(10px);
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+.album-large-cover.is-loaded {
+    opacity: 1;
+    filter: blur(0px);
 }
 
 .album-info-text {
@@ -896,6 +900,17 @@ audio {
     position: relative;
 }
 
+.album-large-cover-wrapper {
+    width: 180px;
+    height: 180px;
+    aspect-ratio: 1/1 !important;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5); 
+    background-color: #1a1a1a; /* Темный плейсхолдер */
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+}
 
 @media (max-width: 768px) {
     /* Поиск и овал Shuffle остаются в один ряд */
