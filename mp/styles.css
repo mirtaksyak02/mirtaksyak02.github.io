@@ -12,6 +12,16 @@ body {
     padding-bottom: 100px; 
 }
 
+#page-title {
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.2s ease;
+}
+
+#page-title:hover {
+    opacity: 0.8;
+}
+
 .tracks-list {
     display: flex;
     flex-direction: column;
