@@ -732,7 +732,7 @@ if (mobileVolumePopup) {
 }
 
 // ФУНКЦИЯ ОТКРЫТИЯ КАРТОЧКИ АРТИСТА (С УМНОЙ НАВИГАЦИЕЙ И ВСЕМИ КАТЕГОРИЯМИ)
-async function openArtistProfile(artistName, isBackMode = false) {
+function openArtistProfile(artistName, isBackMode = false) {
     const currentScroll = window.scrollY || document.documentElement.scrollTop;
 
     if (!isBackMode) {
