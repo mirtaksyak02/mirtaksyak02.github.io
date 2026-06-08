@@ -174,13 +174,15 @@ audio {
     object-fit: cover;
     display: block;
     opacity: 0;
-    filter: blur(10px);
-    transition: opacity 0.4s ease, filter 0.4s ease;
+    filter: blur(4px); 
+    
+    /* Делаем проявление супер-быстрым (0.2 секунды вместо 0.4) */
+    transition: opacity 0.2s ease, filter 0.2s ease;
 }
 
 .album-card img.is-loaded {
-    opacity: 1;
-    filter: blur(0px);
+    opacity: 1 !important;
+    filter: blur(0px) !important;
 }
 
 .album-card h3 {
