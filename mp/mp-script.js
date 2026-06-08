@@ -761,31 +761,21 @@ async function openArtistProfile(artistName, isBackMode = false) {
     // Дефолтный вариант: обложка самого свежего релиза
     let bannerImageUrl = artistReleases[0].cover;
 
-    // СМАРТ-ВЫЧИСЛЕНИЕ ИМЕНИ ПАПКИ ИЗ ССЫЛКИ НА ОБЛОЖКУ РЕЛИЗА
+    // СВЕРХТОЧНОЕ ВЫЧИСЛЕНИЕ ИМЕНИ ПАПКИ ЧЕРЕЗ РЕГУЛЯРНОЕ ВЫРАЖЕНИЕ
     let potentialBannerPath = '';
-    
-    // Берем ссылку на обложку самого первого (свежего) релиза артиста
     const sampleCoverPath = artistReleases[0].cover;
 
-    // Проверяем, лежит ли картинка локально в папке covers/
     if (sampleCoverPath.includes('covers/')) {
-        // Разбиваем путь по слэшам. Если ссылка вида "./covers/Zavet (Russia)/cover.jpg",
-        // то части массива будут: ["", "covers", "Zavet (Russia)", "cover.jpg"]
-        const pathParts = sampleCoverPath.split('/');
+        // Регулярное выражение ищет текст, который идет строго после "covers/" до следующего слэша
+        const match = sampleCoverPath.match(/covers\/([^\/]+)/);
         
-        // Находим индекс элемента "covers" и берем следующий за ним элемент — это и будет имя нужной папки
-        const coversIndex = pathParts.findIndex(part => part.includes('covers'));
-        
-        if (coversIndex !== -1 && pathParts[coversIndex + 1]) {
-            const exactFolderName = pathParts[coversIndex + 1]; // Получаем "Zavet (Russia)" пиксель в пиксель
+        if (match && match[1]) {
+            const exactFolderName = match[1].trim(); // Извлекает "Zavet (Russia)" пиксель в пиксель
             potentialBannerPath = `./covers/${exactFolderName}/Banner.jpg`;
         }
-    } else {
-        // Если обложки всё еще тянутся с uCoz (содержат http), подстраховываемся стандартным именем
-        potentialBannerPath = `./covers/${artistName}/Banner.jpg`;
     }
 
-    // Проверяем физическое наличие файла Banner.jpg на сервере GitHub Pages
+    // Если путь успешно собран — проверяем физическое наличие файла на GitHub
     if (potentialBannerPath) {
         try {
             const checkBanner = await fetch(potentialBannerPath, { method: 'HEAD' });
@@ -796,7 +786,6 @@ async function openArtistProfile(artistName, isBackMode = false) {
             console.log('Кастомный баннер не найден, используем обложку релиза.');
         }
     }
-
 
     contentArea.className = 'artist-profile-view';
     contentArea.innerHTML = '';
