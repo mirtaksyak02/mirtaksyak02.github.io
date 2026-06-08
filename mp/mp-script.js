@@ -182,7 +182,7 @@ function showAlbumsGrid(isBackMode = false) {
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h3>${album.title} ${tagHtml}</h3>
             <p>${album.artist}</p>
-            <p>${album.year}</p>
+            <p>${extractYearOnly(album.year)}</p>
         `;
         contentArea.appendChild(albumCard);
     });
@@ -253,7 +253,7 @@ function openAlbum(albumId, isBackMode = false) {
             <h2 class="album-title-header">${album.title} ${tagHtml}</h2>
             <p class="meta">
                 <span class="artist-link" onclick="openArtistProfile('${album.artist.replace(/'/g, "\\'")}')">${album.artist}</span> 
-                • ${album.year} • ${album.genre}
+                • ${extractYearOnly(album.year)} • ${album.genre}
             </p>
         </div>
     `;
@@ -756,9 +756,12 @@ function openArtistProfile(artistName, isBackMode = false) {
     const artistReleases = albumsData.filter(album => album.artist.toLowerCase() === artistName.toLowerCase());
     if (artistReleases.length === 0) return;
 
-    artistReleases.sort((a, b) => parseInt(b.year) - parseInt(a.year));
+    // СОРТИРОВКА ПО ПОЛНОЙ ДАТЕ: От самого свежего релиза к самому старому
+    artistReleases.sort((a, b) => {
+        return parseReleaseDateToTimestamp(b.year) - parseReleaseDateToTimestamp(a.year);
+    });
     
-    // Дефолтный вариант: обложка самого свежего релиза
+    // Обложка релиза берётся из первого (теперь хронологически точного) элемента
     let bannerImageUrl = artistReleases[0]?.cover || '';
 
     // СЛОВАРЬ СОПОСТАВЛЕНИЯ ИМЕН АРТИСТОВ С РЕАЛЬНЫМИ ПАПКАМИ
@@ -842,7 +845,7 @@ function generateMiniCardHtml(album) {
             </div>
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
             <h3>${album.title} ${tagHtml}</h3>
-            <p>${album.year}</p>
+            <p>${extractYearOnly(album.year)}</p>
         </div>
     `;
 }
@@ -858,6 +861,44 @@ function onImageLoad(imgElement) {
         const imageName = imgElement.src.split('/').pop();
         loadedImagesCache.add(imageName);
     }
+}
+
+// Умный конвертер дат для хронологической сортировки релизов
+function parseReleaseDateToTimestamp(dateStr) {
+    if (!dateStr) return 0;
+    
+    const cleanStr = String(dateStr).trim();
+    
+    // Проверяем формат ДД.ММ.ГГГГ (например, 15.04.2024)
+    const datePattern = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/;
+    const match = cleanStr.match(datePattern);
+    
+    if (match) {
+        const day = parseInt(match[1], 10);
+        // В JavaScript месяцы считаются с 0 (январь - 0, декабрь - 11)
+        const month = parseInt(match[2], 10) - 1; 
+        const year = parseInt(match[3], 10);
+        
+        return new Date(year, month, day).getTime();
+    }
+    
+    // Если введена не полная дата, а просто 4 цифры года (например, 2024)
+    const yearPattern = /^(\d{4})$/;
+    const yearMatch = cleanStr.match(yearPattern);
+    if (yearMatch) {
+        const year = parseInt(yearMatch[1], 10);
+        return new Date(year, 0, 1).getTime(); // Считаем как 1 января этого года
+    }
+    
+    return 0; // На случай непредвиденного формата
+}
+
+// Функция-помощник: вытаскивает только 4 цифры года для красивого вывода на экран
+function extractYearOnly(dateStr) {
+    if (!dateStr) return '';
+    const cleanStr = String(dateStr).trim();
+    const match = cleanStr.match(/(\d{4})/); // Ищет любые стоящие подряд 4 цифры
+    return match ? match[1] : cleanStr;
 }
 
 // Старт
