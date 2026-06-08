@@ -220,7 +220,7 @@ function openAlbum(albumId, isBackMode = false) {
     const newUrl = `${window.location.pathname}?album=${albumId}`;
     window.history.pushState({ albumId: albumId }, '', newUrl);
     
-    pageTitle.style.display = 'none';
+    //pageTitle.style.display = 'none';
     searchContainer.style.setProperty('display', 'none', 'important');
     backBtn.style.display = 'block';
     albumHeader.style.display = 'flex';
@@ -565,6 +565,21 @@ if (backBtn) {
     });
 }
 
+if (pageTitle) {
+    pageTitle.addEventListener('click', () => {
+        // Очищаем поисковую строку, чтобы при возврате вывелись вообще все альбомы
+        if (searchInput) searchInput.value = '';
+        
+        // Полностью сбрасываем историю переходов, так как мы вернулись в самое начало
+        navigationHistory = []; 
+        
+        // Вызываем функцию отрисовки главной сетки
+        // Передаем false, так как это не возврат по кнопке Назад, а сброс навигации
+        showAlbumsGrid(false); 
+    });
+}
+
+
 // Функция для синхронизации иконок ▶ / ❙❙ во всем списке на экране
 function updateTrackListIcons() {
     // 1. Возвращаем всем кнопкам на экране дефолтный значок Плей
@@ -734,7 +749,7 @@ function openArtistProfile(artistName, isBackMode = false) {
     const newUrl = `${window.location.pathname}?artist=${encodeURIComponent(artistName)}`;
     window.history.pushState({ artistName: artistName }, '', newUrl);
     
-    pageTitle.style.display = 'none';
+    //pageTitle.style.display = 'none';
     searchContainer.style.setProperty('display', 'none', 'important');
     backBtn.style.display = 'block';
     albumHeader.style.display = 'none'; 
