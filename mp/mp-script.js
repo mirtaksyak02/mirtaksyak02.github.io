@@ -732,7 +732,7 @@ if (mobileVolumePopup) {
 }
 
 // ФУНКЦИЯ ОТКРЫТИЯ КАРТОЧКИ АРТИСТА (С УМНОЙ НАВИГАЦИЕЙ И ВСЕМИ КАТЕГОРИЯМИ)
-function openArtistProfile(artistName, isBackMode = false) {
+async function openArtistProfile(artistName, isBackMode = false) {
     const currentScroll = window.scrollY || document.documentElement.scrollTop;
 
     if (!isBackMode) {
@@ -745,31 +745,51 @@ function openArtistProfile(artistName, isBackMode = false) {
 
     window.scrollTo({ top: 0, behavior: 'instant' });
     
-    // ОБНОВЛЕНИЕ URL: Меняем ?album= на ?artist= в строке браузера
     const newUrl = `${window.location.pathname}?artist=${encodeURIComponent(artistName)}`;
     window.history.pushState({ artistName: artistName }, '', newUrl);
     
-    //pageTitle.style.display = 'none';
+    // pageTitle.style.display = 'none'; // УДАЛЕНО: Логотип теперь всегда виден и кликабелен!
     searchContainer.style.setProperty('display', 'none', 'important');
     backBtn.style.display = 'block';
     albumHeader.style.display = 'none'; 
 
-    updateBackButtonText();
-    
     const artistReleases = albumsData.filter(album => album.artist.toLowerCase() === artistName.toLowerCase());
     if (artistReleases.length === 0) return;
-    
+
     artistReleases.sort((a, b) => parseInt(b.year) - parseInt(a.year));
     
-    // ФИКС ОПЕЧАТКИ: Считываем обложку из первого элемента отсортированного массива
-    const latestCover = artistReleases[0].cover;
-    
+    // Дефолтный вариант: обложка самого свежего релиза
+    let bannerImageUrl = artistReleases[0].cover;
+
+    // СМАРТ-ПОИСК БАННЕРА В ПАПКЕ covers/
+    // Форматируем имя папки артиста: нижний регистр и заменяем пробелы на подчеркивания
+    const formattedArtistDir = artistName.toLowerCase().replace(/\s+/g, '_');
+    const potentialBannerPath = `./covers/${formattedArtistDir}/Banner.jpg`;
+
+    try {
+        // Делаем легкий HEAD-запрос, чтобы просто проверить, существует ли файл Banner.jpg
+        const checkBanner = await fetch(potentialBannerPath, { method: 'HEAD' });
+        if (checkBanner.ok) {
+            // Если Гитхаб сказал "Да, файл на месте" — берем этот кастомный баннер!
+            bannerImageUrl = potentialBannerPath;
+        }
+    } catch (e) {
+        // Если файла нет илиГитхаб вернул ошибку, скрипт молча оставит обложку релиза
+        console.log('Кастомный баннер не найден, используем обложку релиза.');
+    }
+
     contentArea.className = 'artist-profile-view';
     contentArea.innerHTML = '';
 
-    // Генерируем красивую шапку артиста с бэкграунд-баннером
+    // Сборка баннера с эффектом размытия при первой загрузке
+    const isBannerCached = loadedImagesCache.has(bannerImageUrl.split('/').pop());
+    const bannerLoadedClass = isBannerCached ? 'is-loaded' : '';
+
     const artistHeaderHtml = `
-        <div class="artist-banner-zone" style="background-image: linear-gradient(to bottom, rgba(18,18,18,0.4), #121212), url('${latestCover}');">
+        <div class="artist-banner-zone">
+            <!-- Невидимая картинка для отслеживания onload и плавного проявления фона -->
+            <img src="${bannerImageUrl}" style="display:none;" onload="this.parentElement.classList.add('is-loaded'); onImageLoad(this);">
+            <div class="artist-banner-bg ${bannerLoadedClass}" style="background-image: linear-gradient(to bottom, rgba(18,18,18,0.3), #121212), url('${bannerImageUrl}');"></div>
             <h1 class="artist-profile-name">${artistName.toUpperCase()}</h1>
         </div>
     `;
