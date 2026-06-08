@@ -169,13 +169,18 @@ audio {
 }
 
 .album-card img {
-    display: flex;
     width: 100%;
-    aspect-ratio: 1/1 !important;
+    height: 100%;
     object-fit: cover;
-    border-radius: 6px;
-    margin-bottom: 10px;
-    background-color: #1e1e1e; 
+    display: block;
+    opacity: 0;
+    filter: blur(10px);
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+.album-card img.is-loaded {
+    opacity: 1;
+    filter: blur(0px);
 }
 
 .album-card h3 {
@@ -881,6 +886,16 @@ audio {
     margin: 20px 0 12px 10px;
     text-transform: none;
 }
+
+.album-card-img-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 6px;
+    background-color: #1a1a1a; /* Темная заглушка по умолчанию */
+    overflow: hidden;
+    position: relative;
+}
+
 
 @media (max-width: 768px) {
     /* Поиск и овал Shuffle остаются в один ряд */
