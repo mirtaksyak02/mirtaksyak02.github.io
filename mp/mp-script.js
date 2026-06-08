@@ -239,11 +239,13 @@ function openAlbum(albumId, isBackMode = false) {
         }
     }
     
-    const isLargeCoverCached = loadedImagesCache.has(album.cover);
+    const largeImageName = album.cover.split('/').pop();
+    const isLargeCoverCached = loadedImagesCache.has(largeImageName);
     const largeLoadedClass = isLargeCoverCached ? 'is-loaded' : '';
 
     albumHeader.innerHTML = `
         <div class="album-large-cover-wrapper">
+            <!-- Класс largeLoadedClass сразу сделает картинку четкой, если она в кэше -->
             <img src="${album.cover}" alt="${album.title}" class="album-large-cover ${largeLoadedClass}" loading="lazy" decoding="async" onload="onImageLoad(this)">
         </div>
         <div class="album-info-text">
