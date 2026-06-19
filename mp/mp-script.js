@@ -782,6 +782,8 @@ function openArtistProfile(artistName, isBackMode = false) {
     backBtn.style.display = 'block';
     albumHeader.style.display = 'none'; 
 
+    updateBackButtonText();
+    
     const artistReleases = albumsData.filter(album => album.artist.toLowerCase() === artistName.toLowerCase());
     if (artistReleases.length === 0) return;
 
