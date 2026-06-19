@@ -947,10 +947,27 @@ audio {
     flex-shrink: 0;
 }
 
-/* Базовый стиль кнопки повтора */
-#repeat-btn {
+.repeat-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 20px;
+    bottom: 6px;
+}
+
+/* Базовый стиль самой кнопки-иконки */
+.repeat-icon {
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+    font-size: 14px; /* Размер символа под стать иконке громкости */
+    cursor: pointer;
     position: relative;
-    transition: color 0.2s ease, opacity 0.2s ease;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    user-select: none;
 }
 
 /* Режим 0: Выключено (Серый цвет) */
@@ -967,15 +984,15 @@ audio {
 .repeat-track::after {
     content: "1";
     position: absolute;
-    top: -4px;
-    right: -4px;
-    font-size: 10px;
+    top: -6px;
+    right: -8px;
+    font-size: 9px;
     font-weight: bold;
     background: #121212; /* Подстрой под цвет фона своего плеера */
     color: #1db954;
     border-radius: 50%;
-    width: 13px;
-    height: 13px;
+    width: 11px;
+    height: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -989,15 +1006,15 @@ audio {
 .repeat-album::after {
     content: "A";
     position: absolute;
-    top: -4px;
-    right: -4px;
-    font-size: 10px;
+    top: -6px;
+    right: -8px;
+    font-size: 9px;
     font-weight: bold;
-    background: #121212; /* work */
+    background: #121212;
     color: #1db954;
     border-radius: 50%;
-    width: 13px;
-    height: 13px;
+    width: 11px;
+    height: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
