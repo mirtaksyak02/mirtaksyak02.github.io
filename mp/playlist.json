@@ -1102,8 +1102,26 @@
       {
         "id": "t147",
         "title": "impossible to be happy",
-        "duration": "01:49",
+        "duration": "02:13",
         "url": "https://name.moy.su/music/AQUAKEY/impossibletob/AQUAKEY-impossible_to_be_happy.mp3"
+      }
+    ]
+  },
+  {
+    "id": "album-20",
+    "title": "55 FLOOR",
+    "artist": "AQUAKEY",
+    "type": "single",
+    "tag": "U",
+    "year": "19.04.2024",
+    "genre": "Hip-Hop/Rap",
+    "cover": "./Covers/AQUAKEY (Russia)/55 FLOOR/Front_500x500.jpg",
+    "tracks": [
+      {
+        "id": "t147",
+        "title": "55 FLOOR",
+        "duration": "0:",
+        "url": "https://name.moy.su/music/AQUAKEY/55FLOOR/AQUAKEY-impossible_to_be_happy.mp3"
       }
     ]
   }
