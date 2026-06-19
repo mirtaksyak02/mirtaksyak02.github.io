@@ -7,6 +7,7 @@ let currentMarqueeId = 0; // Счётчик сессий анимации
 let savedScrollPosition = 0; // Переменная для сохранения позиции прокрутки главной страницы
 let navigationHistory = [];
 let loadedImagesCache = new Set(); // Глобальный набор для хранения URL-адресов загруженных картинок
+let repeatMode = 0; // Режим повтора
 
 // Словарь для перевода типов релизов на русский язык
 const releaseTypesRu = {
