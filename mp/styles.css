@@ -951,17 +951,17 @@ audio {
     display: flex;
     align-items: center;
     position: absolute;
-    left: 20px;
-    bottom: 6px;
+    left: 20px;   
+    bottom: 6px;  
 }
 
-/* Базовый стиль самой кнопки-иконки */
 .repeat-icon {
     background: none !important;
     border: none !important;
     outline: none !important;
     -webkit-tap-highlight-color: transparent;
-    font-size: 14px; /* Размер символа под стать иконке громкости */
+    font-size: 20px;
+    font-weight: bold;
     cursor: pointer;
     position: relative;
     padding: 0;
@@ -972,24 +972,22 @@ audio {
 
 /* Режим 0: Выключено (Серый цвет) */
 .repeat-off {
-    color: #555555 !important;
-    opacity: 0.6;
+    color: ##ffffff !important;
 }
 
-/* Режим 1: Повтор трека (Зеленый цвет + единичка) */
+/* Режим 1: Повтор трека (Зеленый цвет) */
 .repeat-track {
-    color: #1db954 !important;
-    opacity: 1;
+    color: ##ffffff !important;
 }
 .repeat-track::after {
     content: "1";
     position: absolute;
-    top: -6px;
+    top: -4px; /* Поправили под новый размер символа */
     right: -8px;
     font-size: 9px;
     font-weight: bold;
-    background: #121212; /* Подстрой под цвет фона своего плеера */
-    color: #1db954;
+    background: #121212; 
+    color: #ffffff;
     border-radius: 50%;
     width: 11px;
     height: 11px;
@@ -998,20 +996,19 @@ audio {
     justify-content: center;
 }
 
-/* Режим 2: Повтор альбома (Зеленый цвет + буква А) */
+/* Режим 2: Повтор альбома */
 .repeat-album {
-    color: #1db954 !important;
-    opacity: 1;
+    color: #ffffff !important;
 }
 .repeat-album::after {
     content: "A";
     position: absolute;
-    top: -6px;
+    top: -4px;
     right: -8px;
     font-size: 9px;
     font-weight: bold;
     background: #121212;
-    color: #1db954;
+    color: #ffffff;
     border-radius: 50%;
     width: 11px;
     height: 11px;
