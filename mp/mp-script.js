@@ -576,7 +576,7 @@ if (backBtn) {
             savedScrollPosition = previousPage.scroll;
             showAlbumsGrid(true); // Возврат на главную сетку
         } 
-        else if (previousPage.screen === 'album') {
+        else if (previousPage.screen === 'release') {
             openAlbum(previousPage.id, true); // Возврат внутрь релиза
             setTimeout(() => {
                 window.scrollTo({ top: previousPage.scroll, behavior: 'instant' });
