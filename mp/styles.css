@@ -960,7 +960,8 @@ audio {
     border: none !important;
     outline: none !important;
     -webkit-tap-highlight-color: transparent;
-    font-size: 20px;
+    font-size: 14px;
+    color: #ffffff;
     font-weight: bold;
     cursor: pointer;
     position: relative;
@@ -968,6 +969,7 @@ audio {
     margin: 0;
     line-height: 1;
     user-select: none;
+    transform: translateY(-4px);
 }
 
 /* Режим 0: Выключено (Серый цвет) */
