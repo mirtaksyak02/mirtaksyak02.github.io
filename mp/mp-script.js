@@ -114,7 +114,7 @@ function updateBackButtonText() {
     if (nextBackPage.screen === 'main') {
         backBtn.textContent = '← Назад к альбомам';
     } 
-    else if (nextBackPage.screen === 'album') {
+    else if (nextBackPage.screen === 'release') {
         backBtn.textContent = '← Назад к релизу';
     } 
     else if (nextBackPage.screen === 'artist') {
