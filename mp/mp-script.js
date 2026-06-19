@@ -960,5 +960,24 @@ contentArea.addEventListener('click', (e) => {
     }
 });
 
+if (repeatBtn) {
+    repeatBtn.addEventListener('click', () => {
+        // Меняем режим по кругу: 0 -> 1 -> 2 -> 0
+        repeatMode = (repeatMode + 1) % 3;
+
+        // Сбрасываем классы состояний, оставляя базовый класс
+        repeatBtn.className = 'ctrl-btn';
+
+        // Включаем нужный класс в зависимости от режима
+        if (repeatMode === 0) {
+            repeatBtn.classList.add('repeat-off');
+        } else if (repeatMode === 1) {
+            repeatBtn.classList.add('repeat-track');
+        } else if (repeatMode === 2) {
+            repeatBtn.classList.add('repeat-album');
+        }
+    });
+}
+
 // Старт
 window.onload = init;
