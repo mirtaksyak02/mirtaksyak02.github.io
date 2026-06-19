@@ -966,7 +966,7 @@ if (repeatBtn) {
         repeatMode = (repeatMode + 1) % 3;
 
         // Сбрасываем классы состояний, оставляя базовый класс
-        repeatBtn.className = 'ctrl-btn';
+        repeatBtn.className = 'repeat-icon';
 
         // Включаем нужный класс в зависимости от режима
         if (repeatMode === 0) {
