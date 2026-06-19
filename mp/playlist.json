@@ -1088,5 +1088,23 @@
         "url": "https://name.moy.su/music/AQUAKEY/svet_mechey/aquakey-svet_mechej.mp3"
       }
     ]
+  },
+  {
+    "id": "album-19",
+    "title": "impossible to be happy",
+    "artist": "AQUAKEY",
+    "type": "single",
+    "tag": "U",
+    "year": "17.02.2023",
+    "genre": "Hip-Hop/Rap",
+    "cover": "./Covers/AQUAKEY (Russia)/impossible to be happy/Front_500x500.jpg",
+    "tracks": [
+      {
+        "id": "t147",
+        "title": "impossible to be happy",
+        "duration": "01:49",
+        "url": "https://name.moy.su/music/AQUAKEY/impossibletob/AQUAKEY-impossible_to_be_happy.mp3"
+      }
+    ]
   }
 ]
