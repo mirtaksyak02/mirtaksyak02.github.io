@@ -2,6 +2,7 @@ let albumsData = []; // Данные из JSON
 let currentAlbumTracks = []; // Список треков альбома, который сейчас играет
 let currentTrackIndex = -1;  // Индекс песни, которая играет в данный момент
 let marqueeTimeout = null;   // Хранилище для таймера бегущей строки
+let currentMarqueeId = 0; // Счётчик сессий анимации
 let savedScrollPosition = 0; // Переменная для сохранения позиции прокрутки главной страницы
 let navigationHistory = [];
 let loadedImagesCache = new Set(); // Глобальный набор для хранения URL-адресов загруженных картинок
@@ -44,13 +45,19 @@ const pcVolumeFill = document.getElementById('custom-volume-fill');
 // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 // Исправленный авто-конвертер ссылок
 function getDirectLink(url) {
+    if (!url) return '';
+
+    // 1. Обработка Google Drive
     if (url.includes('drive.google.com')) {
         const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-        if (match) return `https://google.com{match[1]}`;
+        if (match) return 'https://google.com' + match[1];
     }
+    
+    // 2. Обработка Яндекс.Диска
     if (url.includes('disk.yandex.ru') || url.includes('yadi.sk')) {
-        return `https://yandex.net{encodeURIComponent(url)}`;
+        return `https://yandex.net${encodeURIComponent(url)}`;
     }
+    
     return url;
 }
 
@@ -280,6 +287,8 @@ function openAlbum(albumId, isBackMode = false) {
         // 2. Создаем кнопку отдельно
         const playButton = document.createElement('button');
         playButton.className = 'play-btn-gray';
+        // Сохраняем индекс в дата-атрибут для глобального клика
+        playButton.setAttribute('data-index', index); 
         
         // Корректный значок при отрисовке списка
         if (currentAlbumTracks === album.tracks && currentTrackIndex === index && !audioPlayer.paused) {
@@ -287,21 +296,7 @@ function openAlbum(albumId, isBackMode = false) {
         } else {
             playButton.textContent = '▶';
         }
-        
-        playButton.addEventListener('click', () => {
-            // Если кликнули по треку, который УЖЕ выбран
-            if (currentAlbumTracks === album.tracks && currentTrackIndex === index) {
-                if (audioPlayer.paused) {
-                    audioPlayer.play();
-                } else {
-                    audioPlayer.pause();
-                }
-            } else {
-                // Если кликнули по совершенно новому треку
-                playTrack(track, index, album.tracks, album.artist);
-            }
-        });
-
+  
         // 2. Сначала вставляем кнопку в самое начало, а затем добавляем всю строку на экран
         trackRow.insertBefore(playButton, trackRow.firstChild);
         contentArea.appendChild(trackRow);
@@ -330,7 +325,10 @@ function playTrack(track, index, tracksList, artistName) {
 
     const container = document.querySelector('.now-playing-container');
     
-    // СБРОС: Очищаем таймеры, сбрасываем стили и классы
+    // СБРОС: Увеличиваем ID сессии. Прошлый трек поймет, что нужно остановиться
+    currentMarqueeId++;
+    const myId = currentMarqueeId; // Запоминаем ID текущего трека
+
     clearTimeout(marqueeTimeout);
     nowPlayingText.removeAttribute('style');
     nowPlayingText.classList.remove('is-long');
@@ -340,6 +338,8 @@ function playTrack(track, index, tracksList, artistName) {
         
         // Ждем 2 секунды, пока текст стоит по центру (благодаря margin: 0 auto)
         marqueeTimeout = setTimeout(() => {
+            // ПРОВЕРКА: если за эти 2 секунды включили другой трек — выходим
+            if (myId !== currentMarqueeId) return;
             
             // Текст длинный: отключаем авто-центрирование, прижимая строку к левому краю
             nowPlayingText.classList.add('is-long');
@@ -349,11 +349,15 @@ function playTrack(track, index, tracksList, artistName) {
             const duration = scrollDistance * speed; 
 
             function startMarqueeLoop() {
+                // ПРОВЕРКА: перед каждым новым кругом проверяем актуальность трека
+                if (myId !== currentMarqueeId) return;
+
                 // 1. Возвращаем в начальную левую точку без анимации
                 nowPlayingText.style.transition = 'none';
                 nowPlayingText.style.transform = 'translateX(0)';
                 
                 setTimeout(() => {
+                    if (myId !== currentMarqueeId) return;
                     // 2. Плавно катим текст влево до самого конца строки
                     nowPlayingText.style.transition = `transform ${duration}ms linear`;
                     nowPlayingText.style.transform = `translateX(-${scrollDistance}px)`;
@@ -361,6 +365,7 @@ function playTrack(track, index, tracksList, artistName) {
 
                 // 3. Ждем окончания поездки, замираем на 2 секунды и повторяем
                 marqueeTimeout = setTimeout(() => {
+                    if (myId !== currentMarqueeId) return;
                     startMarqueeLoop();
                 }, duration + 2000);
             }
@@ -900,6 +905,38 @@ function extractYearOnly(dateStr) {
     const match = cleanStr.match(/(\d{4})/); // Ищет любые стоящие подряд 4 цифры
     return match ? match[1] : cleanStr;
 }
+
+// Глобальное делегирование кликов для кнопок воспроизведения в альбоме
+contentArea.addEventListener('click', (e) => {
+    // Проверяем, кликнул ли пользователь на кнопку проигрывания или на символ внутри нее
+    const playBtn = e.target.closest('.play-btn-gray');
+    if (!playBtn) return; // Если клик мимо кнопки, игнорируем
+
+    // Достаем индекс трека, который мы сохранили
+    const index = parseInt(playBtn.getAttribute('data-index'), 10);
+    
+    // Определяем, какой альбом сейчас открыт, используя параметры адресной строки
+    const urlParams = new URLSearchParams(window.location.search);
+    const albumId = urlParams.get('album');
+    
+    if (!albumId || !albumsData) return;
+    
+    const album = albumsData.find(a => a.id === albumId);
+
+    if (album && album.tracks && album.tracks[index]) {
+        // Если кликнули по треку, который УЖЕ выбран
+        if (currentAlbumTracks === album.tracks && currentTrackIndex === index) {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+            } else {
+                audioPlayer.pause();
+            }
+        } else {
+            // Если кликнули по совершенно новому треку
+            playTrack(album.tracks[index], index, album.tracks, album.artist);
+        }
+    }
+});
 
 // Старт
 window.onload = init;
