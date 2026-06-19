@@ -1020,6 +1020,10 @@ audio {
 }
 
 @media (max-width: 768px) {
+    .repeat-icon {
+        font-size: 20px;
+    }
+    
     /* Поиск и овал Shuffle остаются в один ряд */
     .search-row-container {
         display: flex !important;
@@ -1142,8 +1146,8 @@ audio {
         word-break: normal !important;
         word-wrap: break-word !important;
     }
-
-        .albums-grid {
+    
+    .albums-grid {
         display: grid !important;
         /* Ровно две колонки, которые делят экран пополам */
         grid-template-columns: repeat(2, 1fr) !important; 
