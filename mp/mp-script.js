@@ -804,7 +804,7 @@ function openArtistProfile(artistName, isBackMode = false) {
     };
 
     // СПИСОК АРТИСТОВ, У КОТОРЫХ СУЩЕСТВУЕТ КАСТОМНЫЙ БАННЕР НА ГИТХАБЕ
-    const artistsWithCustomBanners = ["aquakey", "zavet"]; 
+    const artistsWithCustomBanners = ["aquakey", "rocket", "zavet"]; 
 
     const cleanArtistName = artistName.toLowerCase().trim();
     const exactFolderName = artistFolderMap[cleanArtistName] || artistName;
