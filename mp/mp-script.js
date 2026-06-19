@@ -1,5 +1,6 @@
 let albumsData = []; // Данные из JSON
 let currentAlbumTracks = []; // Список треков альбома, который сейчас играет
+let currentArtistName = ''; // Имя артиста
 let currentTrackIndex = -1;  // Индекс песни, которая играет в данный момент
 let marqueeTimeout = null;   // Хранилище для таймера бегущей строки
 let currentMarqueeId = 0; // Счётчик сессий анимации
@@ -314,6 +315,7 @@ function openAlbum(albumId, isBackMode = false) {
 // 5. ЛОГИКА ПЛЕЕРА И БЕГУЩЕЙ СТРОКИ
 function playTrack(track, index, tracksList, artistName) {
     currentAlbumTracks = tracksList;
+    currentArtistName = artistName;
     currentTrackIndex = index;
 
     const directUrl = getDirectLink(track.url);
@@ -393,6 +395,14 @@ function playTrack(track, index, tracksList, artistName) {
 
 function playNextTrack() {
     if (currentAlbumTracks.length === 0 || currentTrackIndex === -1) return;
+
+    // РЕЖИМ 1: Повтор текущего трека (если включен, просто перематываем в ноль и играем заново)
+    if (typeof repeatMode !== 'undefined' && repeatMode === 1) {
+        audioPlayer.currentTime = 0;
+        audioPlayer.play();
+        return; // Выходим из функции, не переключая индекс вперед
+    }
+
     const nextIndex = currentTrackIndex + 1;
     
     if (nextIndex < currentAlbumTracks.length) {
@@ -405,6 +415,16 @@ function playNextTrack() {
                            "Исполнитель";
                            
         playTrack(nextTrack, nextIndex, currentAlbumTracks, artistName);
+    } else if (typeof repeatMode !== 'undefined' && repeatMode === 2) {
+        // РЕЖИМ 2: Повтор альбома (если доиграл последний трек — прыгаем на самый первый с индексом 0)
+        const firstTrack = currentAlbumTracks[0];
+        
+        // Точно так же безопасно ищем автора для первого трека
+        const artistName = firstTrack.albumArtist || 
+                           albumsData.find(a => a.tracks.includes(firstTrack))?.artist || 
+                           "Исполнитель";
+                           
+        playTrack(firstTrack, 0, currentAlbumTracks, artistName);
     } else {
         // Альбом полностью завершился сам:
         // Меняем иконку на панели на "Плей" (▶)
