@@ -43,6 +43,7 @@ const mobileVolumePopup = document.getElementById('mobile-volume-popup');
 const mobileTrack = document.getElementById('mobile-volume-track');
 const mobileFill = document.getElementById('mobile-volume-fill');
 const pcVolumeFill = document.getElementById('custom-volume-fill');
+const repeatBtn = document.getElementById('repeat-btn');
 
 // 2. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 // Исправленный авто-конвертер ссылок
