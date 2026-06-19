@@ -102,9 +102,15 @@ async function init() {
 function updateBackButtonText() {
     if (!backBtn) return;
     
-    // Если история пуста, кнопка при возврате выведет на главную
+    // Если история пуста, но мы СЕЙЧАС физически находимся внутри релиза (списка треков)
+    if (navigationHistory.length === 0 && contentArea.classList.contains('tracks-list')) {
+        backBtn.textContent = '← Назад к релизам';
+        return;
+    }
+    
+    // Если история пуста и мы на любом другом экране
     if (navigationHistory.length === 0) {
-        backBtn.textContent = '← Назад к альбомам';
+        backBtn.textContent = '← Назад к релизам';
         return;
     }
     
@@ -112,7 +118,7 @@ function updateBackButtonText() {
     const nextBackPage = navigationHistory[navigationHistory.length - 1];
     
     if (nextBackPage.screen === 'main') {
-        backBtn.textContent = '← Назад к альбомам';
+        backBtn.textContent = '← Назад к релизам';
     } 
     else if (nextBackPage.screen === 'release') {
         backBtn.textContent = '← Назад к релизу';
