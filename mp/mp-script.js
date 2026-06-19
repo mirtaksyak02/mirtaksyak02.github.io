@@ -79,7 +79,7 @@ async function init() {
         albumsData = await response.json();
         
         const urlParams = new URLSearchParams(window.location.search);
-        const albumIdFromUrl = urlParams.get('album');
+        const albumIdFromUrl = urlParams.get('release');
         const artistFromUrl = urlParams.get('artist');
 
         // 1. Если в ссылке есть артист — сразу открываем его карточку
@@ -226,8 +226,8 @@ function openAlbum(albumId, isBackMode = false) {
     const album = albumsData.find(a => a.id === albumId);
     if (!album) return;
     
-    // Дописываем ?album=ID_АЛЬБОМА в адресную строку браузера
-    const newUrl = `${window.location.pathname}?album=${albumId}`;
+    // Дописываем ?release=ID_АЛЬБОМА в адресную строку браузера
+    const newUrl = `${window.location.pathname}?release=${albumId}`;
     window.history.pushState({ albumId: albumId }, '', newUrl);
     
     //pageTitle.style.display = 'none';
@@ -671,7 +671,7 @@ shuffleAllBtn.addEventListener('click', shuffleAllTracks);
 // "Прослушивание" системных кнопок "назад" и "вперед" в браузере
 window.addEventListener('popstate', (event) => {
     const urlParams = new URLSearchParams(window.location.search);
-    const albumId = urlParams.get('album');
+    const albumId = urlParams.get('release');
     
     if (albumId) {
         openAlbum(albumId);
@@ -764,9 +764,9 @@ function openArtistProfile(artistName, isBackMode = false) {
 
     if (!isBackMode) {
         const urlParams = new URLSearchParams(window.location.search);
-        const currentAlbumId = urlParams.get('album');
+        const currentAlbumId = urlParams.get('release');
         if (currentAlbumId) {
-            navigationHistory.push({ screen: 'album', id: currentAlbumId, scroll: currentScroll });
+            navigationHistory.push({ screen: 'release', id: currentAlbumId, scroll: currentScroll });
         }
     }
 
@@ -939,7 +939,7 @@ contentArea.addEventListener('click', (e) => {
     
     // Определяем, какой альбом сейчас открыт, используя параметры адресной строки
     const urlParams = new URLSearchParams(window.location.search);
-    const albumId = urlParams.get('album');
+    const albumId = urlParams.get('release');
     
     if (!albumId || !albumsData) return;
     
