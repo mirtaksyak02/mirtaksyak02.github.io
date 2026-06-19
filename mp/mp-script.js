@@ -102,15 +102,9 @@ async function init() {
 function updateBackButtonText() {
     if (!backBtn) return;
     
-    // Если история пуста, но мы СЕЙЧАС физически находимся внутри релиза (списка треков)
-    if (navigationHistory.length === 0 && contentArea.classList.contains('tracks-list')) {
-        backBtn.textContent = '← Назад к релизам';
-        return;
-    }
-    
-    // Если история пуста и мы на любом другом экране
+    // Если история пуста (например, при возврате от артиста), пишем "Назад к релизам"
     if (navigationHistory.length === 0) {
-        backBtn.textContent = '← Назад к релизам';
+        backBtn.textContent = '← Назад к альбомам';
         return;
     }
     
@@ -118,10 +112,12 @@ function updateBackButtonText() {
     const nextBackPage = navigationHistory[navigationHistory.length - 1];
     
     if (nextBackPage.screen === 'main') {
-        backBtn.textContent = '← Назад к релизам';
+        // ИСПРАВЛЕНО: Когда пришли с главной, кнопка должна вести назад к РЕЛИЗАМ
+        backBtn.textContent = '← Назад к альбомам'; 
     } 
     else if (nextBackPage.screen === 'release') {
-        backBtn.textContent = '← Назад к релизу';
+        // ИСПРАВЛЕНО: Когда пришли из релиза, кнопка должна вести назад к РЕЛИЗУ (в единственном числе)
+        backBtn.textContent = '← Назад к релизу'; 
     } 
     else if (nextBackPage.screen === 'artist') {
         backBtn.textContent = '← Назад к артисту';
