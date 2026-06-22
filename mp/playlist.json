@@ -1124,5 +1124,77 @@
         "url": "https://name.moy.su/music/AQUAKEY/55FLOOR/AQUAKEY-55_FLOOR.mp3"
       }
     ]
+  },
+    {
+    "id": "album-21",
+    "title": "Troy",
+    "artist": "UnoTheActivist",
+    "type": "album",
+    "tag": "U",
+    "year": "07.11.2025",
+    "genre": "Hip-Hop/Rap",
+    "cover": "./Covers/UnoTheActivist/Troy/Front_500x500.jpg",
+    "tracks": [
+      {
+        "id": "t148",
+        "title": "Pink Stones",
+        "duration": "0:",
+        "url": "AAAA"
+      },
+      {
+        "id": "t149",
+        "title": "Sometimes I Wanna Fight",
+        "duration": "0:",
+        "url": "AAAA"
+      },
+      {
+        "id": "t150",
+        "title": "The Wave",
+        "duration": "0:",
+        "url": "AAAA"
+      },
+      {
+        "id": "t151",
+        "title": "Don't Wake Me Up",
+        "duration": "0:",
+        "url": "AAAA"
+      },
+      {
+        "id": "t152",
+        "title": "I'm Famous",
+        "duration": "0:",
+        "url": "AAAA"
+      },
+      {
+        "id": "t153",
+        "title": "God As My Witness",
+        "duration": "0:",
+        "url": "AAAA"
+      },
+      {
+        "id": "t154",
+        "title": "Soufside Love Story (Follow Me)",
+        "duration": "0:",
+        "url": "AAAA"
+      },
+      {
+        "id": "t155",
+        "title": "Above The Rib",
+        "duration": "0:",
+        "url": "AAAA"
+      },
+      {
+        "id": "t156",
+        "title": "You Won",
+        "duration": "0:",
+        "url": "AAAA"
+      },
+      {
+        "id": "t157",
+        "title": "300 For Lunch",
+        "duration": "0:",
+        "url": "AAAA"
+      }
+    ]
   }
 ]
