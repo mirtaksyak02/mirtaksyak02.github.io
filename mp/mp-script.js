@@ -1013,21 +1013,20 @@ function loadVkPlaylistTest() {
     const vkPlaylistUrl = 'https://vk.com/music/playlist/150891003_2989_d2c4748bcd318e48ad';
     
     // Переходим на более стабильный CORS-прокси
-    const proxyUrl = `https://allorigins.win{encodeURIComponent(vkPlaylistUrl)}`;
+    const proxyUrl = `https://corsproxy.io{encodeURIComponent(vkPlaylistUrl)}`;
 
     console.log("Загрузка VK плейлиста...");
 
-    fetch(proxyUrl)
-        .then(response => {
-            if (response.ok) return response.json();
-            throw new Error('Ошибка ответа прокси-сервера');
-        })
-        .then(data => {
-            const htmlString = data.contents;
-            
-            // Создаем DOM-парсер
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlString, 'text/html');
+fetch(proxyUrl)
+    .then(response => {
+        if (response.ok) return response.text(); // Читаем как чистый текст
+        throw new Error('Ошибка ответа прокси-сервера (Возможно, лимит запросов)');
+    })
+    .then(htmlString => { // Сюда сразу прилетает весь HTML-код страницы ВК
+        
+        // Создаем DOM-парсер (Твой оригинальный код парсинга идет дальше)
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlString, 'text/html');
             
             const audioRows = doc.querySelectorAll('.audio_row');
             if (audioRows.length === 0) {
