@@ -1196,5 +1196,22 @@
         "url": "AAAA"
       }
     ]
+  },
+  {
+    "id": "vk-test-release",
+    "title": "VK Стриминг (Тест)",
+    "artist": "ВКонтакте",
+    "cover": "https://freepik.com",
+    "type": "single",
+    "year": "2026",
+    "genre": "Потоковое аудио",
+    "tracks": [
+        {
+            "id": "vk-track-1",
+            "title": "Тестовый HLS поток ВК",
+            "duration": "2:34",
+            "url": "https://unified-streaming.com"
+        }
+    ]
   }
 ]
