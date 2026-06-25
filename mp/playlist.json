@@ -1125,7 +1125,7 @@
       }
     ]
   },
-    {
+  {
     "id": "album-21",
     "title": "Troy",
     "artist": "UnoTheActivist",
@@ -1198,7 +1198,7 @@
     ]
   },
   {
-    "id": "vk-test-release",
+    "id": "album-22",
     "title": "VK Стриминг (Тест)",
     "artist": "ВКонтакте",
     "cover": "https://freepik.com",
@@ -1207,7 +1207,7 @@
     "genre": "Потоковое аудио",
     "tracks": [
         {
-            "id": "vk-track-1",
+            "id": "t158",
             "title": "Тестовый HLS поток ВК",
             "duration": "2:34",
             "url": "https://unified-streaming.com"
