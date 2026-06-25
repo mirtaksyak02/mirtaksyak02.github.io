@@ -1008,8 +1008,8 @@ if (repeatBtn) {
 }
 
 function loadVkPlaylistTest() {
-    // Ссылка на твой открытый плейлист (важно, чтобы он был доступен без авторизации)
-    const vkPlaylistUrl = 'https://vk.com';
+    // Ссылка на открытый плейлист (важно, чтобы он был доступен без авторизации)
+    const vkPlaylistUrl = 'https://vk.com/music/playlist/150891003_2989_d2c4748bcd318e48ad';
     
     // Используем CORS-прокси для обхода ограничений браузера
     const proxyUrl = `https://allorigins.win{encodeURIComponent(vkPlaylistUrl)}`;
@@ -1095,6 +1095,8 @@ function loadVkPlaylistTest() {
             console.error('Ошибка парсинга VK:', error);
         });
 }
+
+setTimeout(loadVkPlaylistTest, 1000);
 
 // Старт
 window.onload = init;
