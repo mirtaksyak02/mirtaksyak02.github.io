@@ -1007,32 +1007,31 @@ if (repeatBtn) {
     });
 }
 
+
 function loadVkPlaylistTest() {
-    // Ссылка на открытый плейлист (важно, чтобы он был доступен без авторизации)
+    // Открытый плейлист из ВК
     const vkPlaylistUrl = 'https://vk.com/music/playlist/150891003_2989_d2c4748bcd318e48ad';
     
-    // Используем CORS-прокси для обхода ограничений браузера
+    // Переходим на более стабильный CORS-прокси
     const proxyUrl = `https://allorigins.win{encodeURIComponent(vkPlaylistUrl)}`;
 
-    console.log("Загрузка VK плейлиста через прокси...");
+    console.log("Загрузка VK плейлиста...");
 
     fetch(proxyUrl)
         .then(response => {
             if (response.ok) return response.json();
-            throw new Error('Ошибка сети при запросе к прокси');
+            throw new Error('Ошибка ответа прокси-сервера');
         })
         .then(data => {
-            // Получаем чистый HTML-код страницы плейлиста VK
             const htmlString = data.contents;
             
-            # Создаем виртуальный DOM для удобного парсинга элементов
+            // Создаем DOM-парсер
             const parser = new DOMParser();
             const doc = parser.parseFromString(htmlString, 'text/html');
             
-            // Ищем все строки аудиозаписей на странице
             const audioRows = doc.querySelectorAll('.audio_row');
             if (audioRows.length === 0) {
-                console.error("Треки не найдены. Возможно, плейлист закрыт настройками приватности.");
+                alert("Ошибка: Треки в HTML ВК не найдены. Возможно, плейлист закрыт настройками приватности.");
                 return;
             }
 
@@ -1043,56 +1042,70 @@ function loadVkPlaylistTest() {
                 const artist = row.querySelector('.audio_row__performers a')?.textContent.trim() || 'Неизвестный артист';
                 const duration = row.querySelector('.audio_row__duration')?.textContent.trim() || '0:00';
                 
-                // Извлекаем обложку из инлайн-стилей background-image
+                // Вытаскиваем обложку
                 const coverElement = row.querySelector('.audio_row__cover');
                 let coverUrl = '';
                 if (coverElement) {
                     const bgImg = coverElement.style.backgroundImage;
-                    if (bgImg) coverUrl = bgImg.slice(5, -2);
+                    if (bgImg) {
+                        const match = bgImg.match(/url\((['"]?)(.*?)\1\)/);
+                        if (match) coverUrl = match[2];
+                    }
                 }
 
-                // ВАЖНО: VK зашивает аудио-поток в data-атрибуты строки. 
-                // Извлекаем скрытый URL-адрес дорожки .m3u8
+                // Безопасно парсим data-audio
                 const audioDataAttr = row.getAttribute('data-audio');
                 let audioUrl = '';
                 if (audioDataAttr) {
                     try {
-                        const parsedAudioData = JSON.parse(audioDataAttr);
-                        // Обычно ссылка лежит во 2-м или 14-м элементе массива VK-данных
-                        audioUrl = parsedAudioData[2] || ''; 
+                        const parsed = JSON.parse(audioDataAttr);
+                        // ВК кладет ссылку на .m3u8 в первый индекс массива (индекс 1)
+                        audioUrl = parsed[1] || '';
                     } catch(e) {
-                        console.log("Ошибка разбора data-audio");
+                        audioUrl = '';
                     }
                 }
 
-                // Формируем объект трека строго под структуру твоего playlist.json
                 vkTracks.push({
-                    id: `vk-track-${index}`,
+                    id: `vk-${index}-${Date.now()}`,
                     title: title,
                     artist: artist,
                     duration: duration,
                     cover: coverUrl,
-                    url: audioUrl // Эта ссылка полетит в Hls.js
+                    url: audioUrl
                 });
             });
 
-            // Искусственно создаем объект "альбома"
+            // Формируем объект релиза строго под твой формат
             const vkAlbum = {
-                id: "vk-playlist",
-                title: "VK Тестовый Плейлист",
+                id: "vk-playlist-test",
+                title: "VK Плейлист (Тест)",
                 artist: "ВКонтакте",
                 cover: vkTracks[0]?.cover || "",
                 tracks: vkTracks,
-                type: "album"
+                type: "album",
+                year: "2026",
+                genre: "Разное"
             };
 
-            console.log("Плейлист успешно собран из VK!", vkAlbum);
-            
-            // Включаем твой плеер! Отрисовываем треки через твою же функцию openAlbum
-            openAlbum(vkAlbum.id); 
+            // КРИТИЧЕСКИЙ ФИКС: Внедряем плейлист в твой массив данных,
+            // чтобы функция openAlbum смогла его успешно найти через .find()
+            if (typeof albumsData !== 'undefined') {
+                // Если старый тест уже был в массиве, удаляем его
+                albumsData = albumsData.filter(a => a.id !== vkAlbum.id);
+                albumsData.push(vkAlbum);
+                
+                console.log("Плейлист успешно внедрен в базу плера:", vkAlbum);
+                
+                // Теперь твоя оригинальная функция отработает без ошибок!
+                openAlbum(vkAlbum.id);
+            } else {
+                alert("Ошибка: Переменная albumsData не найдена в глобальной области видимости.");
+            }
         })
         .catch(error => {
-            console.error('Ошибка парсинга VK:', error);
+            console.error('Ошибка:', error);
+            alert("Сбой загрузки ВК: " + error.message);
         });
 }
 
