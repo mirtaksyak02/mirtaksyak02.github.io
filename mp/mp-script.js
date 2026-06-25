@@ -323,8 +323,32 @@ function playTrack(track, index, tracksList, artistName) {
     currentTrackIndex = index;
 
     const directUrl = getDirectLink(track.url);
-    audioPlayer.src = directUrl;
-    audioPlayer.play();
+    
+    // Если это ссылка на VK (содержит .m3u8) и браузер поддерживает Hls.js
+    if (directUrl.includes('.m3u8') && Hls.isSupported()) {
+        // Если прошлый поток HLS уже был запущен, уничтожаем его экземпляр
+        if (window.currentHlsInstance) {
+            window.currentHlsInstance.destroy();
+        }
+        
+        const hls = new Hls();
+        hls.loadSource(directUrl);
+        hls.attachMedia(audioPlayer);
+        window.currentHlsInstance = hls; // сохраняем ссылку в глобальный объект
+        
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            audioPlayer.play().catch(e => console.log("Ошибка старта HLS:", e));
+        });
+    
+    } else {
+        // Для обычных mp3 и облаков оставляем твой стандартный код
+        if (window.currentHlsInstance) {
+            window.currentHlsInstance.destroy();
+            window.currentHlsInstance = null;
+        } 
+        audioPlayer.src = directUrl;
+        audioPlayer.play().catch(e => console.log("Ошибка старта MP3:", e));
+    }
     
     masterPlayBtn.textContent = '❙❙'; 
     nowPlayingText.textContent = `${artistName} - ${track.title}`;
