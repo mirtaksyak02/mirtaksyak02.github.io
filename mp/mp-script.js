@@ -227,6 +227,21 @@ function openAlbum(albumId, isBackMode = false) {
     
     const album = albumsData.find(a => a.id === albumId);
     if (!album) return;
+
+    // УМНЫЙ ПЕРЕХВАТЧИК: Если это пустой альбом со ссылкой на VK
+if (album.url && album.url.includes('://vk.com') && (!album.tracks || album.tracks.length === 0)) {
+    // Включаем визуальный индикатор загрузки вместо списка треков
+    contentArea.innerHTML = `
+        <div style="text-align: center; color: #1db954; padding: 40px; font-weight: bold;">
+            ⏳ Импортируем плейлист из ВКонтакте...
+        </div>
+    `;
+    
+    // Запускаем функцию разбора ссылки (напишем её в Шаге 3)
+    parseVkPlaylistUrl(album);
+    return; // Временно выходим из openAlbum, пока треки загружаются
+}
+    
     
     // Дописываем ?release=ID_АЛЬБОМА в адресную строку браузера
     const newUrl = `${window.location.pathname}?release=${albumId}`;
@@ -1007,93 +1022,76 @@ if (repeatBtn) {
     });
 }
 
-function loadVkPlaylistTest() {
-    const vkPlaylistUrl = 'https://vk.com/music/playlist/150891003_2989_d2c4748bcd318e48ad';
+function parseVkPlaylistUrl(album) {
+    // Безопасно собираем адрес стабильного CORS прокси по кусочкам
+    const p1 = 'https://api.';
+    const p2 = 'allorigins.win/get?url=';
+    const proxyGateway = p1 + p2;
     
-    // Используем прокси corsproxy.io
-    const proxyUrl = `https://corsproxy.io{encodeURIComponent(vkPlaylistUrl)}`;
+    const fullRequestUrl = proxyGateway + encodeURIComponent(album.url);
 
-    // Находим твою нижнюю текстовую плашку для вывода логов
-    const nowPlayingDiv = document.getElementById('now-playing');
-    if (nowPlayingDiv) {
-        nowPlayingDiv.innerHTML = "⏳ Подключение к ВК через прокси...";
-    }
-
-    fetch(proxyUrl)
+    fetch(fullRequestUrl)
         .then(response => {
-            // Если прокси ответил, но с ошибкой (например 403 или 429)
-            if (!response.ok) {
-                throw new Error(`HTTP Error! Статус: ${response.status} (${response.statusText})`);
-            }
-            return response.text();
+            if (response.ok) return response.json();
+            throw new Error('Прокси-сервер временно недоступен');
         })
-        .then(htmlString => {
-            if (nowPlayingDiv) nowPlayingDiv.innerHTML = "⏳ Парсинг HTML-кода ВК...";
-
+        .then(data => {
+            const htmlString = data.contents;
+            
+            // Парсим полученный HTML-код страницы VK
             const parser = new DOMParser();
             const doc = parser.parseFromString(htmlString, 'text/html');
             const audioRows = doc.querySelectorAll('.audio_row');
             
             if (audioRows.length === 0) {
-                throw new Error("ВК отдал пустую страницу или форму авторизации (капчу). Треки .audio_row не найдены.");
+                throw new Error('Не удалось извлечь треки. Проверь, открыт ли плейлист в настройках VK.');
             }
 
-            const vkTracks = [];
+            const parsedTracks = [];
+
             audioRows.forEach((row, index) => {
                 const title = row.querySelector('.audio_row__title_inner')?.textContent.trim() || 'Без названия';
-                const artist = row.querySelector('.audio_row__performers a')?.textContent.trim() || 'Неизвестный артист';
-                const duration = row.querySelector('.audio_row__duration')?.textContent.trim() || '0:00';
+                const artist = row.querySelector('.audio_row__performers a')?.textContent.trim() || 'Неизвестный исполнитель';
+                const duration = row.querySelector('.audio_row__duration')?.textContent.trim() || '3:00';
                 
+                // Вытаскиваем скрытую потоковую ссылку .m3u8 из дата-атрибута VK
                 const audioDataAttr = row.getAttribute('data-audio');
-                let audioUrl = '';
+                let streamUrl = '';
                 if (audioDataAttr) {
-                    try { audioUrl = JSON.parse(audioDataAttr) || ''; } catch(e) {}
+                    try {
+                        const parsedData = JSON.parse(audioDataAttr);
+                        // В разметке VK ссылка обычно лежит во втором элементе массива
+                        streamUrl = parsedData[1] || '';
+                    } catch(e) {}
                 }
 
-                vkTracks.push({
-                    id: `vk-${index}-${Date.now()}`,
+                parsedTracks.push({
+                    id: `vk-imported-${index}-${Date.now()}`,
                     title: title,
                     artist: artist,
                     duration: duration,
-                    cover: "",
-                    url: audioUrl
+                    url: streamUrl // Настоящая ссылка .m3u8, которая полетит в Hls.js
                 });
             });
 
-            const vkAlbum = {
-                id: "vk-playlist-test",
-                title: "VK Плейлист (Тест)",
-                artist: "ВКонтакте",
-                cover: "",
-                tracks: vkTracks,
-                type: "album",
-                year: "2026",
-                genre: "Разное"
-            };
+            // Наполняем наш пустой альбом настоящими спарсенными треками!
+            album.tracks = parsedTracks;
+            
+            console.log(`Успешно импортировано треков: ${parsedTracks.length}`);
 
-            if (typeof albumsData !== 'undefined') {
-                albumsData = albumsData.filter(a => a.id !== vkAlbum.id);
-                albumsData.push(vkAlbum);
-                openAlbum(vkAlbum.id);
-                if (nowPlayingDiv) nowPlayingDiv.innerHTML = "✅ ВК Плейлист успешно загружен!";
-            }
+            // Повторно вызываем openAlbum — теперь массив заполнен, и плеер отрендерит список!
+            openAlbum(album.id, true); 
         })
         .catch(error => {
-            // ВЫВОД КРИТИЧЕСКОЙ ОШИБКИ В ИНТЕРФЕЙС ПЛЕЕРА
-            console.error('Детали сбоя:', error);
-            if (nowPlayingDiv) {
-                nowPlayingDiv.innerHTML = `
-                    <div style="color: #ff4a4a; font-size: 11px; text-align: left; line-height: 1.3; padding: 4px;">
-                        <strong>Сбой ВК:</strong> ${error.message}<br>
-                        <strong>Тип:</strong> ${error.name}<br>
-                        <span style="opacity: 0.6;">Проверь приватность плейлиста в ВК.</span>
-                    </div>
-                `;
-            }
+            console.error('Ошибка импорта:', error);
+            contentArea.innerHTML = `
+                <div style="text-align: center; color: #ff4a4a; padding: 40px;">
+                    ❌ Не удалось загрузить плейлист<br>
+                    <span style="font-size: 12px; color: #aaa;">${error.message}</span>
+                </div>
+            `;
         });
 }
-
-setTimeout(loadVkPlaylistTest, 1000);
 
 // Старт
 window.onload = init;
