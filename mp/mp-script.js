@@ -840,11 +840,12 @@ function openArtistProfile(artistName, isBackMode = false) {
         "lildrughill": "LILDRUGHILL",
         "rocket": "ROCKET (Russia)",
         "superior.cat.proteus": "SCP (Russia)",
+        "unotheactivist": "UnoTheActivist",
         "zavet": "Zavet (Russia)"
     };
 
     // СПИСОК АРТИСТОВ, У КОТОРЫХ СУЩЕСТВУЕТ КАСТОМНЫЙ БАННЕР НА ГИТХАБЕ
-    const artistsWithCustomBanners = ["aquakey", "lildrughill", "rocket", "zavet"]; 
+    const artistsWithCustomBanners = ["aquakey", "lildrughill", "rocket", "unotheactivist", "zavet"]; 
 
     const cleanArtistName = artistName.toLowerCase().trim();
     const exactFolderName = artistFolderMap[cleanArtistName] || artistName;
