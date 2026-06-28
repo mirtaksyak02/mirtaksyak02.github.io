@@ -837,13 +837,14 @@ function openArtistProfile(artistName, isBackMode = false) {
     // СЛОВАРЬ СОПОСТАВЛЕНИЯ ИМЕН АРТИСТОВ С РЕАЛЬНЫМИ ПАПКАМИ
     const artistFolderMap = {
         "aquakey": "AQUAKEY (Russia)",
+        "lildrughill": "LILDRUGHILL",
         "rocket": "ROCKET (Russia)",
         "superior.cat.proteus": "SCP (Russia)",
         "zavet": "Zavet (Russia)"
     };
 
     // СПИСОК АРТИСТОВ, У КОТОРЫХ СУЩЕСТВУЕТ КАСТОМНЫЙ БАННЕР НА ГИТХАБЕ
-    const artistsWithCustomBanners = ["aquakey", "rocket", "zavet"]; 
+    const artistsWithCustomBanners = ["aquakey", "lildrughill", "rocket", "zavet"]; 
 
     const cleanArtistName = artistName.toLowerCase().trim();
     const exactFolderName = artistFolderMap[cleanArtistName] || artistName;
@@ -893,7 +894,6 @@ function openArtistProfile(artistName, isBackMode = false) {
 
     contentArea.innerHTML = contentHtml;
 }
-
 
 // Помощник для генерации кода карточки
 function generateMiniCardHtml(album) {
