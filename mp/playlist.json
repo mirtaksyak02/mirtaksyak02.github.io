@@ -1199,6 +1199,77 @@
   },
   {
     "id": "album-22",
+    "title": "lost & found",
+    "artist": "LILDRUGHILL",
+    "cover": "./Covers/LILDRUGHILL/lost & found/Front_500x500.jpg",
+    "type": "mixtape",
+    "year": "13.30.2026",
+    "genre": "Hip-Hop/Rap",
+    "tracks": [
+        {
+            "id": "t158",
+            "title": "flight",
+            "duration": "01:53",
+            "url": "https://name.moy.su/music/LILDRUGHILL/lostfound/01-flight.mp3"
+        },
+        {
+            "id": "t159",
+            "title": "lost and found",
+            "duration": "01:46",
+            "url": "https://name.moy.su/music/LILDRUGHILL/lostfound/02-lost_and_found.mp3"
+        },
+        {
+            "id": "t160",
+            "title": "noise",
+            "duration": "01:55",
+            "url": "https://name.moy.su/music/LILDRUGHILL/lostfound/03-noise.mp3"
+        },
+        {
+            "id": "t161",
+            "title": "it gets better",
+            "duration": "01:40",
+            "url": "https://name.moy.su/music/LILDRUGHILL/lostfound/04-it_gets_better.mp3"
+        },
+        {
+            "id": "t162",
+            "title": "good habits",
+            "duration": "01:23",
+            "url": "https://name.moy.su/music/LILDRUGHILL/lostfound/05-good_habits.mp3"
+        },
+        {
+            "id": "t163",
+            "title": "june",
+            "duration": "01:42",
+            "url": "https://name.moy.su/music/LILDRUGHILL/lostfound/06-june.mp3"
+        },
+        {
+            "id": "t164",
+            "title": "make u love it",
+            "duration": "01:26",
+            "url": "https://name.moy.su/music/LILDRUGHILL/lostfound/07-make_u_love_it.mp3"
+        },
+        {
+            "id": "t165",
+            "title": "chain",
+            "duration": "01:24",
+            "url": "https://name.moy.su/music/LILDRUGHILL/lostfound/08-chain.mp3"
+        },
+        {
+            "id": "t166",
+            "title": "cancel",
+            "duration": "01:26",
+            "url": "https://name.moy.su/music/LILDRUGHILL/lostfound/09-cancel.mp3"
+        },
+        {
+            "id": "t167",
+            "title": "never ends",
+            "duration": "01:43",
+            "url": "https://name.moy.su/music/LILDRUGHILL/lostfound/10-never_ends.mp3"
+        }
+    ]
+  },
+  {
+    "id": "album-23",
     "title": "VK Стриминг (Тест)",
     "artist": "ВКонтакте",
     "cover": "idontgiveafuck",
@@ -1207,7 +1278,7 @@
     "genre": "Потоковое аудио",
     "tracks": [
         {
-            "id": "t158",
+            "id": "t168",
             "title": "Тестовый HLS поток ВК",
             "duration": "10:34",
             "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
@@ -1215,7 +1286,7 @@
     ]
   },
   {
-    "id": "album-23",
+    "id": "album-24",
     "title": "Импортированный плейлист VK",
     "artist": "ВКонтакте",
     "cover": "./Covers/aquakey/Banner.jpg",
