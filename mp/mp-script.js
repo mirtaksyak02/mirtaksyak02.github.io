@@ -681,14 +681,20 @@ if (audioPlayer) {
         }
     });
 
-    audioPlayer.addEventListener('loadedmetadata', () => {
-        if (totalTimeText) totalTimeText.textContent = formatTime(audioPlayer.duration);
-        const customProgressFill = document.getElementById('custom-progress-fill');
-        if (customProgressFill) customProgressFill.style.width = '0%';
+audioPlayer.addEventListener('loadedmetadata', () => {
+    if (totalTimeText) totalTimeText.textContent = formatTime(audioPlayer.duration);
+    
+    const customProgressFill = document.getElementById('custom-progress-fill');
+    if (customProgressFill) customProgressFill.style.width = '0%';
+    
+    // КРИТИЧЕСКИЙ ФИКС: Принудительно сбрасываем сам ползунок инпута и текст в 0:00, 
+    // чтобы они не залипали в конце и не прыгали при загрузке нового трека
+    if (progressBar) progressBar.value = 0;
+    if (currentTimeText) currentTimeText.textContent = "0:00";
 
-        // СИНХРОНИЗАЦИЯ ШТОРКИ: Передаем данные, когда песня гарантированно определилась
-        if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
-            const currentTrack = currentAlbumTracks[currentTrackIndex];
+    // СИНХРОНИЗАЦИЯ ШТОРКИ (сохраняем без изменений!)
+    if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
+        const currentTrack = currentAlbumTracks[currentTrackIndex];
             
             if (currentTrack) {
                 const artistName = currentTrack.albumArtist || 
