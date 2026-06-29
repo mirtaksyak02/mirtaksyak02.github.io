@@ -133,19 +133,12 @@ function showAlbumsGrid(isBackMode = false) {
     // ПАГИНАЦИЯ: Считываем текущие параметры из адресной строки браузера
     const renderUrlParams = new URLSearchParams(window.location.search);
     const hasPageParam = renderUrlParams.has('page');
-    
-    // ПРОВЕРКА ПОИСКА: Смотрим, введено ли прямо сейчас что-то в поисковую строку
-    const isSearching = searchInput && searchInput.value.trim().length > 0;
 
-    // Если идет живой поиск — жестко фиксируем 1-ю страницу результатов
-    if (isSearching) {
-        currentPage = 1;
-    }
     // Если это новый заход на главную (не возврат назад) И в URL нет готовой страницы (не F5)
-    else if (!isBackMode && !hasPageParam) {
+    if (!isBackMode && !hasPageParam) {
         currentPage = 1;
     } else {
-        // Иначе (при F5 или возврате) бережно достаем номер страницы из URL
+        // Иначе (при F5 или возврате, включая переключение страниц пагинации) бережно достаем номер страницы из URL
         currentPage = parseInt(renderUrlParams.get('page'), 10) || 1;
     }
 
@@ -774,8 +767,14 @@ function updateTrackListIcons() {
 }
 
 searchInput.addEventListener('input', () => {
-    currentPage = 1; 
-    showAlbumsGrid(); // Просто перерисовываем сетку с учетом нового фильтра
+    currentPage = 1; // Сбрасываем на 1 страницу результатов при вводе текста
+    
+    // Обновляем URL, стирая старую страницу, чтобы функция не запуталась при чтении параметров
+    const url = new URL(window.location.href);
+    url.searchParams.delete('page');
+    window.history.pushState({}, '', url.toString());
+    
+    showAlbumsGrid(true); // Передаем true, чтобы функция прочитала пустой/обновленный URL
 });
 
 // Функция генерации случайного плейлиста из всех релизов
