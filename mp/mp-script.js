@@ -126,24 +126,31 @@ function updateBackButtonText() {
     }
 }
 
-// Добавьте параметр isBackMode в объявление функции
 function showAlbumsGrid(isBackMode = false) {
     // Если мы вернулись кнопкой Назад, используем сохраненный скролл, иначе обнуляем
     const targetScroll = isBackMode ? savedScrollPosition : 0;
     
-    // ПАГИНАЦИЯ: Считываем текущие параметры из адресной строки браузера
+    // ПАГИНАЦИЯ: Проверяем, была ли страница перезагружена (F5)
+    const navEntries = performance.getEntriesByType("navigation");
+    const isReload = navEntries.length > 0 && navEntries[0].type === "reload";
+    
+    // Считываем текущие параметры из адресной строки браузера
     const renderUrlParams = new URLSearchParams(window.location.search);
     const hasPageParam = renderUrlParams.has('page');
 
-    // Если это новый заход на главную (например, клик по логотипу, когда isBackMode = false)
-    if (!isBackMode) {
-        currentPage = 1; // Жестко сбрасываем на первую страницу
+    // Если страница РЕАЛЬНО перезагружена пользователем (F5) и в URL есть номер страницы
+    if (isReload && hasPageParam) {
+        currentPage = parseInt(renderUrlParams.get('page'), 10) || 1;
+    }
+    // Если это новый чистый заход на главную (например, клик по названию сайта для сброса)
+    else if (!isBackMode) {
+        currentPage = 1;
     } 
-    // Если это обновление страницы (F5) — бережно сохраняем страницу из URL
+    // Если это возврат кнопкой Назад — бережно достаем номер страницы из URL
     else if (hasPageParam) {
         currentPage = parseInt(renderUrlParams.get('page'), 10) || 1;
     } 
-    // Во всех остальных случаях (возврат кнопкой Назад)
+    // Дефолтный сброс
     else {
         currentPage = 1;
     }
