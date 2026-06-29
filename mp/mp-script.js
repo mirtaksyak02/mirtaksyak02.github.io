@@ -447,17 +447,6 @@ function playTrack(track, index, tracksList, artistName) {
     currentArtistName = artistName;
     currentTrackIndex = index;
 
-    // СБРОС ШТОРКИ: Жестко очищаем старое время и кнопки в системе перед загрузкой нового трека
-    if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = null;
-        navigator.mediaSession.playbackState = "none";
-        
-        // Заставляем Android полностью забыть старую позицию (чистим залипшие 00:15)
-        if ('setPositionState' in navigator.mediaSession) {
-            navigator.mediaSession.setPositionState(null);
-        }
-    }
-
     const directUrl = getDirectLink(track.url);
     
     // Если это ссылка на VK (содержит .m3u8) и браузер поддерживает Hls.js
@@ -683,23 +672,10 @@ if (audioPlayer) {
             progressBar.value = progress;
             if (currentTimeText) currentTimeText.textContent = formatTime(audioPlayer.currentTime);
             
-            // Фикс закрашивания полосы прогресса в зеленый цвет (твой оригинальный код)
             const customProgressFill = document.getElementById('custom-progress-fill');
             if (customProgressFill) {
                 customProgressFill.style.width = `${progress}%`;
             }
-        }
-
-        // ЗАЩИТА ОТ ИСЧЕЗНОВЕНИЯ КНОПОК: Каждые 3 секунды проигрывания принудительно 
-        // напоминаем Android, что кнопки Вперед и Назад должны быть на экране.
-        // Это не даст Chrome вырезать кнопку ⏮ из шторки из-за движения таймлайна!
-        if ('mediaSession' in navigator && Math.floor(audioPlayer.currentTime) % 3 === 0) {
-            navigator.mediaSession.setActionHandler('nexttrack', () => {
-                playNextTrack();
-            });
-            navigator.mediaSession.setActionHandler('prevtrack', () => {
-                playPrevTrack(); 
-            });
         }
     });
     
@@ -710,7 +686,7 @@ if (audioPlayer) {
         if (progressBar) progressBar.value = 0;
         if (currentTimeText) currentTimeText.textContent = "0:00";
 
-        // Пушаем свежие метаданные трека
+        // СИНХРОНИЗАЦИЯ ШТОРКИ: Пушаем метаданные и ЖЕСТКО регистрируем ВСЕ кнопки сразу
         if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
             const currentTrack = currentAlbumTracks[currentTrackIndex];
             
@@ -718,29 +694,42 @@ if (audioPlayer) {
                 const artistName = currentTrack.albumArtist || 
                                    (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(currentTrack))?.artist) || 
                                    "Исполнитель";
+
                 navigator.mediaSession.metadata = new MediaMetadata({
                     title: currentTrack.title,
                     artist: artistName,
                     album: "Релиз"
                 });
+
+                // 1. Кнопка ВПЕРЕД
+                navigator.mediaSession.setActionHandler('nexttrack', () => {
+                    playNextTrack();
+                });
+
+                // 2. Кнопка НАЗАД — регистрируется намертво
+                navigator.mediaSession.setActionHandler('prevtrack', () => {
+                    playPrevTrack(); 
+                });
+
+                // 3. Расширенные обработчики перемотки (Без них Android прячет левую стрелку ⏮)
+                navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+                    const offset = details.seekOffset || 10;
+                    audioPlayer.currentTime = Math.max(audioPlayer.currentTime - offset, 0);
+                });
+                navigator.mediaSession.setActionHandler('seekforward', (details) => {
+                    const offset = details.seekOffset || 10;
+                    audioPlayer.currentTime = Math.min(audioPlayer.currentTime + offset, audioPlayer.duration);
+                });
             }
         }
     });
 
-    // Активируем кнопки шторки СТРОГО в момент старта звука
     audioPlayer.addEventListener('play', () => {
         if (masterPlayBtn) masterPlayBtn.textContent = '❙❙'; 
         updateTrackListIcons(); 
 
         if ('mediaSession' in navigator) {
             navigator.mediaSession.playbackState = "playing";
-
-            navigator.mediaSession.setActionHandler('nexttrack', () => {
-                playNextTrack();
-            });
-            navigator.mediaSession.setActionHandler('prevtrack', () => {
-                playPrevTrack(); 
-            });
         }
     });
 
