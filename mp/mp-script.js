@@ -709,7 +709,7 @@ if (audioPlayer) {
 
                 // 2. Кнопка НАЗАД (Основной экшен)
                 navigator.mediaSession.setActionHandler('prevtrack', function() {
-                    if (typeof playPrevTrack === 'function') playPrevTrack(); 
+                    if (typeof playNextTrack === 'function') playNextTrack(); // Тест
                 });
 
                 // 3. ФИКС ДЛЯ ОКРАШИВАНИЯ КНОПКИ В БЕЛЫЙ: Дублируем команду назад для старых системных ядер Chrome
