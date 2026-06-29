@@ -687,7 +687,7 @@ if (audioPlayer) {
         if (customProgressFill) customProgressFill.style.width = '0%';
 
         // СИНХРОНИЗАЦИЯ ШТОРКИ: Передаем данные, когда песня гарантированно определилась
-        if ('mediaSession' in navigator && currentAlbumTracks && currentAlbumTracks.length > 0 && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
+        if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
             const currentTrack = currentAlbumTracks[currentTrackIndex];
             
             if (currentTrack) {
@@ -701,18 +701,16 @@ if (audioPlayer) {
                     album: "Релиз"
                 });
 
-                // 1. Системная кнопка ВПЕРЕД — вызывает твою функцию напрямую
                 navigator.mediaSession.setActionHandler('nexttrack', () => {
                     playNextTrack();
                 });
 
-                // 2. Системная кнопка НАЗАД — теперь вызывает твою новую функцию НАПРЯМУЮ!
                 navigator.mediaSession.setActionHandler('prevtrack', () => {
                     playPrevTrack(); 
                 });
             }
         }
-    }); // Скобки расставлены строго на свои места, красных крестов в VS Code больше не будет
+    });
 
     // Сообщаем шторке уведомлений, что трек ЗАИГРАЛ
     audioPlayer.addEventListener('play', () => {
