@@ -702,15 +702,22 @@ if (audioPlayer) {
                 });
 
                 // ЖЕСТКАЯ ПРИВЯЗКА КНОПОК: Обернуто в стрелочные функции, чтобы обойти undefined в памяти браузера!
+                // 1. Кнопка ВПЕРЕД (Оригинальное имя экшена)
                 navigator.mediaSession.setActionHandler('nexttrack', function() {
                     if (typeof playNextTrack === 'function') playNextTrack();
                 });
 
+                // 2. Кнопка НАЗАД (Основной экшен)
                 navigator.mediaSession.setActionHandler('prevtrack', function() {
                     if (typeof playPrevTrack === 'function') playPrevTrack(); 
                 });
 
-                // Подключаем перемотку, чтобы разблокировать ⏮ на уровне системы
+                // 3. ФИКС ДЛЯ ОКРАШИВАНИЯ КНОПКИ В БЕЛЫЙ: Дублируем команду назад для старых системных ядер Chrome
+                navigator.mediaSession.setActionHandler('previoustrack', function() {
+                    if (typeof playPrevTrack === 'function') playPrevTrack(); 
+                });
+
+                // 4. Обработчики перемотки (Они заставляют систему видеть, что таймлайн плеера полностью управляем назад)
                 navigator.mediaSession.setActionHandler('seekbackward', (details) => {
                     const offset = details.seekOffset || 10;
                     audioPlayer.currentTime = Math.max(audioPlayer.currentTime - offset, 0);
