@@ -382,7 +382,10 @@ if (album.url && album.url.includes('://vk.com') && (!album.tracks || album.trac
 
     albumHeader.innerHTML = `
         <div class="album-large-cover-wrapper">
-            <!-- Класс largeLoadedClass сразу сделает картинку четкой, если она в кэше -->
+            <!-- 1. Микро-обложка 50x50: встает на экран мгновенно и перекрывает цвет #1a1a1a -->
+            <img src="${album.coverMini || album.cover}" class="mini-blur-placeholder" alt="loading...">
+            
+            <!-- 2. Твой оригинальный тег большой обложки (сохранен без изменений) -->
             <img src="${album.cover}" alt="${album.title}" class="album-large-cover ${largeLoadedClass}" loading="lazy" decoding="async" onload="onImageLoad(this)">
         </div>
         <div class="album-info-text">
