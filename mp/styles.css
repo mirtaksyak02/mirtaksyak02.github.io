@@ -947,6 +947,26 @@ audio {
     flex-shrink: 0;
 }
 
+img.mini-blur-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(12px); /* Мягкое цветное облако */
+    transform: scale(1.1); /* Прячем края размытия */
+    opacity: 1;
+    z-index: 1; /* Самый нижний слой (перекрывает цвет #1a1a1a) */
+}
+
+/* Принудительно поднимаем оригинальные обложки на слой выше */
+.album-card img:not(.mini-blur-placeholder),
+.album-large-cover {
+    position: relative !important;
+    z-index: 2 !important; /* Всегда ложатся СВЕРХУ микро-картинки */
+}
+
 .repeat-container {
     display: flex;
     align-items: center;
