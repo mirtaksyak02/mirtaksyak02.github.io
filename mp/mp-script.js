@@ -696,6 +696,13 @@ if (audioPlayer) {
     audioPlayer.addEventListener('play', () => {
         if ('mediaSession' in navigator) {
             navigator.mediaSession.playbackState = "playing";
+            
+            // ВРЕМЕННЫЙ ТЕСТ
+            if (pageTitle) {
+                const originalText = pageTitle.textContent;
+                pageTitle.textContent = "RARETENOR (OK)";
+                setTimeout(() => { pageTitle.textContent = originalText; }, 2000);
+            }
         }
     });
 
