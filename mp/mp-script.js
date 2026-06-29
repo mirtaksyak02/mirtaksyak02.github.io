@@ -547,73 +547,69 @@ function playTrack(track, index, tracksList, artistName) {
 }
 
 function playNextTrack() {
-    if (currentAlbumTracks.length === 0 || currentTrackIndex === -1) return;
+    console.log("➡️ [playNextTrack] Функция вызвана. Текущий индекс:", currentTrackIndex);
+    if (!currentAlbumTracks || currentAlbumTracks.length === 0 || currentTrackIndex === -1) {
+        console.warn("⚠️ [playNextTrack] Выход: список треков пуст или индекс равен -1");
+        return;
+    }
 
-    // РЕЖИМ 1: Повтор текущего трека (если включен, просто перематываем в ноль и играем заново)
+    // РЕЖИМ 1: Повтор текущего трека
     if (typeof repeatMode !== 'undefined' && repeatMode === 1) {
+        console.log("🔁 [playNextTrack] Режим повтора трека (repeatMode === 1). Перематываем в ноль.");
         audioPlayer.currentTime = 0;
-        audioPlayer.play();
-        return; // Выходим из функции, не переключая индекс вперед
+        audioPlayer.play().catch(e => console.error("❌ Error playing via repeat:", e));
+        return; 
     }
 
     const nextIndex = currentTrackIndex + 1;
+    console.log(`[playNextTrack] Расчет следующего индекса: ${nextIndex} из ${currentAlbumTracks.length}`);
     
     if (nextIndex < currentAlbumTracks.length) {
         const nextTrack = currentAlbumTracks[nextIndex];
-        
-        // Если у трека есть сохраненный автор (из перемешанного списка), берем его. 
-        // Если нет — ищем стандартным способом через альбомы.
         const artistName = nextTrack.albumArtist || 
-                           albumsData.find(a => a.tracks.includes(nextTrack))?.artist || 
+                           (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(nextTrack))?.artist) || 
                            "Исполнитель";
                            
+        console.log(`🚀 [playNextTrack] Переключаем на следующий трек: ${artistName} - ${nextTrack.title} (Индекс: ${nextIndex})`);
         playTrack(nextTrack, nextIndex, currentAlbumTracks, artistName);
     } else if (typeof repeatMode !== 'undefined' && repeatMode === 2) {
-        // РЕЖИМ 2: Повтор альбома (если доиграл последний трек — прыгаем на самый первый с индексом 0)
+        console.log("🔁 [playNextTrack] Режим повтора альбома (repeatMode === 2). Возврат к первому треку [0].");
         const firstTrack = currentAlbumTracks[0];
-        
-        // Точно так же безопасно ищем автора для первого трека
         const artistName = firstTrack.albumArtist || 
-                           albumsData.find(a => a.tracks.includes(firstTrack))?.artist || 
+                           (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(firstTrack))?.artist) || 
                            "Исполнитель";
                            
         playTrack(firstTrack, 0, currentAlbumTracks, artistName);
     } else {
-        // Альбом полностью завершился сам:
-        // Меняем иконку на панели на "Плей" (▶)
-        masterPlayBtn.textContent = '▶';
-        
-        // Просто оставляем текущий индекс равным длине массива (сигнал, что мы в конце)
+        console.log("🏁 [playNextTrack] Альбом завершился. Сброс интерфейса.");
+        if (masterPlayBtn) masterPlayBtn.textContent = '▶';
         currentTrackIndex = currentAlbumTracks.length; 
     }
 }
 
 function playPrevTrack() {
-    // Если список треков пуст или мы не знаем текущий индекс, выходим
-    if (!currentAlbumTracks || currentAlbumTracks.length === 0 || currentTrackIndex === -1) return;
+    console.log("⏮️ [playPrevTrack] Функция вызвана. Текущий индекс:", currentTrackIndex);
+    if (!currentAlbumTracks || currentAlbumTracks.length === 0 || currentTrackIndex === -1) {
+        console.warn("⚠️ [playPrevTrack] Выход: список треков пуст или индекс равен -1");
+        return;
+    }
 
-    // Высчитываем индекс предыдущей песни
     const prevIndex = currentTrackIndex - 1;
+    console.log(`[playPrevTrack] Расчет предыдущего индекса: ${prevIndex}`);
     
-    // Если предыдущий трек существует в альбоме (мы не на первой песне)
     if (prevIndex >= 0) {
         const prevTrack = currentAlbumTracks[prevIndex];
-        
-        // Твоя фирменная логика поиска автора (полностью сохранена)
         const artistName = prevTrack.albumArtist || 
                            (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(prevTrack))?.artist) || 
                            "Исполнитель";
                            
+        console.log(`🚀 [playPrevTrack] Переключаем на предыдущий трек: ${artistName} - ${prevTrack.title} (Индекс: ${prevIndex})`);
         playTrack(prevTrack, prevIndex, currentAlbumTracks, artistName);
-        
-        // ФИКС: Обязательно обновляем иконки в списке треков на экране альбома!
         updateTrackListIcons(); 
     } else {
-        // Если мы нажали "Назад" на самом первом треке — просто перематываем его в начало
+        console.log("↩️ [playPrevTrack] Мы на первом треке. Перематываем в начало (0:00).");
         audioPlayer.currentTime = 0;
-        audioPlayer.play().catch(e => console.log(e));
-        
-        // На всякий случай обновляем иконки и тут
+        audioPlayer.play().catch(e => console.error("❌ Error playing via prev restart:", e));
         updateTrackListIcons(); 
     }
 }
@@ -661,7 +657,10 @@ if (prevBtn) {
 
 // Автопереключение при окончании песни
 if (audioPlayer) {
+    console.log("🎧 [Initialization] Аудиоплеер найден в DOM. Вешаем слушатели событий.");
+
     audioPlayer.addEventListener('ended', () => {
+        console.log("🔔 [Event: ended] Текущий трек доиграл до конца.");
         playNextTrack();
         updateTrackListIcons();
     });
@@ -680,76 +679,90 @@ if (audioPlayer) {
     });
     
     audioPlayer.addEventListener('loadedmetadata', () => {
+        console.log(`📊 [Event: loadedmetadata] Файл успешно загружен. Длительность: ${audioPlayer.duration} сек. (${formatTime(audioPlayer.duration)})`);
+        
         if (totalTimeText) totalTimeText.textContent = formatTime(audioPlayer.duration);
         const customProgressFill = document.getElementById('custom-progress-fill');
         if (customProgressFill) customProgressFill.style.width = '0%';
         if (progressBar) progressBar.value = 0;
         if (currentTimeText) currentTimeText.textContent = "0:00";
 
-        // СИНХРОНИЗАЦИЯ ШТОРКИ: Пушаем метаданные трека
-        if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
-            const currentTrack = currentAlbumTracks[currentTrackIndex];
+        if ('mediaSession' in navigator) {
+            console.log("📱 [MediaSession] Поддержка API в браузере есть. Начинаем привязку данных...");
             
-            if (currentTrack) {
-                const artistName = currentTrack.albumArtist || 
-                                   (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(currentTrack))?.artist) || 
-                                   "Исполнитель";
+            if (currentAlbumTracks && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
+                const currentTrack = currentAlbumTracks[currentTrackIndex];
+                
+                if (currentTrack) {
+                    const artistName = currentTrack.albumArtist || 
+                                       (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(currentTrack))?.artist) || 
+                                       "Исполнитель";
 
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: currentTrack.title,
-                    artist: artistName,
-                    album: "Релиз"
-                });
+                    console.log(`📝 [MediaSession] Пушим метаданные в виджет: ${artistName} - ${currentTrack.title}`);
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: currentTrack.title,
+                        artist: artistName,
+                        album: "Релиз"
+                    });
 
-                // ЖЕСТКАЯ ПРИВЯЗКА КНОПОК: Обернуто в стрелочные функции, чтобы обойти undefined в памяти браузера!
-                // 1. Кнопка ВПЕРЕД (Оригинальное имя экшена)
-                navigator.mediaSession.setActionHandler('nexttrack', function() {
-                    if (typeof playNextTrack === 'function') playNextTrack();
-                });
+                    // РЕГИСТРАЦИЯ ОБРАБОТЧИКОВ ШТОРКИ
+                    console.log("🎛️ [MediaSession] Регистрируем обработчик: nexttrack");
+                    navigator.mediaSession.setActionHandler('nexttrack', function() {
+                        console.log("📲 [MediaSession Клик] Нажата кнопка СЛЕДУЮЩИЙ в шторке/виджете!");
+                        if (typeof playNextTrack === 'function') playNextTrack();
+                    });
 
-                // 2. Кнопка НАЗАД (Основной экшен)
-                navigator.mediaSession.setActionHandler('prevtrack', function() {
-                    if (typeof playNextTrack === 'function') playNextTrack(); // Тест
-                });
+                    console.log("🎛️ [MediaSession] Регистрируем обработчик: prevtrack");
+                    navigator.mediaSession.setActionHandler('prevtrack', function() {
+                        console.log("📲 [MediaSession Клик] Нажата кнопка ПРЕДЫДУЩИЙ в шторке/виджете!");
+                        if (typeof playPrevTrack === 'function') playPrevTrack(); 
+                    });
 
-                // 3. ФИКС ДЛЯ ОКРАШИВАНИЯ КНОПКИ В БЕЛЫЙ: Дублируем команду назад для старых системных ядер Chrome
-                navigator.mediaSession.setActionHandler('previoustrack', function() {
-                    if (typeof playPrevTrack === 'function') playPrevTrack(); 
-                });
-
-                // 4. Обработчики перемотки (Они заставляют систему видеть, что таймлайн плеера полностью управляем назад)
-                navigator.mediaSession.setActionHandler('seekbackward', (details) => {
-                    const offset = details.seekOffset || 10;
-                    audioPlayer.currentTime = Math.max(audioPlayer.currentTime - offset, 0);
-                });
-                navigator.mediaSession.setActionHandler('seekforward', (details) => {
-                    const offset = details.seekOffset || 10;
-                    audioPlayer.currentTime = Math.min(audioPlayer.currentTime + offset, audioPlayer.duration);
-                });
+                    console.log("🎛️ [MediaSession] Регистрируем обработчики перемотки: seekbackward / seekforward");
+                    navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+                        console.log(`📲 [MediaSession] Перемотка назад на ${details.seekOffset || 10} сек.`);
+                        const offset = details.seekOffset || 10;
+                        audioPlayer.currentTime = Math.max(audioPlayer.currentTime - offset, 0);
+                    });
+                    navigator.mediaSession.setActionHandler('seekforward', (details) => {
+                        console.log(`📲 [MediaSession] Перемотка вперед на ${details.seekOffset || 10} сек.`);
+                        const offset = details.seekOffset || 10;
+                        audioPlayer.currentTime = Math.min(audioPlayer.currentTime + offset, audioPlayer.duration);
+                    });
+                }
+            } else {
+                console.warn(`⚠️ [MediaSession] Не удалось привязать кнопки. Сбой индексов: currentTrackIndex = ${currentTrackIndex}, длина массива = ${currentAlbumTracks ? currentAlbumTracks.length : 0}`);
             }
+        } else {
+            console.warn("🚫 [MediaSession] API не поддерживается этой операционной системой/браузером.");
         }
     });
 
     audioPlayer.addEventListener('play', () => {
+        console.log("▶️ [Event: play] Аудиопоток запущен.");
         if (masterPlayBtn) masterPlayBtn.textContent = '❙❙'; 
         updateTrackListIcons(); 
 
         if ('mediaSession' in navigator) {
             navigator.mediaSession.playbackState = "playing";
+            console.log("📱 [MediaSession]playbackState переведен в: playing");
         }
     });
 
     audioPlayer.addEventListener('pause', () => {
+        console.log("⏸️ [Event: pause] Аудиопоток приостановлен.");
         if (masterPlayBtn) masterPlayBtn.textContent = '▶'; 
         updateTrackListIcons(); 
 
         if ('mediaSession' in navigator) {
             navigator.mediaSession.playbackState = "paused";
+            console.log("📱 [MediaSession]playbackState переведен в: paused");
         }
     });
 
     if (volumeBar) {
         audioPlayer.volume = volumeBar.value / 100;
+        console.log("🔊 [Initialization] Громкость плеера установлена на:", audioPlayer.volume);
     }
 }
 
