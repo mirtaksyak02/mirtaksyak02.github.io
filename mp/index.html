@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RARETENOR</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
+    <script src="hls.min.v1.5.8.js"></script>
 </head>
 <body>
 
@@ -27,7 +27,9 @@
         <div id="album-header" class="album-header" style="display: none;"></div>
         
         <!-- Вывод сетки альбомов, либо список треков для JS -->
-        <div id="content-area"></div>
+        <div id="content-area">
+            <div id="pagination-controls" class="pagination-container"></div>
+        </div>
     </div>
 
 <div class="bottom-controls">
