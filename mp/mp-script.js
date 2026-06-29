@@ -8,7 +8,8 @@ let savedScrollPosition = 0; // Переменная для сохранения
 let navigationHistory = []; // История навигации
 let loadedImagesCache = new Set(); // Глобальный набор для хранения URL-адресов загруженных картинок
 let repeatMode = 0; // Режим повтора
-let currentPage = 1; // Текущая активная страница релиза
+const initUrlParams = new URLSearchParams(window.location.search);
+let currentPage = parseInt(initUrlParams.get('page'), 10) || 1; // Текущая активная страница релиза
 
 // Словарь для перевода типов релизов на русский язык
 const releaseTypesRu = {
@@ -141,8 +142,18 @@ function showAlbumsGrid(isBackMode = false) {
     if (!isBackMode) {
         navigationHistory = []; // Очищаем историю при выходе на главную с нуля
     }
-    // Очищаем URL-параметры при возврате на главную
-    window.history.pushState({}, '', window.location.pathname);
+    // Очищаем URL-параметры экранов релиза и артиста, но сохраняем текущую страницу пагинации
+    const mainUrl = new URL(window.location.href);
+    mainUrl.searchParams.delete('release');
+    mainUrl.searchParams.delete('artist');
+    
+    // Если мы на первой странице, для красоты можно убрать ?page=1 из строки, иначе сохраняем его
+    if (currentPage > 1) {
+        mainUrl.searchParams.set('page', currentPage);
+    } else {
+        mainUrl.searchParams.delete('page');
+    }
+    window.history.pushState({}, '', mainUrl.pathname + mainUrl.search);
     
     backBtn.style.display = 'none';
     albumHeader.style.display = 'none';
@@ -229,13 +240,21 @@ function renderPaginationControls(totalItems, itemsPerPage) {
     controlsContainer.id = 'pagination-controls';
     controlsContainer.className = 'pagination-container';
 
+    // Вспомогательная функция для обновления параметра page в URL без перезагрузки
+    const updatePageUrl = (pageNumber) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', pageNumber);
+        window.history.pushState({}, '', url.toString());
+    };
+
     const prevBtn = document.createElement('button');
     prevBtn.className = 'page-btn';
     prevBtn.textContent = '←';
     prevBtn.disabled = currentPage === 1;
     prevBtn.addEventListener('click', () => {
         currentPage--;
-        showAlbumsGrid(true); // Передаем true, чтобы сохранить контекст состояния экрана
+        updatePageUrl(currentPage); // Обновляем URL
+        showAlbumsGrid(true); 
         window.scrollTo({ top: 0, behavior: 'instant' }); 
     });
     controlsContainer.appendChild(prevBtn);
@@ -247,6 +266,7 @@ function renderPaginationControls(totalItems, itemsPerPage) {
         pageBtn.textContent = i;
         pageBtn.addEventListener('click', () => {
             currentPage = i;
+            updatePageUrl(currentPage); // Обновляем URL
             showAlbumsGrid(true);
             window.scrollTo({ top: 0, behavior: 'instant' });
         });
@@ -259,13 +279,12 @@ function renderPaginationControls(totalItems, itemsPerPage) {
     nextBtn.disabled = currentPage === totalPages;
     nextBtn.addEventListener('click', () => {
         currentPage++;
+        updatePageUrl(currentPage); // Обновляем URL
         showAlbumsGrid(true);
         window.scrollTo({ top: 0, behavior: 'instant' });
     });
     controlsContainer.appendChild(nextBtn);
 
-    // Так как contentArea имеет класс сетки 'albums-grid', то
-    // добавляем блок пагинации прямо внутрь контента, CSS-правила его отрисуют снизу
     contentArea.appendChild(controlsContainer);
 }
 
