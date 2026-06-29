@@ -794,7 +794,7 @@ function updateTrackListIcons() {
 
 searchInput.addEventListener('input', () => {
     currentPage = 1; // Сбрасываем на 1 страницу результатов при вводе текста
-    
+    savedScrollPosition = 0; // Сброс скролла для фикса бага с возвращением позиции при поиске
     // Обновляем URL, стирая старую страницу, чтобы функция не запуталась при чтении параметров
     const url = new URL(window.location.href);
     url.searchParams.delete('page');
