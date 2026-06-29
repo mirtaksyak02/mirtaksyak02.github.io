@@ -544,6 +544,36 @@ function playTrack(track, index, tracksList, artistName) {
         activeRow.classList.add('is-playing');
     }
     updateTrackListIcons();
+
+    // МЕДИА-ВИДЖЕТ: Интеграция с системой (шторка уведомлений и экран блокировки)
+    if ('mediaSession' in navigator) {
+        // 1. Передаем системе название трека, автора и обложку для виджета
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: track.title,
+            artist: artistName,
+            album: album.title || "Релиз", // Если объект album доступен, подтянется имя релиза
+            artwork: [
+                { src: album.cover || track.cover || '', sizes: '500x500', type: 'image/jpeg' }
+            ]
+        });
+
+        // 2. Активируем кнопку "Следующий трек" в шторке и вешаем на нее твою функцию
+        navigator.mediaSession.setActionHandler('nexttrack', () => {
+            playNextTrack();
+        });
+
+        // 3. Активируем кнопку "Предыдущий трек" в шторке и вешаем на нее твою функцию
+        navigator.mediaSession.setActionHandler('prevtrack', () => {
+            // Проверяем, существует ли у тебя функция playPrevTrack или prevBtn click
+            if (typeof playPrevTrack === 'function') {
+                playPrevTrack();
+            } else {
+                // Если отдельной функции нет, просто эмулируем клик по твоей физической кнопке Назад
+                const prevBtnElement = document.getElementById('prev-btn');
+                if (prevBtnElement) prevBtnElement.click();
+            }
+        });
+    }
 }
 
 function playNextTrack() {
@@ -660,6 +690,20 @@ if (audioPlayer) {
         if (totalTimeText) totalTimeText.textContent = formatTime(audioPlayer.duration);
         const customProgressFill = document.getElementById('custom-progress-fill');
         if (customProgressFill) customProgressFill.style.width = '0%';
+    });
+
+    // СИНХРОНИЗАЦИЯ С СИСТЕМОЙ: Сообщаем шторке уведомлений, что трек ЗАИГРАЛ
+    audioPlayer.addEventListener('play', () => {
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.playbackState = "playing";
+        }
+    });
+
+    // СИНХРОНИЗАЦИЯ С СИСТЕМОЙ: Сообщаем шторке уведомлений, что трек на ПАУЗЕ
+    audioPlayer.addEventListener('pause', () => {
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.playbackState = "paused";
+        }
     });
 
     // Установка начального звука плеера
