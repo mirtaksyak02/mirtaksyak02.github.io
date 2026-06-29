@@ -5,9 +5,10 @@ let currentTrackIndex = -1;  // Индекс песни, которая игра
 let marqueeTimeout = null;   // Хранилище для таймера бегущей строки
 let currentMarqueeId = 0; // Счётчик сессий анимации
 let savedScrollPosition = 0; // Переменная для сохранения позиции прокрутки главной страницы
-let navigationHistory = [];
+let navigationHistory = []; // История навигации
 let loadedImagesCache = new Set(); // Глобальный набор для хранения URL-адресов загруженных картинок
 let repeatMode = 0; // Режим повтора
+let currentPage = 1; // Текущая активная страница релиза
 
 // Словарь для перевода типов релизов на русский язык
 const releaseTypesRu = {
@@ -124,11 +125,15 @@ function updateBackButtonText() {
     }
 }
 
-// Добавьте параметр isBackMode в объявление функции
 function showAlbumsGrid(isBackMode = false) {
     // Если мы вернулись кнопкой Назад, используем сохраненный скролл, иначе обнуляем
     const targetScroll = isBackMode ? savedScrollPosition : 0;
     
+    // ПАГИНАЦИЯ: Сбрасываем на первую страницу, если это новый заход на главную, а не возврат назад
+    if (!isBackMode) {
+        currentPage = 1;
+    }
+
     setTimeout(() => { 
         window.scrollTo({ top: targetScroll, behavior: 'instant' }); 
     }, 0);
@@ -167,8 +172,18 @@ function showAlbumsGrid(isBackMode = false) {
         return;
     }
 
-    // Отрисовываем только отфильтрованные релизы
-    filteredAlbums.forEach(album => {
+    // ПАГИНАЦИЯ: 1. Получаем лимит карточек для текущего устройства (12 или 16)
+    const itemsPerPage = getItemsPerPageLimit();
+
+    // ПАГИНАЦИЯ: 2. Высчитываем индексы среза отфильтрованного массива
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    // ПАГИНАЦИЯ: 3. Режем отфильтрованные альбомы строго под текущую страницу
+    const paginatedAlbums = filteredAlbums.slice(startIndex, endIndex);
+
+    // Отрисовываем только отфильтрованные релизы (теперь берем из пагинированного куска)
+    paginatedAlbums.forEach(album => {
         // Логика обработки тегов релиза
         let tagHtml = '';
         if (album.tag) {
@@ -198,6 +213,60 @@ function showAlbumsGrid(isBackMode = false) {
         `;
         contentArea.appendChild(albumCard);
     });
+
+    // ПАГИНАЦИЯ: Отрисовываем кнопки страниц под сеткой карточек (передаем длину отфильтрованного списка)
+    renderPaginationControls(filteredAlbums.length, itemsPerPage);
+}
+
+function renderPaginationControls(totalItems, itemsPerPage) {
+    const oldControls = document.getElementById('pagination-controls');
+    if (oldControls) oldControls.remove();
+
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    if (totalPages <= 1) return; 
+
+    const controlsContainer = document.createElement('div');
+    controlsContainer.id = 'pagination-controls';
+    controlsContainer.className = 'pagination-container';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'page-btn';
+    prevBtn.textContent = '←';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.addEventListener('click', () => {
+        currentPage--;
+        showAlbumsGrid(true); // Передаем true, чтобы сохранить контекст состояния экрана
+        window.scrollTo({ top: 0, behavior: 'instant' }); 
+    });
+    controlsContainer.appendChild(prevBtn);
+
+    for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = 'page-btn';
+        if (i === currentPage) pageBtn.classList.add('active-page');
+        pageBtn.textContent = i;
+        pageBtn.addEventListener('click', () => {
+            currentPage = i;
+            showAlbumsGrid(true);
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        });
+        controlsContainer.appendChild(pageBtn);
+    }
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'page-btn';
+    nextBtn.textContent = '→';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.addEventListener('click', () => {
+        currentPage++;
+        showAlbumsGrid(true);
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+    controlsContainer.appendChild(nextBtn);
+
+    // Так как у тебя contentArea имеет класс сетки 'albums-grid', мы аккуратно 
+    // добавляем блок пагинации прямо внутрь контента, CSS-правила его отрисуют снизу
+    contentArea.appendChild(controlsContainer);
 }
 
 // 4. ЭКРАН ТРЕКОВ АЛЬБОМА
@@ -1023,75 +1092,9 @@ if (repeatBtn) {
     });
 }
 
-function parseVkPlaylistUrl(album) {
-    // Безопасно собираем адрес стабильного CORS прокси по кусочкам
-    const p1 = 'https://api.';
-    const p2 = 'allorigins.win/get?url=';
-    const proxyGateway = p1 + p2;
-    
-    const fullRequestUrl = proxyGateway + encodeURIComponent(album.url);
-
-    fetch(fullRequestUrl)
-        .then(response => {
-            if (response.ok) return response.json();
-            throw new Error('Прокси-сервер временно недоступен');
-        })
-        .then(data => {
-            const htmlString = data.contents;
-            
-            // Парсим полученный HTML-код страницы VK
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlString, 'text/html');
-            const audioRows = doc.querySelectorAll('.audio_row');
-            
-            if (audioRows.length === 0) {
-                throw new Error('Не удалось извлечь треки. Проверь, открыт ли плейлист в настройках VK.');
-            }
-
-            const parsedTracks = [];
-
-            audioRows.forEach((row, index) => {
-                const title = row.querySelector('.audio_row__title_inner')?.textContent.trim() || 'Без названия';
-                const artist = row.querySelector('.audio_row__performers a')?.textContent.trim() || 'Неизвестный исполнитель';
-                const duration = row.querySelector('.audio_row__duration')?.textContent.trim() || '3:00';
-                
-                // Вытаскиваем скрытую потоковую ссылку .m3u8 из дата-атрибута VK
-                const audioDataAttr = row.getAttribute('data-audio');
-                let streamUrl = '';
-                if (audioDataAttr) {
-                    try {
-                        const parsedData = JSON.parse(audioDataAttr);
-                        // В разметке VK ссылка обычно лежит во втором элементе массива
-                        streamUrl = parsedData[1] || '';
-                    } catch(e) {}
-                }
-
-                parsedTracks.push({
-                    id: `vk-imported-${index}-${Date.now()}`,
-                    title: title,
-                    artist: artist,
-                    duration: duration,
-                    url: streamUrl // Настоящая ссылка .m3u8, которая полетит в Hls.js
-                });
-            });
-
-            // Наполняем наш пустой альбом настоящими спарсенными треками!
-            album.tracks = parsedTracks;
-            
-            console.log(`Успешно импортировано треков: ${parsedTracks.length}`);
-
-            // Повторно вызываем openAlbum — теперь массив заполнен, и плеер отрендерит список!
-            openAlbum(album.id, true); 
-        })
-        .catch(error => {
-            console.error('Ошибка импорта:', error);
-            contentArea.innerHTML = `
-                <div style="text-align: center; color: #ff4a4a; padding: 40px;">
-                    ❌ Не удалось загрузить плейлист<br>
-                    <span style="font-size: 12px; color: #aaa;">${error.message}</span>
-                </div>
-            `;
-        });
+function getItemsPerPageLimit() {
+    // Если ширина экрана меньше 768px (мобилка) — возвращаем 12, иначе для ПК — 16
+    return window.innerWidth < 768 ? 12 : 16;
 }
 
 // Старт
