@@ -1,8 +1,8 @@
 let albumsData = []; // Данные из JSON
 let currentAlbumTracks = []; // Список треков альбома, который сейчас играет
 let currentArtistName = ''; // Имя артиста
-let currentTrackIndex = -1;  // Индекс песни, которая играет в данный момент
-let marqueeTimeout = null;   // Хранилище для таймера бегущей строки
+let currentTrackIndex = -1; // Индекс песни, которая играет в данный момент
+let marqueeTimeout = null; // Хранилище для таймера бегущей строки
 let currentMarqueeId = 0; // Счётчик сессий анимации
 let savedScrollPosition = 0; // Переменная для сохранения позиции прокрутки главной страницы
 let navigationHistory = []; // История навигации
@@ -588,6 +588,36 @@ function playNextTrack() {
     }
 }
 
+function playPrevTrack() {
+    // Если список треков пуст или мы не знаем текущий индекс, выходим
+    if (!currentAlbumTracks || currentAlbumTracks.length === 0 || currentTrackIndex === -1) return;
+
+    // Высчитываем индекс предыдущей песни
+    const prevIndex = currentTrackIndex - 1;
+    
+    // Если предыдущий трек существует в альбоме (мы не на первой песне)
+    if (prevIndex >= 0) {
+        const prevTrack = currentAlbumTracks[prevIndex];
+        
+        // Твоя фирменная логика поиска автора (полностью сохранена)
+        const artistName = prevTrack.albumArtist || 
+                           (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(prevTrack))?.artist) || 
+                           "Исполнитель";
+                           
+        playTrack(prevTrack, prevIndex, currentAlbumTracks, artistName);
+        
+        // ФИКС: Обязательно обновляем иконки в списке треков на экране альбома!
+        updateTrackListIcons(); 
+    } else {
+        // Если мы нажали "Назад" на самом первом треке — просто перематываем его в начало
+        audioPlayer.currentTime = 0;
+        audioPlayer.play().catch(e => console.log(e));
+        
+        // На всякий случай обновляем иконки и тут
+        updateTrackListIcons(); 
+    }
+}
+
 // 6. СОБЫТИЯ И ИНТЕРФЕЙС УПРАВЛЕНИЯ
 if (masterPlayBtn) {
     masterPlayBtn.addEventListener('click', () => {
@@ -625,13 +655,7 @@ if (nextBtn) {
 
 if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-        if (currentTrackIndex > 0) {
-            const prevIndex = currentTrackIndex - 1;
-            const prevTrack = currentAlbumTracks[prevIndex];
-            const artistName = prevTrack.albumArtist || albumsData.find(a => a.tracks.includes(prevTrack))?.artist || "Исполнитель";
-            playTrack(prevTrack, prevIndex, currentAlbumTracks, artistName);
-            updateTrackListIcons(); 
-        }
+        playPrevTrack(); 
     });
 }
 
@@ -666,7 +690,6 @@ if (audioPlayer) {
             const currentTrack = currentAlbumTracks[currentTrackIndex];
             
             if (currentTrack) {
-                // Твоя логика поиска автора для шторки
                 const artistName = currentTrack.albumArtist || 
                                    (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(currentTrack))?.artist) || 
                                    "Исполнитель";
@@ -677,28 +700,17 @@ if (audioPlayer) {
                     album: "Релиз"
                 });
 
-                // 1. Включаем кнопку "Следующий трек" в шторке
+                // 1. Системная кнопка ВПЕРЕД — вызывает твою функцию напрямую
                 navigator.mediaSession.setActionHandler('nexttrack', () => {
                     playNextTrack();
                 });
 
-                // 2. Включаем кнопку "Предыдущий трек" в шторке
+                // 2. Системная кнопка НАЗАД — теперь вызывает твою новую функцию НАПРЯМУЮ!
                 navigator.mediaSession.setActionHandler('prevtrack', () => {
-                    const prevBtnElement = document.getElementById('prev-btn');
-                    if (prevBtnElement) prevBtnElement.click();
-                });
-
-                // Включаем обработчики быстрой перемотки.
-                // Как только Chrome их видит, он принудительно выводит кнопку Назад (⏮) в шторку!
-                navigator.mediaSession.setActionHandler('seekbackward', () => {
-                    // При зажатии кнопки мотаем на 10 секунд назад
-                    audioPlayer.currentTime = Math.max(audioPlayer.currentTime - 10, 0);
-                });
-                navigator.mediaSession.setActionHandler('seekforward', () => {
-                    // При зажатии кнопки мотаем на 10 секунд вперед
-                    audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 10, audioPlayer.duration);
+                    playPrevTrack(); // Никаких .click() и поиска кнопок по ID, чистая логика!
                 });
             }
+        }
         }
     });
 
