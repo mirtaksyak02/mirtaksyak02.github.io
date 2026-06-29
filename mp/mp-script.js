@@ -686,7 +686,7 @@ if (audioPlayer) {
         if (progressBar) progressBar.value = 0;
         if (currentTimeText) currentTimeText.textContent = "0:00";
 
-        // СИНХРОНИЗАЦИЯ ШТОРКИ: Пушаем метаданные и ЖЕСТКО регистрируем ВСЕ кнопки сразу
+        // СИНХРОНИЗАЦИЯ ШТОРКИ: Пушаем метаданные трека
         if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
             const currentTrack = currentAlbumTracks[currentTrackIndex];
             
@@ -701,17 +701,16 @@ if (audioPlayer) {
                     album: "Релиз"
                 });
 
-                // 1. Кнопка ВПЕРЕД
-                navigator.mediaSession.setActionHandler('nexttrack', () => {
-                    playNextTrack();
+                // ЖЕСТКАЯ ПРИВЯЗКА КНОПОК: Обернуто в стрелочные функции, чтобы обойти undefined в памяти браузера!
+                navigator.mediaSession.setActionHandler('nexttrack', function() {
+                    if (typeof playNextTrack === 'function') playNextTrack();
                 });
 
-                // 2. Кнопка НАЗАД — регистрируется намертво
-                navigator.mediaSession.setActionHandler('prevtrack', () => {
-                    playPrevTrack(); 
+                navigator.mediaSession.setActionHandler('prevtrack', function() {
+                    if (typeof playPrevTrack === 'function') playPrevTrack(); 
                 });
 
-                // 3. Расширенные обработчики перемотки (Без них Android прячет левую стрелку ⏮)
+                // Подключаем перемотку, чтобы разблокировать ⏮ на уровне системы
                 navigator.mediaSession.setActionHandler('seekbackward', (details) => {
                     const offset = details.seekOffset || 10;
                     audioPlayer.currentTime = Math.max(audioPlayer.currentTime - offset, 0);
