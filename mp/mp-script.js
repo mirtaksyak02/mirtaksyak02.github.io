@@ -682,55 +682,60 @@ if (audioPlayer) {
     });
     
     audioPlayer.addEventListener('loadedmetadata', () => {
-    if (totalTimeText) totalTimeText.textContent = formatTime(audioPlayer.duration);
-    const customProgressFill = document.getElementById('custom-progress-fill');
-    if (customProgressFill) customProgressFill.style.width = '0%';
-    if (progressBar) progressBar.value = 0;
-    if (currentTimeText) currentTimeText.textContent = "0:00";
+        if (totalTimeText) totalTimeText.textContent = formatTime(audioPlayer.duration);
+        const customProgressFill = document.getElementById('custom-progress-fill');
+        if (customProgressFill) customProgressFill.style.width = '0%';
+        if (progressBar) progressBar.value = 0;
+        if (currentTimeText) currentTimeText.textContent = "0:00";
 
-    if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
-        const currentTrack = currentAlbumTracks[currentTrackIndex];
-        
-        if (currentTrack) {
-            const artistName = currentTrack.albumArtist || 
-                               (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(currentTrack))?.artist) || 
-                               "Исполнитель";
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: currentTrack.title,
-                artist: artistName,
-                album: "Релиз"
-            });
+        if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
+            const currentTrack = currentAlbumTracks[currentTrackIndex];
+            
+            if (currentTrack) {
+                const artistName = currentTrack.albumArtist || 
+                                   (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(currentTrack))?.artist) || 
+                                   "Исполнитель";
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: currentTrack.title,
+                    artist: artistName,
+                    album: "Релиз"
+                });
+            }
         }
-    }
     });
 
-    // Сообщаем шторке уведомлений, что трек ЗАИГРАЛ
+    // Сообщаем шторке уведомлений, что трек ЗАИГРАЛ (Объединено с твоей логикой смены иконок кнопок)
     audioPlayer.addEventListener('play', () => {
-    if ('mediaSession' in navigator) {
-        navigator.mediaSession.playbackState = "playing";
+        if (masterPlayBtn) masterPlayBtn.textContent = '❙❙'; 
+        updateTrackListIcons(); 
 
-        // Кнопка ВПЕРЕД активна всегда, если в альбоме есть треки
-        if (currentAlbumTracks && currentAlbumTracks.length > 0) {
-            navigator.mediaSession.setActionHandler('nexttrack', () => {
-                playNextTrack();
-            });
-        }
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.playbackState = "playing";
 
-        // Кнопка НАЗАД активируется строго тогда, 
-        // когда мы перешли дальше первого трека (индекс больше 0)
-        if (currentTrackIndex > 0) {
-            navigator.mediaSession.setActionHandler('prevtrack', () => {
-                playPrevTrack(); 
-            });
-        } else {
-            // Если трек первый — отключаем экшен, чтобы Android не путался
-            navigator.mediaSession.setActionHandler('prevtrack', null);
+            // Кнопка ВПЕРЕД активна всегда, если в альбоме есть треки
+            if (currentAlbumTracks && currentAlbumTracks.length > 0) {
+                navigator.mediaSession.setActionHandler('nexttrack', () => {
+                    playNextTrack();
+                });
+            }
+
+            // Кнопка НАЗАД активируется строго тогда, когда мы перешли дальше первого трека (индекс больше 0)
+            if (currentTrackIndex > 0) {
+                navigator.mediaSession.setActionHandler('prevtrack', () => {
+                    playPrevTrack(); 
+                });
+            } else {
+                // Если трек первый — отключаем экшен, чтобы Android не путался
+                navigator.mediaSession.setActionHandler('prevtrack', null);
+            }
         }
-    }
     });
 
-    // Сообщаем шторке уведомлений, что трек на ПАУЗЕ
+    // Сообщаем шторке уведомлений, что трек на ПАУЗЕ (Объединено с твоей логикой смены иконок кнопок)
     audioPlayer.addEventListener('pause', () => {
+        if (masterPlayBtn) masterPlayBtn.textContent = '▶'; 
+        updateTrackListIcons(); 
+
         if ('mediaSession' in navigator) {
             navigator.mediaSession.playbackState = "paused";
         }
@@ -770,19 +775,6 @@ if (volumeBar) {
         if (mobileVolumeFill) {
             mobileVolumeFill.style.height = `${volumeValue}%`;
         }
-    });
-}
-
-// Глобальные события старта и паузы для синхронизации иконок
-if (audioPlayer) {
-    audioPlayer.addEventListener('play', () => {
-        if (masterPlayBtn) masterPlayBtn.textContent = '❙❙'; 
-        updateTrackListIcons(); 
-    });
-
-    audioPlayer.addEventListener('pause', () => {
-        if (masterPlayBtn) masterPlayBtn.textContent = '▶'; 
-        updateTrackListIcons(); 
     });
 }
 
