@@ -264,7 +264,7 @@ function renderPaginationControls(totalItems, itemsPerPage) {
     });
     controlsContainer.appendChild(nextBtn);
 
-    // Так как у тебя contentArea имеет класс сетки 'albums-grid', мы аккуратно 
+    // Так как contentArea имеет класс сетки 'albums-grid', то
     // добавляем блок пагинации прямо внутрь контента, CSS-правила его отрисуют снизу
     contentArea.appendChild(controlsContainer);
 }
@@ -1093,8 +1093,8 @@ if (repeatBtn) {
 }
 
 function getItemsPerPageLimit() {
-    // Если ширина экрана меньше 768px (мобилка) — возвращаем 12, иначе для ПК — 16
-    return window.innerWidth < 768 ? 12 : 16;
+    // Если ширина экрана меньше 768px (мобилка) — возвращаем 12, иначе для ПК — 18
+    return window.innerWidth < 768 ? 12 : 18;
 }
 
 // Старт
