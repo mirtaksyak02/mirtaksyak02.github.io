@@ -235,8 +235,15 @@ function showAlbumsGrid(isBackMode = false) {
         const isMainCached = loadedImagesCache.has(imageName);
         const mainLoadedClass = isMainCached ? 'is-loaded' : '';
 
+        // Загрузка миниатюры Blur-up: используем minicover, либо обычный cover как временный плейсхолдер
+        const miniCoverSrc = album.minicover || album.cover;
+
         albumCard.innerHTML = `
             <div class="album-card-img-wrapper">
+                <!-- 1. Микро-обложка 50x50: встает на экран мгновенно и заменяет темную заливку #1a1a1a -->
+                <img src="${miniCoverSrc}" class="mini-blur-placeholder" alt="loading...">
+                
+                <!-- 2. Твоя оригинальная HD-обложка с твоим методом onImageLoad -->
                 <img src="${album.cover}" alt="${album.title}" class="${mainLoadedClass}" loading="lazy" decoding="async" onload="onImageLoad(this)">
             </div>
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
@@ -250,6 +257,7 @@ function showAlbumsGrid(isBackMode = false) {
     // ПАГИНАЦИЯ: Отрисовываем кнопки страниц под сеткой карточек (передаем длину отфильтрованного списка)
     renderPaginationControls(filteredAlbums.length, itemsPerPage);
 }
+
 
 function renderPaginationControls(totalItems, itemsPerPage) {
     const oldControls = document.getElementById('pagination-controls');
@@ -383,7 +391,7 @@ if (album.url && album.url.includes('://vk.com') && (!album.tracks || album.trac
     albumHeader.innerHTML = `
         <div class="album-large-cover-wrapper">
             <!-- 1. Микро-обложка 50x50: встает на экран мгновенно и перекрывает цвет #1a1a1a -->
-            <img src="${album.coverMini || album.cover}" class="mini-blur-placeholder" alt="loading...">
+            <img src="${album.minicover || album.cover}" class="mini-blur-placeholder" alt="loading...">
             
             <!-- 2. Твой оригинальный тег большой обложки (сохранен без изменений) -->
             <img src="${album.cover}" alt="${album.title}" class="album-large-cover ${largeLoadedClass}" loading="lazy" decoding="async" onload="onImageLoad(this)">
@@ -980,7 +988,7 @@ if (mobileVolumePopup) {
     });
 }
 
-// ФУНКЦИЯ ОТКРЫТИЯ КАРТОЧКИ АРТИСТА (С УМНОЙ НАВИГАЦИЕЙ И ВСЕМИ КАТЕГОРИЯМИ)
+// ФУНКЦИЯ ОТКРЫТИЯ КАРТОЧКИ АРТИСТА
 function openArtistProfile(artistName, isBackMode = false) {
     const currentScroll = window.scrollY || document.documentElement.scrollTop;
 
@@ -1073,7 +1081,6 @@ function openArtistProfile(artistName, isBackMode = false) {
         singlesAndEps.forEach(album => { contentHtml += generateMiniCardHtml(album); });
         contentHtml += `</div>`;
     }
-
     contentArea.innerHTML = contentHtml;
 }
 
@@ -1090,9 +1097,16 @@ function generateMiniCardHtml(album) {
     const isCached = loadedImagesCache.has(imageName);
     const loadedClass = isCached ? 'is-loaded' : '';
 
+    // Загрузка миниатюры Blur-up: используем coverMini, либо обычный cover как временный плейсхолдер
+    const miniCoverSrc = album.coverMini || album.cover;
+
     return `
         <div class="album-card" onclick="openAlbum('${album.id}')">
             <div class="album-card-img-wrapper">
+                <!-- 1. Микро-обложка 50x50: встает на экран мгновенно и заменяет темную заливку #1a1a1a -->
+                <img src="${miniCoverSrc}" class="mini-blur-placeholder" alt="loading...">
+                
+                <!-- 2. Твоя оригинальная HD-обложка (сохранена без изменений) -->
                 <img src="${album.cover}" alt="${album.title}" class="${loadedClass}" loading="lazy" decoding="async" onload="onImageLoad(this)">
             </div>
             <span class="grid-badge badge-${album.type}">${releaseTypesRu[album.type] || album.type}</span>
@@ -1100,8 +1114,7 @@ function generateMiniCardHtml(album) {
             <p>${extractYearOnly(album.year)}</p>
         </div>
     `;
-}
-
+}    
 // Функция, которая вызывается в момент onload абсолютно любой обложки на сайте
 function onImageLoad(imgElement) {
     if (!imgElement) return;
