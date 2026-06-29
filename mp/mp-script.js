@@ -667,12 +667,13 @@ if (audioPlayer) {
     });
 
     audioPlayer.addEventListener('timeupdate', () => {
-        if (audioPlayer.duration && progressBar) {
+        // Добавлена жесткая проверка: если песня еще не загрузилась (duration равен 0 или NaN), таймлайн стоит на старте
+        if (audioPlayer.duration && !isNaN(audioPlayer.duration) && audioPlayer.duration > 0 && progressBar) {
             const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
             progressBar.value = progress;
             if (currentTimeText) currentTimeText.textContent = formatTime(audioPlayer.currentTime);
             
-            // Фикс закрашивания полосы прогресса в зеленый цвет
+            // Фикс закрашивания полосы прогресса в зеленый цвет (твой оригинальный код)
             const customProgressFill = document.getElementById('custom-progress-fill');
             if (customProgressFill) {
                 customProgressFill.style.width = `${progress}%`;
@@ -686,11 +687,10 @@ if (audioPlayer) {
         if (customProgressFill) customProgressFill.style.width = '0%';
 
         // СИНХРОНИЗАЦИЯ ШТОРКИ: Передаем данные, когда песня гарантированно определилась
-        if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex !== -1) {
+        if ('mediaSession' in navigator && currentAlbumTracks && currentAlbumTracks.length > 0 && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
             const currentTrack = currentAlbumTracks[currentTrackIndex];
             
             if (currentTrack) {
-                // ИСПРАВЛЕНО: Твоя полная и безопасная строка поиска автора релиза
                 const artistName = currentTrack.albumArtist || 
                                    (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(currentTrack))?.artist) || 
                                    "Исполнитель";
@@ -708,11 +708,11 @@ if (audioPlayer) {
 
                 // 2. Системная кнопка НАЗАД — теперь вызывает твою новую функцию НАПРЯМУЮ!
                 navigator.mediaSession.setActionHandler('prevtrack', () => {
-                    playPrevTrack(); // Никаких .click() и поиска кнопок по ID, чистая логика!
+                    playPrevTrack(); 
                 });
             }
         }
-    });
+    }); // Скобки расставлены строго на свои места, красных крестов в VS Code больше не будет
 
     // Сообщаем шторке уведомлений, что трек ЗАИГРАЛ
     audioPlayer.addEventListener('play', () => {
