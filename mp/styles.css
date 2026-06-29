@@ -1019,6 +1019,49 @@ audio {
     justify-content: center;
 }
 
+/* Контейнер пагинации */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0;
+    width: 100%;
+}
+
+/* Стили кнопок страниц */
+.page-btn {
+    background: #222222;
+    color: #ffffff;
+    border: 1px solid #333333;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    outline: none !important;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Наведение на кнопку */
+.page-btn:hover {
+    background: #333333;
+}
+
+/* Активная (текущая) страница — красим в твой фирменный зеленый */
+.page-btn.active-page {
+    background: #1db954 !important;
+    color: #121212 !important;
+    border-color: #1db954 !important;
+}
+
+/* Заблокированные кнопки (например, "Назад", когда мы на 1-й странице) */
+.page-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: #111111;
+}
+
 @media (max-width: 768px) {
     .repeat-icon {
         font-size: 20px;
