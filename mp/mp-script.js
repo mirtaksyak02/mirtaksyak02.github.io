@@ -690,6 +690,7 @@ if (audioPlayer) {
             const currentTrack = currentAlbumTracks[currentTrackIndex];
             
             if (currentTrack) {
+                // ИСПРАВЛЕНО: Твоя полная и безопасная строка поиска автора релиза
                 const artistName = currentTrack.albumArtist || 
                                    (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(currentTrack))?.artist) || 
                                    "Исполнитель";
@@ -711,7 +712,7 @@ if (audioPlayer) {
                 });
             }
         }
-    }); // ИСПРАВЛЕНО: Закрывающая скобка }) теперь стоит строго здесь, закрывая loadedmetadata
+    });
 
     // Сообщаем шторке уведомлений, что трек ЗАИГРАЛ
     audioPlayer.addEventListener('play', () => {
