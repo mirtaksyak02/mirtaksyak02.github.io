@@ -642,32 +642,50 @@ if (audioPlayer) {
         updateTrackListIcons();
     });
 
+    // Функция передачи позиции трека в систему (чтобы оживить кнопку Назад)
+    const updatePositionState = () => {
+        if ('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession) {
+            if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
+                try {
+                    navigator.mediaSession.setPositionState({
+                        duration: audioPlayer.duration,
+                        playbackRate: audioPlayer.playbackRate || 1.0,
+                        position: audioPlayer.currentTime
+                    });
+                } catch (e) {
+                    console.log("Ошибка обновления позиции в MediaSession:", e);
+                }
+            }
+        }
+    };
+
     audioPlayer.addEventListener('timeupdate', () => {
         if (audioPlayer.duration && progressBar) {
             const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
             progressBar.value = progress;
             if (currentTimeText) currentTimeText.textContent = formatTime(audioPlayer.currentTime);
             
-            // Фикс закрашивания полосы прогресса в зеленый цвет
             const customProgressFill = document.getElementById('custom-progress-fill');
             if (customProgressFill) {
                 customProgressFill.style.width = `${progress}%`;
             }
         }
+        
+        // Каждые несколько секунд обновляем позицию для системы (чтобы шторка не залипала)
+        if (Math.floor(audioPlayer.currentTime) % 2 === 0) {
+            updatePositionState();
+        }
     });
 
-    // Модифицированное событие загрузки песни
     audioPlayer.addEventListener('loadedmetadata', () => {
         if (totalTimeText) totalTimeText.textContent = formatTime(audioPlayer.duration);
         const customProgressFill = document.getElementById('custom-progress-fill');
         if (customProgressFill) customProgressFill.style.width = '0%';
 
-        // СИНХРОНИЗАЦИЯ ШТОРКИ: Пушим данные только когда браузер УЗНАЛ длительность трека
+        // Пушаем метаданные (название и автора)
         if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex !== -1) {
             const currentTrack = currentAlbumTracks[currentTrackIndex];
-            
             if (currentTrack) {
-                // Ищем имя артиста для шторки
                 const artistName = currentTrack.albumArtist || 
                                    (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(currentTrack))?.artist) || 
                                    "Исполнитель";
@@ -677,36 +695,37 @@ if (audioPlayer) {
                     artist: artistName,
                     album: "Релиз"
                 });
-
-                // Включаем кнопку "Следующий трек" в шторке
-                navigator.mediaSession.setActionHandler('nexttrack', () => {
-                    playNextTrack();
-                });
-
-                // Включаем кнопку "Предыдущий трек" в шторке
-                navigator.mediaSession.setActionHandler('prevtrack', () => {
-                    const prevBtnElement = document.getElementById('prev-btn');
-                    if (prevBtnElement) prevBtnElement.click();
-                });
             }
         }
     });
 
-    // Сообщаем шторке уведомлений, что трек ЗАИГРАЛ
+    // Активируем кнопки шторки СТРОГО при старте воспроизведения
     audioPlayer.addEventListener('play', () => {
         if ('mediaSession' in navigator) {
             navigator.mediaSession.playbackState = "playing";
+            
+            // Жестко включаем обработчик для кнопки НАЗАД
+            navigator.mediaSession.setActionHandler('prevtrack', () => {
+                const prevBtnElement = document.getElementById('prev-btn');
+                if (prevBtnElement) prevBtnElement.click();
+            });
+
+            // Жестко включаем обработчик для кнопки ВПЕРЕД
+            navigator.mediaSession.setActionHandler('nexttrack', () => {
+                playNextTrack();
+            });
+
+            // Сразу же передаем системе стартовую позицию трека
+            updatePositionState();
         }
     });
 
-    // Сообщаем шторке уведомлений, что трек на ПАУЗЕ
     audioPlayer.addEventListener('pause', () => {
         if ('mediaSession' in navigator) {
             navigator.mediaSession.playbackState = "paused";
         }
     });
 
-    // Установка начального звука плеера
     if (volumeBar) {
         audioPlayer.volume = volumeBar.value / 100;
     }
