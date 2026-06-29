@@ -127,41 +127,45 @@ function updateBackButtonText() {
 }
 
 function showAlbumsGrid(isBackMode = false) {
-    // Если мы вернулись кнопкой Назад, используем сохраненный скролл, иначе обнуляем
+    // ВРЕМЕННЫЙ ДЕБАГ: Проверяем, вызывается ли вообще функция и с каким флагом
+    alert("1. Вызов showAlbumsGrid. Флаг isBackMode = " + isBackMode);
+
     const targetScroll = isBackMode ? savedScrollPosition : 0;
     
-    // ПАГИНАЦИЯ: Проверяем, была ли страница перезагружена (F5)
     const navEntries = performance.getEntriesByType ? performance.getEntriesByType("navigation") : [];
     const isReload = (navEntries.length > 0 && navEntries[0].type === "reload") || 
                      (performance.navigation && performance.navigation.type === 1);
                      
-    // КРИТИЧЕСКИЙ ФИКС: Если это чистый клик по логотипу (не Назад и не F5) — 
-    // принудительно стираем параметр ?page из URL прямо на старте, чтобы он не фонил
+    // ВРЕМЕННЫЙ ДЕБАГ: Проверяем, считает ли система этот клик перезагрузкой страницы (F5)
+    alert("2. Флаг перезагрузки isReload = " + isReload);
+    
     if (!isBackMode && !isReload) {
         const cleanUrl = new URL(window.location.href);
         cleanUrl.searchParams.delete('page');
         window.history.replaceState({}, '', cleanUrl.toString());
     }
     
-    // Считываем текущие параметры из адресной строки браузера (теперь тут будет чисто при клике на лого)
     const renderUrlParams = new URLSearchParams(window.location.search);
     const hasPageParam = renderUrlParams.has('page');
 
-    // Если страница РЕАЛЬНО перезагружена пользователем (F5) и в URL есть номер страницы
+    // ВРЕМЕННЫЙ ДЕБАГ: Видит ли код параметр page в URL прямо сейчас
+    alert("3. Есть ли page в URL? hasPageParam = " + hasPageParam + ", значение = " + renderUrlParams.get('page'));
+
     if (isReload && hasPageParam) {
         currentPage = parseInt(renderUrlParams.get('page'), 10) || 1;
+        alert("4. Сработала ветка: ПЕРЕЗАГРУЗКА (F5). Текущая страница: " + currentPage);
     }
-    // Если это новый чистый заход на главную (клик по названию сайта для сброса)
     else if (!isBackMode) {
         currentPage = 1;
+        alert("4. Сработала ветка: КЛИК ПО ЛОГОТИПУ (СБРОС). Текущая страница: " + currentPage);
     } 
-    // Если это возврат кнопкой Назад или переключение страниц пагинации
     else if (hasPageParam) {
         currentPage = parseInt(renderUrlParams.get('page'), 10) || 1;
+        alert("4. Сработала ветка: НАВИГАЦИЯ НАЗАД / ПАГИНАЦИЯ. Текущая страница: " + currentPage);
     } 
-    // Дефолтный сброс
     else {
         currentPage = 1;
+        alert("4. Сработала ветка: ДЕФОЛТНЫЙ СБРОС. Текущая страница: " + currentPage);
     }
 
     setTimeout(() => { 
@@ -169,7 +173,7 @@ function showAlbumsGrid(isBackMode = false) {
     }, 0);
 
     if (!isBackMode) {
-        navigationHistory = []; // Очищаем историю при выходе на главную с нуля
+        navigationHistory = []; 
     }
     // Очищаем URL-параметры экранов релиза и артиста, но сохраняем текущую страницу пагинации
     const mainUrl = new URL(window.location.href);
