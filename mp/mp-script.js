@@ -1093,8 +1093,8 @@ if (repeatBtn) {
 }
 
 function getItemsPerPageLimit() {
-    // Если ширина экрана меньше 768px (мобилка) — возвращаем 12, иначе для ПК — 18
-    return window.innerWidth < 768 ? 12 : 18;
+    // Если ширина экрана меньше 768px (мобилка) — возвращаем 14, иначе для ПК — 18
+    return window.innerWidth < 768 ? 14 : 18;
 }
 
 // Старт
