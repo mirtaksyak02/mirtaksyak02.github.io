@@ -314,7 +314,7 @@ function renderPaginationControls(totalItems, itemsPerPage) {
 function openAlbum(albumId, isBackMode = false) {
     const currentScroll = window.scrollY || document.documentElement.scrollTop;
     
-    // КРИТИЧЕСКИ ВАЖНО: Если это новый переход, а не возврат кнопкой Назад
+    // Если это новый переход, а не возврат кнопкой Назад
     if (!isBackMode) {
         // 1. Проверяем, какой экран сейчас физически активен перед переключением
         const isArtistView = contentArea.classList.contains('artist-profile-view');
@@ -328,7 +328,7 @@ function openAlbum(albumId, isBackMode = false) {
             }
         } else {
             // Иначе считаем, что мы пришли с главного экрана (или поиска)
-            navigationHistory.push({ screen: 'main', id: null, scroll: currentScroll });
+            navigationHistory.push({ screen: 'main', id: null, scroll: currentScroll, page: currentPage });
         }
     }
 
@@ -725,8 +725,19 @@ if (backBtn) {
 
         if (previousPage.screen === 'main') {
             savedScrollPosition = previousPage.scroll;
+            // Восстанавливаем сохраненный номер страницы из истории переходов
+            currentPage = previousPage.page || 1; 
+            // Принудительно возвращаем ?page= в URL-строку, чтобы функция showAlbumsGrid его увидела
+            const backUrl = new URL(window.location.href);
+            if (currentPage > 1) {
+                backUrl.searchParams.set('page', currentPage);
+            } else {
+                backUrl.searchParams.delete('page');
+            }
+            window.history.replaceState({}, '', backUrl.toString());
             showAlbumsGrid(true); // Возврат на главную сетку
-        } 
+        }
+        
         else if (previousPage.screen === 'release') {
             openAlbum(previousPage.id, true); // Возврат внутрь релиза
             setTimeout(() => {
