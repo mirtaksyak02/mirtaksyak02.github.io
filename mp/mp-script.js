@@ -760,6 +760,7 @@ function updateTrackListIcons() {
 }
 
 searchInput.addEventListener('input', () => {
+    currentPage = 1; 
     showAlbumsGrid(); // Просто перерисовываем сетку с учетом нового фильтра
 });
 
