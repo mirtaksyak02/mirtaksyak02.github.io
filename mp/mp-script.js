@@ -447,6 +447,17 @@ function playTrack(track, index, tracksList, artistName) {
     currentArtistName = artistName;
     currentTrackIndex = index;
 
+    // СБРОС ШТОРКИ: Жестко очищаем старое время и кнопки в системе перед загрузкой нового трека
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = null;
+        navigator.mediaSession.playbackState = "none";
+        
+        // Заставляем Android полностью забыть старую позицию (чистим залипшие 00:15)
+        if ('setPositionState' in navigator.mediaSession) {
+            navigator.mediaSession.setPositionState(null);
+        }
+    }
+
     const directUrl = getDirectLink(track.url);
     
     // Если это ссылка на VK (содержит .m3u8) и браузер поддерживает Hls.js
