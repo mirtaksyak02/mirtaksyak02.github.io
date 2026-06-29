@@ -678,7 +678,6 @@ if (audioPlayer) {
     });
 
     audioPlayer.addEventListener('timeupdate', () => {
-        // Добавлена жесткая проверка: если песня еще не загрузилась (duration равен 0 или NaN), таймлайн стоит на старте
         if (audioPlayer.duration && !isNaN(audioPlayer.duration) && audioPlayer.duration > 0 && progressBar) {
             const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
             progressBar.value = progress;
@@ -690,6 +689,18 @@ if (audioPlayer) {
                 customProgressFill.style.width = `${progress}%`;
             }
         }
+
+        // ЗАЩИТА ОТ ИСЧЕЗНОВЕНИЯ КНОПОК: Каждые 3 секунды проигрывания принудительно 
+        // напоминаем Android, что кнопки Вперед и Назад должны быть на экране.
+        // Это не даст Chrome вырезать кнопку ⏮ из шторки из-за движения таймлайна!
+        if ('mediaSession' in navigator && Math.floor(audioPlayer.currentTime) % 3 === 0) {
+            navigator.mediaSession.setActionHandler('nexttrack', () => {
+                playNextTrack();
+            });
+            navigator.mediaSession.setActionHandler('prevtrack', () => {
+                playPrevTrack(); 
+            });
+        }
     });
     
     audioPlayer.addEventListener('loadedmetadata', () => {
@@ -699,6 +710,7 @@ if (audioPlayer) {
         if (progressBar) progressBar.value = 0;
         if (currentTimeText) currentTimeText.textContent = "0:00";
 
+        // Пушаем свежие метаданные трека
         if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
             const currentTrack = currentAlbumTracks[currentTrackIndex];
             
@@ -715,7 +727,7 @@ if (audioPlayer) {
         }
     });
 
-    // Сообщаем шторке уведомлений, что трек ЗАИГРАЛ (Объединено с твоей логикой смены иконок кнопок)
+    // Активируем кнопки шторки СТРОГО в момент старта звука
     audioPlayer.addEventListener('play', () => {
         if (masterPlayBtn) masterPlayBtn.textContent = '❙❙'; 
         updateTrackListIcons(); 
@@ -723,20 +735,15 @@ if (audioPlayer) {
         if ('mediaSession' in navigator) {
             navigator.mediaSession.playbackState = "playing";
 
-            // 1. Кнопка ВПЕРЕД — активна всегда
             navigator.mediaSession.setActionHandler('nexttrack', () => {
                 playNextTrack();
             });
-
-            // 2. Кнопка НАЗАД — теперь ТОЖЕ активна всегда, без всяких условий!
             navigator.mediaSession.setActionHandler('prevtrack', () => {
-                // Вся логика проверки индекса теперь живет внутри функции playPrevTrack()
                 playPrevTrack(); 
             });
         }
     });
 
-    // Сообщаем шторке уведомлений, что трек на ПАУЗЕ (Объединено с твоей логикой смены иконок кнопок)
     audioPlayer.addEventListener('pause', () => {
         if (masterPlayBtn) masterPlayBtn.textContent = '▶'; 
         updateTrackListIcons(); 
@@ -746,7 +753,6 @@ if (audioPlayer) {
         }
     });
 
-    // Установка начального звука плеера
     if (volumeBar) {
         audioPlayer.volume = volumeBar.value / 100;
     }
