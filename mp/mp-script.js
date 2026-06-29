@@ -680,49 +680,53 @@ if (audioPlayer) {
             }
         }
     });
-
-audioPlayer.addEventListener('loadedmetadata', () => {
-    if (totalTimeText) totalTimeText.textContent = formatTime(audioPlayer.duration);
     
+    audioPlayer.addEventListener('loadedmetadata', () => {
+    if (totalTimeText) totalTimeText.textContent = formatTime(audioPlayer.duration);
     const customProgressFill = document.getElementById('custom-progress-fill');
     if (customProgressFill) customProgressFill.style.width = '0%';
-    
-    // КРИТИЧЕСКИЙ ФИКС: Принудительно сбрасываем сам ползунок инпута и текст в 0:00, 
-    // чтобы они не залипали в конце и не прыгали при загрузке нового трека
     if (progressBar) progressBar.value = 0;
     if (currentTimeText) currentTimeText.textContent = "0:00";
 
-    // СИНХРОНИЗАЦИЯ ШТОРКИ (сохраняем без изменений!)
     if ('mediaSession' in navigator && currentAlbumTracks && currentTrackIndex >= 0 && currentTrackIndex < currentAlbumTracks.length) {
         const currentTrack = currentAlbumTracks[currentTrackIndex];
-            
-            if (currentTrack) {
-                const artistName = currentTrack.albumArtist || 
-                                   (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(currentTrack))?.artist) || 
-                                   "Исполнитель";
-
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: currentTrack.title,
-                    artist: artistName,
-                    album: "Релиз"
-                });
-
-                navigator.mediaSession.setActionHandler('nexttrack', () => {
-                    playNextTrack();
-                });
-
-                navigator.mediaSession.setActionHandler('prevtrack', () => {
-                    playPrevTrack(); 
-                });
-            }
+        
+        if (currentTrack) {
+            const artistName = currentTrack.albumArtist || 
+                               (typeof albumsData !== 'undefined' && albumsData.find(a => a.tracks.includes(currentTrack))?.artist) || 
+                               "Исполнитель";
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: currentTrack.title,
+                artist: artistName,
+                album: "Релиз"
+            });
         }
+    }
     });
 
     // Сообщаем шторке уведомлений, что трек ЗАИГРАЛ
     audioPlayer.addEventListener('play', () => {
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.playbackState = "playing";
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.playbackState = "playing";
+
+        // Кнопка ВПЕРЕД активна всегда, если в альбоме есть треки
+        if (currentAlbumTracks && currentAlbumTracks.length > 0) {
+            navigator.mediaSession.setActionHandler('nexttrack', () => {
+                playNextTrack();
+            });
         }
+
+        // Кнопка НАЗАД активируется строго тогда, 
+        // когда мы перешли дальше первого трека (индекс больше 0)
+        if (currentTrackIndex > 0) {
+            navigator.mediaSession.setActionHandler('prevtrack', () => {
+                playPrevTrack(); 
+            });
+        } else {
+            // Если трек первый — отключаем экшен, чтобы Android не путался
+            navigator.mediaSession.setActionHandler('prevtrack', null);
+        }
+    }
     });
 
     // Сообщаем шторке уведомлений, что трек на ПАУЗЕ
