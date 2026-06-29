@@ -133,9 +133,16 @@ function showAlbumsGrid(isBackMode = false) {
     // ПАГИНАЦИЯ: Считываем текущие параметры из адресной строки браузера
     const renderUrlParams = new URLSearchParams(window.location.search);
     const hasPageParam = renderUrlParams.has('page');
+    
+    // ПРОВЕРКА ПОИСКА: Смотрим, введено ли прямо сейчас что-то в поисковую строку
+    const isSearching = searchInput && searchInput.value.trim().length > 0;
 
+    // Если идет живой поиск — жестко фиксируем 1-ю страницу результатов
+    if (isSearching) {
+        currentPage = 1;
+    }
     // Если это новый заход на главную (не возврат назад) И в URL нет готовой страницы (не F5)
-    if (!isBackMode && !hasPageParam) {
+    else if (!isBackMode && !hasPageParam) {
         currentPage = 1;
     } else {
         // Иначе (при F5 или возврате) бережно достаем номер страницы из URL
