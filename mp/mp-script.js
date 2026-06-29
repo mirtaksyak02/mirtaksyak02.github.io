@@ -712,8 +712,8 @@ if (audioPlayer) {
                         if (typeof playNextTrack === 'function') playNextTrack();
                     });
 
-                    console.log("🎛️ [MediaSession] Регистрируем обработчик: prevtrack");
-                    navigator.mediaSession.setActionHandler('prevtrack', function() {
+                    console.log("🎛️ [MediaSession] Регистрируем обработчик: previoustrack");
+                    navigator.mediaSession.setActionHandler('previoustrack', function() {
                         console.log("📲 [MediaSession Клик] Нажата кнопка ПРЕДЫДУЩИЙ в шторке/виджете!");
                         if (typeof playPrevTrack === 'function') playPrevTrack(); 
                     });
