@@ -712,22 +712,16 @@ if (audioPlayer) {
         if ('mediaSession' in navigator) {
             navigator.mediaSession.playbackState = "playing";
 
-            // Кнопка ВПЕРЕД активна всегда, если в альбоме есть треки
-            if (currentAlbumTracks && currentAlbumTracks.length > 0) {
-                navigator.mediaSession.setActionHandler('nexttrack', () => {
-                    playNextTrack();
-                });
-            }
+            // 1. Кнопка ВПЕРЕД — активна всегда
+            navigator.mediaSession.setActionHandler('nexttrack', () => {
+                playNextTrack();
+            });
 
-            // Кнопка НАЗАД активируется строго тогда, когда мы перешли дальше первого трека (индекс больше 0)
-            if (currentTrackIndex > 0) {
-                navigator.mediaSession.setActionHandler('prevtrack', () => {
-                    playPrevTrack(); 
-                });
-            } else {
-                // Если трек первый — отключаем экшен, чтобы Android не путался
-                navigator.mediaSession.setActionHandler('prevtrack', null);
-            }
+            // 2. Кнопка НАЗАД — теперь ТОЖЕ активна всегда, без всяких условий!
+            navigator.mediaSession.setActionHandler('prevtrack', () => {
+                // Вся логика проверки индекса теперь живет внутри функции playPrevTrack()
+                playPrevTrack(); 
+            });
         }
     });
 
