@@ -134,8 +134,16 @@ function showAlbumsGrid(isBackMode = false) {
     const navEntries = performance.getEntriesByType ? performance.getEntriesByType("navigation") : [];
     const isReload = (navEntries.length > 0 && navEntries[0].type === "reload") || 
                      (performance.navigation && performance.navigation.type === 1);
+                     
+    // КРИТИЧЕСКИЙ ФИКС: Если это чистый клик по логотипу (не Назад и не F5) — 
+    // принудительно стираем параметр ?page из URL прямо на старте, чтобы он не фонил
+    if (!isBackMode && !isReload) {
+        const cleanUrl = new URL(window.location.href);
+        cleanUrl.searchParams.delete('page');
+        window.history.replaceState({}, '', cleanUrl.toString());
+    }
     
-    // Считываем текущие параметры из адресной строки браузера
+    // Считываем текущие параметры из адресной строки браузера (теперь тут будет чисто при клике на лого)
     const renderUrlParams = new URLSearchParams(window.location.search);
     const hasPageParam = renderUrlParams.has('page');
 
@@ -143,7 +151,7 @@ function showAlbumsGrid(isBackMode = false) {
     if (isReload && hasPageParam) {
         currentPage = parseInt(renderUrlParams.get('page'), 10) || 1;
     }
-    // Если это новый чистый заход на главную (клик по названию сайта для сброса, как в твоем коде)
+    // Если это новый чистый заход на главную (клик по названию сайта для сброса)
     else if (!isBackMode) {
         currentPage = 1;
     } 
