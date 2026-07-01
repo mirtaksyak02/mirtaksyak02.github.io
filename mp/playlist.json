@@ -1268,5 +1268,47 @@
             "url": "https://name.moy.su/music/LILDRUGHILL/lostfound/10-never_ends.mp3"
         }
     ]
-  }
+  },
+  {
+    "id": "album-23",
+    "title": "NE FLAГSTRИК",
+    "artist": "JDFLAG",
+    "type": "single",
+    "year": "22.08.2025",
+    "genre": "Hip-Hop/Rap",
+    "cover": "./Covers/JDFLAG/NE FLAГSTRИК/Front_500x500.jpg",
+    "minicover": "./Covers/JDFLAG/NE FLAГSTRИК/Front_100x100.jpg",
+    "tracks": [
+      {
+        "id": "t168",
+        "title": "ЧТО SKAZATЬ 21/7/25",
+        "duration": "0:",
+        "url": "AAAAAAAA"
+      },
+      {
+        "id": "t169",
+        "title": "NAMNOГО БОLЬШЕ 12/6/25",
+        "duration": "0:",
+        "url": "AAAAAAAA"
+      },
+      {
+        "id": "t170",
+        "title": "ЖИVЁM ODИN RAZ 16/6/25",
+        "duration": "0:",
+        "url": "AAAAAAAA"
+      },
+      {
+        "id": "t171",
+        "title": "DAЮ ПRAVDУ 19/6/25",
+        "duration": "0:",
+        "url": "AAAAAAAA"
+      },
+      {
+        "id": "t172",
+        "title": "SAMOE LУЧШЕЕ = ПОМЕNЯТЬ ИМ 21/7-21/6/25",
+        "duration": "0:",
+        "url": "AAAAAAAA"
+      }
+    ]
+  },
 ]
