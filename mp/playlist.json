@@ -1310,5 +1310,23 @@
         "url": "https://name.moy.su/music/JDFLAG/NEFLASTR/05-samoe_luchshee_pomenjat_im.mp3"
       }
     ]
+  },
+  {
+    "id": "album-24",
+    "title": "I AIN NEVA WID DA SAME H03",
+    "artist": "Lil Tracy",
+    "type": "single",
+    "year": "07.05.2023",
+    "genre": "Hip-Hop/Rap",
+    "cover": "./Covers/Lil Tracy/IANWDSH03/Front_1000x1000.jpg",
+    "minicover": "./Covers/Lil Tracy/IANWDSH03/Front_100x100.jpg",
+    "tracks": [
+      {
+        "id": "t173",
+        "title": "I AIN NEVA WID DA SAME H03",
+        "duration": "0:",
+        "url": "AAAAAA"
+      }
+    ]
   }
 ]
