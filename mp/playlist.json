@@ -1318,14 +1318,14 @@
     "type": "single",
     "year": "07.05.2023",
     "genre": "Hip-Hop/Rap",
-    "cover": "./Covers/Lil Tracy/IANWDSH03/Front_1000x1000.jpg",
+    "cover": "./Covers/Lil Tracy/IANWDSH03/Front_500x500.jpg",
     "minicover": "./Covers/Lil Tracy/IANWDSH03/Front_100x100.jpg",
     "tracks": [
       {
         "id": "t173",
         "title": "I AIN NEVA WID DA SAME H03",
-        "duration": "0:",
-        "url": "AAAAAA"
+        "duration": "02:21",
+        "url": "https://name.moy.su/music/LilTracy/IANWDSH03/Lil_Tracy-I_AIN_NEVA_WID_DA_SAME_H03.mp3"
       }
     ]
   }
