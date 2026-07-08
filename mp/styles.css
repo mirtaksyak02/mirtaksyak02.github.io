@@ -95,7 +95,7 @@ h1 {
     background-color: #1e1e1e;
     border: none;
     color: white;
-    width: 42px;
+    width: 42px !important;
     height: 42px;
     border-radius: 20px;
     cursor: pointer;
