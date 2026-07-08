@@ -1328,5 +1328,149 @@
         "url": "https://name.moy.su/music/LilTracy/IANWDSH03/Lil_Tracy-I_AIN_NEVA_WID_DA_SAME_H03.mp3"
       }
     ]
+  },
+  {
+    "id": "album-25",
+    "title": "Limbus 3",
+    "artist": "UnoTheActivist",
+    "type": "album",
+    "year": "30.09.2022",
+    "genre": "Hip-Hop/Rap",
+    "cover": "./Covers/UnoTheActivist/Limbus 3/Front_500x500.jpg",
+    "minicover": "./Covers/UnoTheActivist/Limbus 3/Front_100x100.jpg",
+    "tracks": [
+      {
+        "id": "t174",
+        "title": "Do Too Much",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t175",
+        "title": "Praise God",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t176",
+        "title": "PAY UP!",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t177",
+        "title": "By Myself",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t178",
+        "title": "Me Time!",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t179",
+        "title": "Where Were U",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t180",
+        "title": "Twin Nem (My Podna My Friend)",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t181",
+        "title": "Not One of Dem",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t182",
+        "title": "Dumb Thots",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t183",
+        "title": "Product Of a Playa",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t184",
+        "title": "Monstar",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t185",
+        "title": "Show That P",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t186",
+        "title": "By Any Means",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t187",
+        "title": "Slave",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t188",
+        "title": "Take a Trip",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t189",
+        "title": "Memories",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t190",
+        "title": "Heathen",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t191",
+        "title": "Withdrawals",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t192",
+        "title": "Don’t Know How It Feels",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t193",
+        "title": "Cloudy",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t194",
+        "title": "All In For Life",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      },
+      {
+        "id": "t195",
+        "title": "Rolling The Dice",
+        "duration": "0:",
+        "url": "AAAAASAWWWAAA"
+      }
+    ]
   }
 ]
