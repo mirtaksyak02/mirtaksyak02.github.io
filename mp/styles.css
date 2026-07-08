@@ -81,6 +81,7 @@ h1 {
     background-color: #1db954;
     border: none;
     color: white;
+    width: 42px !important;
     padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
