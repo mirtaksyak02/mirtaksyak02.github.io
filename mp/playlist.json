@@ -1504,14 +1504,14 @@
     "tag": "U",
     "year": "01.11.2024",
     "genre": "Hip-Hop/Rap",
-    "cover": "./Covers/Овсянкин/Red lipstick + 2 lines/Front_1000x1000.jpg",
+    "cover": "./Covers/Овсянкин/Red lipstick + 2 lines/Front_500x500.jpg",
     "minicover": "./Covers/Овсянкин/Red lipstick + 2 lines/Front_100x100.jpg",
     "tracks": [
       {
         "id": "t197",
         "title": "Red lipstick + 2 lines",
         "duration": "02:25",
-        "url": ""
+        "url": "https://name.moy.su/music/Ovsyankin/Redlipstick/ovsjankin-red_lipstick_2_lines.mp3"
       }
     ]
   }
