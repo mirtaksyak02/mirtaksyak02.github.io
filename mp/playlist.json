@@ -1477,7 +1477,7 @@
       }
     ]
   },
-    {
+  {
     "id": "album-26",
     "title": "DESIGNER DRUGZ",
     "artist": "Slimesito",
@@ -1493,6 +1493,25 @@
         "title": "DESIGNER DRUGZ",
         "duration": "02:23",
         "url": "https://name.moy.su/music/Slimesito/DESIGNERDRUGZ/Slimesito-Designer_Drugz.mp3"
+      }
+    ]
+  },
+  {
+    "id": "album-27",
+    "title": "Red lipstick + 2 lines",
+    "artist": "Овсянкин",
+    "type": "single",
+    "tag": "U",
+    "year": "01.11.2024",
+    "genre": "Hip-Hop/Rap",
+    "cover": "./Covers/Овсянкин/Red lipstick + 2 lines/Front_1000x1000.jpg",
+    "minicover": "./Covers/Овсянкин/Red lipstick + 2 lines/Front_100x100.jpg",
+    "tracks": [
+      {
+        "id": "t197",
+        "title": "Red lipstick + 2 lines",
+        "duration": "02:25",
+        "url": ""
       }
     ]
   }
