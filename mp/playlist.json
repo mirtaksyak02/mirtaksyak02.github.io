@@ -1514,5 +1514,24 @@
         "url": "https://name.moy.su/music/Ovsyankin/Redlipstick/ovsjankin-red_lipstick_2_lines.mp3"
       }
     ]
+  },
+  {
+    "id": "album-28",
+    "title": "Michigan",
+    "artist": "Chavo",
+    "type": "single",
+    "tag": "U",
+    "year": "30.03.2020",
+    "genre": "Hip-Hop/Rap",
+    "cover": "./Covers/Chavo/Michigan/Front_500x500.jpg",
+    "minicover": "./Covers/Chavo/Michigan/Front_100x100.jpg",
+    "tracks": [
+      {
+        "id": "t198",
+        "title": "Michigan",
+        "duration": "02:29",
+        "url": "https://name.moy.su/music/Chavo/Michigan/Chavo-Michigan.mp3"
+      }
+    ]
   }
 ]
