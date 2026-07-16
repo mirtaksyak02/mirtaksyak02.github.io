@@ -1476,5 +1476,24 @@
         "url": "https://name.moy.su/music/UnoTheActivist/Limbus3/22-Rolling_The_Dice.mp3"
       }
     ]
+  },
+    {
+    "id": "album-26",
+    "title": "DESIGNER DRUGZ",
+    "artist": "Slimesito",
+    "type": "single",
+    "tag": "U",
+    "year": "19.04.2024",
+    "genre": "Hip-Hop/Rap",
+    "cover": "./Covers/Slimesito/DESIGNER DRUGZ/Front_500x500.jpg",
+    "minicover": "./Covers/Slimesito/DESIGNER DRUGZ/Front_100x100.jpg",
+    "tracks": [
+      {
+        "id": "t196",
+        "title": "DESIGNER DRUGZ",
+        "duration": "02:23",
+        "url": "AAAAAA"
+      }
+    ]
   }
 ]
