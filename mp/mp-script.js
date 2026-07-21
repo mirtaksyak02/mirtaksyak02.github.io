@@ -390,10 +390,10 @@ if (album.url && album.url.includes('://vk.com') && (!album.tracks || album.trac
 
     albumHeader.innerHTML = `
         <div class="album-large-cover-wrapper">
-            <!-- 1. Микро-обложка 50x50: встает на экран мгновенно и перекрывает цвет #1a1a1a -->
+            <!-- Микро-обложка (50x50, 100x100 и так далее): выводится мгновенно и перекрывает цвет #1a1a1a -->
             <img src="${album.minicover || album.cover}" class="mini-blur-placeholder" alt="loading...">
             
-            <!-- 2. Твой оригинальный тег большой обложки (сохранен без изменений) -->
+            <!-- Оригинальный тег большой обложки -->
             <img src="${album.cover}" alt="${album.title}" class="album-large-cover ${largeLoadedClass}" loading="lazy" decoding="async" onload="onImageLoad(this)">
         </div>
         <div class="album-info-text">
@@ -409,7 +409,7 @@ if (album.url && album.url.includes('://vk.com') && (!album.tracks || album.trac
     contentArea.className = 'tracks-list';
     contentArea.innerHTML = '';
     
-   //Наполняем внутренний HTML строки
+   // Наполняем внутренний HTML-строки
    album.tracks.forEach((track, index) => {
         const trackRow = document.createElement('div');
         trackRow.className = 'track-item';
@@ -425,7 +425,7 @@ if (album.url && album.url.includes('://vk.com') && (!album.tracks || album.trac
             <span class="track-duration">${track.duration}</span>
         `;
         
-        // 2. Создаем кнопку отдельно
+        // Создание отдельной кнопки
         const playButton = document.createElement('button');
         playButton.className = 'play-btn-gray';
         // Сохраняем индекс в дата-атрибут для глобального клика
@@ -438,7 +438,7 @@ if (album.url && album.url.includes('://vk.com') && (!album.tracks || album.trac
             playButton.textContent = '▶';
         }
   
-        // 2. Сначала вставляем кнопку в самое начало, а затем добавляем всю строку на экран
+        // Сначала вставляем кнопку в самое начало, а затем добавляем всю строку на экран
         trackRow.insertBefore(playButton, trackRow.firstChild);
         contentArea.appendChild(trackRow);
     });
@@ -529,7 +529,7 @@ function playTrack(track, index, tracksList, artistName) {
                     nowPlayingText.style.transform = `translateX(-${scrollDistance}px)`;
                 }, 50);
 
-                // 3. Ждем окончания поездки, замираем на 2 секунды и повторяем
+                // 3. Ждем окончания скролинга, замираем на 2 секунды и повторяем
                 marqueeTimeout = setTimeout(() => {
                     if (myId !== currentMarqueeId) return;
                     startMarqueeLoop();
@@ -1027,14 +1027,17 @@ function openArtistProfile(artistName, isBackMode = false) {
     const artistFolderMap = {
         "aquakey": "AQUAKEY (Russia)",
         "lildrughill": "LILDRUGHILL",
+        "jdflag": "JDFLAG",
         "rocket": "ROCKET (Russia)",
         "superior.cat.proteus": "SCP (Russia)",
+        "slimesito": "Slimesito",
         "unotheactivist": "UnoTheActivist",
-        "zavet": "Zavet (Russia)"
+        "zavet": "Zavet (Russia)",
+        "овсянкин": "Овсянкин"
     };
 
     // СПИСОК АРТИСТОВ, У КОТОРЫХ СУЩЕСТВУЕТ КАСТОМНЫЙ БАННЕР НА ГИТХАБЕ
-    const artistsWithCustomBanners = ["aquakey", "lildrughill", "rocket", "unotheactivist", "zavet"]; 
+    const artistsWithCustomBanners = ["aquakey", "lildrughill", "rocket", "slimesito", "unotheactivist", "zavet", "овсянкин"]; 
 
     const cleanArtistName = artistName.toLowerCase().trim();
     const exactFolderName = artistFolderMap[cleanArtistName] || artistName;
